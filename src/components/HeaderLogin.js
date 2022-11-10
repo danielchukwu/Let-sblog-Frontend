@@ -1,6 +1,9 @@
 import { Link } from 'react-router-dom'
+import useFetch from '../hooks/useFetch'
 
 const HeaderMain = () => {
+   const {data} = useFetch()
+
    return (
       <header className="content-wrapper">
          <div className="wrapper-rl max-w-1000"> 
@@ -12,6 +15,7 @@ const HeaderMain = () => {
                </Link>
             </div>
          </div>
+         {/* Add Right */}
       </header>
    )
 }
