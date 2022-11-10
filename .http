@@ -6,3 +6,10 @@ content-type: application/json
    "username": "danielchukwu_",
    "password": "password1234"
 }
+
+###
+
+POST http://127.0.0.1:5000/api/register HTTP/
+content-type: application/json
+
+{"username": 'deby', "name": 'daborah', "email": 'daanstony@gmail.com', "occupation": 'IT', "company": 'Amazon', "password": 'pass12345}
