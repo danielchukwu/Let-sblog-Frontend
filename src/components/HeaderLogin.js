@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import useFetch from '../hooks/useFetch'
 
-const HeaderMain = () => {
+const HeaderLogin = (owner=null) => {
    const {data} = useFetch()
 
    return (
@@ -20,4 +20,4 @@ const HeaderMain = () => {
    )
 }
 
-export default HeaderMain
+export default HeaderLogin
