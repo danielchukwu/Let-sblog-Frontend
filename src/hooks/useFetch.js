@@ -2,7 +2,6 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import getCookie from '../utils/getCookie'
-import removeCookie from '../utils/removeCookie'
 
 export default function useFetch(url='') {
    const [data, setData] = useState(null)
@@ -25,9 +24,6 @@ export default function useFetch(url='') {
             setTokenIsValid(false)
             console.log(`Error: ${err.message}`)
             navigate('/login')
-            // if (location.pathname !== '/'){
-            //    navigate('/login')
-            // }
          })
 
       return () => {}
