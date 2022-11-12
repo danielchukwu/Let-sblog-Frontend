@@ -135,6 +135,7 @@ li {
 .t-pad-20 {padding-top: 20px;}
 .t-pad-25 {padding-top: 25px;}
 .t-pad-30 {padding-top: 30px;}
+.t-pad-35 {padding-top: 35px;}
 .t-pad-50 {padding-top: 50px;}
 .t-pad-75 {padding-top: 75px;}
 .t-pad-100 {padding-top: 100px;}
@@ -902,6 +903,7 @@ form p a:hover {
 .cb-title input {
   font-size: 2.5rem;
   font-weight: 700;
+  text-align: center;
 }
 
 .cb-content {
@@ -991,4 +993,13 @@ form p a:hover {
 
 #comment {
   background-color: none;
+}
+/* Category */
+
+.cb-category {
+  width: 80%;
+}
+
+.cb-category input {
+  width: 100%;
 }
