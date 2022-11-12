@@ -8,8 +8,14 @@ const displayPopup = (invalid_input=null) => {
       msg = 'This password doesn\'t meet requirements!'
    } else if (invalid_input === 'username') {
       msg = 'This Username Is Already Taken!'
+   } else if (invalid_input === 'invalid_username') {
+      msg = 'This Username Is Invalid!'
    } else if (invalid_input === 'email'){
       msg = 'This Email Is Already Taken!'
+   } else if (invalid_input === 'successful_update' ){
+      msg = 'User Profile Successfully Updated! ✅'
+   } else if (invalid_input === 'successful_registration' ){
+      msg = 'Account Was Successfully Created! ✅'
    }
    // Template 
    const template = `
