@@ -3,11 +3,13 @@ import { gsap } from "gsap";
 import { useEffect, useState } from 'react';
 import down from '../assets/images/icons/down.svg'
 import removeCookie from '../utils/removeCookie'
+import { useUrl } from '../hooks/useUrl';
 
 // This Header is for users that are either logged in or not
 const HeaderMain = ({owner}) => {
    const [enabledOptions, setEnabledOptions] = useState(false);
    const navigate = useNavigate()
+   const {cloudinary_image_url} = useUrl()
 
    // login_sign_up_btn, user_profile_btn,
    useEffect(() => {
@@ -64,7 +66,7 @@ const HeaderMain = ({owner}) => {
                <Link onClick={() => enabledOptions ? setEnabledOptions(false) :  setEnabledOptions(true)}>
                   <div className="round-img-40 r-mar-10">
                      {!owner.avatar && <p className="img-text">{owner.name[0].toUpperCase()}</p>}
-                     { owner.avatar && <img src={owner.avatar} alt=''/>}
+                     { owner.avatar && <img src={`${cloudinary_image_url}/${owner.avatar}`} alt=''/>}
                   </div>
                   <div className="svg-dropdown svg-15">
                      <img src={down} alt="" />
