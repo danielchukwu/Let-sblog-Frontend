@@ -2,10 +2,12 @@ import { Link, useParams } from 'react-router-dom';
 import FooterMain from '../components/FooterMain';
 import HeaderMain from '../components/HeaderMain';
 import useFetch from '../hooks/useFetch';
+import { useUrl } from '../hooks/useUrl';
 
 const Blogs = () => {
    const {id} = useParams()
    const {data} = useFetch(`/blogs/${id}`)
+   const {cloudinary_image_url} = useUrl()
    
    return (
       <div className='blogs'>
@@ -26,7 +28,7 @@ const Blogs = () => {
                         <em>created by {data.blog.username}</em>
                      </Link>
                      <div className="round-img-xs">
-                        <img src={data.blog.avatar} alt="avatar" />
+                        <img src={`${cloudinary_image_url}/${data.blog.avatar}`} alt="avatar" />
                      </div>
                   </div>
                </div>
@@ -49,7 +51,7 @@ const Blogs = () => {
                         <div className="user-card">
                            <div className="user-card-top">
                               <div className="round-img-s">
-                                 <img src={data.blog.avatar} alt="avatar" />
+                                 <img src={`${cloudinary_image_url}/${data.blog.avatar}`} alt="avatar" />
                               </div>
                               <div className="username l-pad-10">
                                  <h3>{data.blog.username}</h3>
