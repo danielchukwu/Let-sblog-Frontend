@@ -28,6 +28,7 @@ body {
   --theme-grey: #5c5f65;
   --theme-dark: #181818;
   --theme-grey-bg: #f0f1f3;
+  --theme-text-grey: #707070;
   /* --card-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px; */
   --card-shadow: rgba(0, 0, 0, 0.01) 0px 1px 3px 0px,
     rgba(27, 31, 35, 0.04) 0px 0px 0px 1px;
@@ -235,19 +236,17 @@ li {
 
 .grid-wrapper {
   display: grid;
-  /* grid-template-columns: 280px 280px 280px;  OR*/
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: repeat(3, 1fr);
   grid-auto-rows: 450px;
-  row-gap: 40px;
-  column-gap: 20px;
+  grid-gap: 20px;
 }
 
 .grid-wrapper-2-col {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  /* grid-template-columns: repeat(2, 319px); */
   grid-auto-rows: 450px;
-  row-gap: 25px;
-  column-gap: 25px;
+  grid-gap: 20px;
 }
 
 .blog-card {
@@ -535,6 +534,8 @@ em {
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 70px;
+  max-width: 310px;
+  overflow: hidden;
 }
 
 .tc-grid-upgrade a {
@@ -652,7 +653,7 @@ em {
 }
 
 .form-intro p {
-  color: #707070;
+  color: var(--theme-text-grey);
 }
 
 .rl-fields label,
@@ -661,7 +662,7 @@ em {
   width: 100%;
 }
 
-.rl-fields label::after {
+.important::after {
   content: "*";
   color: red;
 }
@@ -669,7 +670,7 @@ em {
 .rl-fields label {
   padding: 15px 0 5px;
   font-size: 14px;
-  color: #707070;
+  color: var(--theme-text-grey);
 }
 
 .grid-input-2 {
@@ -703,7 +704,7 @@ form p a:hover {
 
 /* Pop Ups */
 .pop-up-info {
-  position: absolute;
+  position: fixed;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -929,6 +930,8 @@ form p a:hover {
   background-color: var(--theme-white);
 }
 
+.white-space{white-space: pre-wrap;}
+
 /* MANAGE BLOGS */
 .cud {
   display: flex;
@@ -1002,4 +1005,20 @@ form p a:hover {
 
 .cb-category input {
   width: 100%;
+}
+
+.cb-content-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cb-content-flex span {
+  padding: 15px 0 5px;
+  font-size: 14px;
+  color: var(--theme-text-grey);
+}
+.btn-square-disabled {
+  background-color: var(--theme-grey-bg);
+  color: var(--theme-black);
 }
