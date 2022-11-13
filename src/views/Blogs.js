@@ -35,14 +35,14 @@ const Blogs = () => {
                
                <div className="main-img-section t-pad-50">
                   <div className="blog-img-big">
-                     <img src={data.blog.img} alt="blog-cover" />
+                     <img src={`${cloudinary_image_url}/${data.blog.img}`} alt="blog-cover" />
                   </div>
                </div>
                
                <div className="body-section t-pad-50 lr-pad-50">
    
                   <div className="main-text lh-30">
-                     <p>{data.blog.content} <br/> <br/> Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolor cupiditate assumenda consequatur quam laboriosam consequuntur quae sit, labore ea maxime. Recusandae, minima consectetur sapiente sint rem aut alias sit asperiores quisquam, tenetur quas porro expedita, itaque in voluptatem. Similique voluptatibus ratione, ea temporibus non atque, sapiente qui placeat voluptatum voluptates libero ullam? Tempora nesciunt nulla quos quia placeat dolorum quis molestiae iure, nemo similique repellendus fuga porro sequi sapiente beatae laboriosam id impedit aliquam explicabo repudiandae. Quis, vero quia. Quibusdam facere, animi provident voluptatem itaque error commodi ad totam culpa! Voluptatum ducimus laboriosam fugiat aperiam. Suscipit voluptas quam eius saepe iste voluptate quis accusamus architecto ex nulla veritatis quo eveniet, blanditiis ducimus deserunt tempore laboriosam eum! Rerum quia veritatis voluptatum cupiditate, ad nulla dignissimos obcaecati, nemo dolorem voluptatem deleniti voluptates placeat quod assumenda perferendis possimus hic molestias veniam maxime. Excepturi, delectus labore! Adipisci perferendis voluptate soluta labore omnis illum voluptatum rerum consequuntur tenetur vero sint, aliquid sunt, accusantium, facilis ipsum officiis velit porro laborum. Harum libero aperiam quas officiis vero, impedit tenetur sapiente suscipit earum voluptas tempora magni ducimus ipsam cum accusantium veniam eveniet modi, totam explicabo dolorum fugit hic. Laudantium modi odit dignissimos nobis, molestiae enim cumque facere iure.</p>
+                     <p className='white-space'>{data.blog.content}</p>
                   </div>
    
                   <div className="about-user">
