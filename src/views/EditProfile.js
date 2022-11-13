@@ -79,7 +79,7 @@ const EditProfile = () => {
       if (res.data.invalid_fields){
          displayPopup(res.data.invalid_fields[0])
       } else {
-         displayPopup("successful_update")
+         displayPopup("successful_profile_update")
          setTimeout(() => {
             navigate(`/users/${data.owner.id}`)
          }, 2000)
