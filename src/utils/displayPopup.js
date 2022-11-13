@@ -12,11 +12,19 @@ const displayPopup = (invalid_input=null) => {
       msg = 'This Username Is Invalid!'
    } else if (invalid_input === 'email'){
       msg = 'This Email Is Already Taken!'
-   } else if (invalid_input === 'successful_update' ){
+   } else if (invalid_input === 'successful_profile_update' ){
       msg = 'User Profile Successfully Updated! ✅'
    } else if (invalid_input === 'successful_registration' ){
       msg = 'Account Was Successfully Created! ✅'
-   }
+   } else if (invalid_input === 'successful_blog_creation' ){
+      msg = 'Blog Was Successfully Created! ✅'
+   } else if (invalid_input === 'successful_registration' ){
+      msg = 'Account Was Successfully Created! ✅'
+   } else if (invalid_input === 'content_over_5000' ){
+      msg = 'Blog Content should not be more than 5000 characters'
+   } else if (invalid_input === 'content_below_500' ){
+      msg = 'Blog Content should not be less than 500 characters'
+   } 
    // Template 
    const template = `
    <div class="pop-up-info">
