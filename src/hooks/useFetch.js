@@ -23,7 +23,9 @@ export default function useFetch(url='') {
          .catch(err => {
             setTokenIsValid(false)
             console.log(`Error: ${err.message}`)
-            navigate('/login')
+            if (!getCookie('usrin')){
+               navigate('/login');
+            }
          })
 
       return () => {}
