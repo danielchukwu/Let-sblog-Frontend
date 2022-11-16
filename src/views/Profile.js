@@ -7,6 +7,7 @@ import useFetch from '../hooks/useFetch';
 import cover from '../assets/images/defaults/cover-image.jpg'
 import gsap from 'gsap';
 
+
 // Icons
 import website_icon from '../assets/images/icons/www.svg'
 import { useUrl } from '../hooks/useUrl';
@@ -31,7 +32,7 @@ const Profile = () => {
 
    return (
       <div>
-         {data && <HeaderMain owner={data.owner}/>}
+         <HeaderMain owner={data ? data.owner : null} showRight={data ? true : false} />
 
          <main className="profile-react t-pad-200" style={{opacity: 1}}>
             <div className="content-wrapper max-w-1000">
