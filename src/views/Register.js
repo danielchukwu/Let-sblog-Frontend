@@ -4,18 +4,23 @@ import developer from '../assets/images/defaults/developer.png'
 import { useState, useEffect } from 'react'
 import useLogin from '../hooks/useLogin'
 import displayPopup from '../utils/displayPopup'
+import { useConstants } from '../hooks/useConstants'
+import { ClipLoader } from 'react-spinners';
 // import usePost from '../hooks/usePost'
 
 const Register = () => {
+   const [isLoading, setIsLoading] = useState(false);
    const [username, setUsername] = useState()
    const [name, setName] = useState()
    const [email, setEmail] = useState()
    const [occupation, setOccupation] = useState()
    const [company, setCompany] = useState()
    const [password, setPassword] = useState()
+
    
    const [message, setMessage] = useState(null)
    const [successful, setSuccessful] = useState(false)
+   const {spinnerStyle} = useConstants();
    const navigate = useNavigate()
    
 
@@ -56,9 +61,10 @@ const Register = () => {
       useLogin(username, password)
          .then(res => {
             if (res){
-               displayPopup('successful_registration')
+               setIsLoading(false);
+               displayPopup('successful_registration');
                setTimeout(() => {
-                  navigate('/')
+                  navigate('/');
                }, 2000)
             }
          })
@@ -114,8 +120,11 @@ const Register = () => {
                                  <input type="password" name="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
                                  <label>Password can contain a-zA-Z, 0-9 and this symbols 👉 '@$&_!'. Password length should be at least 8 or more</label>
          
-                                 <button className="btn-square t-mar-10">Sign Up</button>
-
+                                 {!isLoading && <button className="btn-square t-mar-25" onClick={(e) => {setIsLoading(true); HandleSubmit(e)}}>Sign Up</button>}
+                                 {isLoading && 
+                                 <button className="btn-square-loading t-mar-25" disabled>
+                                       <ClipLoader color={"var(--theme-white)"} size={13} cssOverride={spinnerStyle}/>
+                                 </button>}
                                  <p className="t-mar-15">Already have an account. <Link to="/login">Login</Link></p>
          
                               </div>
