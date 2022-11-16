@@ -6,7 +6,7 @@ import removeCookie from '../utils/removeCookie'
 import { useUrl } from '../hooks/useUrl';
 
 // This Header is for users that are either logged in or not
-const HeaderMain = ({owner}) => {
+const HeaderMain = ({owner, showRight=true}) => {
    const [enabledOptions, setEnabledOptions] = useState(false);
    const navigate = useNavigate()
    const {cloudinary_image_url} = useUrl()
@@ -54,7 +54,7 @@ const HeaderMain = ({owner}) => {
                   </div>
                </Link>
             </div>
-            {! owner &&
+            {! owner && showRight &&
             <div className="right">
                <Link to="/login"><span className="btn">Login</span></Link>
                <Link to="/sign-up"><span className="btn l-mar-10">Sign Up</span></Link>
