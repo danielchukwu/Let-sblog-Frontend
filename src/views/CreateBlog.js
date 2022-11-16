@@ -1,5 +1,4 @@
-import { useLayoutEffect, useEffect, useState, useRef } from 'react'
-import HeaderLogin from '../components/HeaderLogin'
+import { useLayoutEffect, useEffect, useState } from 'react'
 import gsap from 'gsap';
 import useFetch from '../hooks/useFetch';
 import { useCloudinary } from '../hooks/useCloudinary';
@@ -7,61 +6,145 @@ import axios from 'axios';
 import { useUrl } from '../hooks/useUrl';
 import getCookie from '../utils/getCookie';
 import displayPopup from '../utils/displayPopup';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { HeaderSub } from '../components/HeaderSub';
+import { ClipLoader } from 'react-spinners';
+import { useConstants } from '../hooks/useConstants'
+
 
 export const CreateBlog = () => {
-   const {data} = useFetch('');
-   const {host_url} = useUrl();
+   const {id} = useParams();
+   const {data} = useFetch(id ? `/blogs/${id}` : null);
+   const {cloudinary_image_url, host_url} = useUrl();
    const navigate = useNavigate();
+   const {spinnerStyle} = useConstants();
+   const [isLoading, setIsLoading] = useState(false);
+
 
    // Inputs
    const [title, setTitle] = useState();
    const [category, setCategory] = useState();
-   const [cover, setCover] = useState();
+   const [img, setImg] = useState();
    const [content, setContent] = useState('');
+
+   // Add data of blog to be updated
+   useEffect(() => {
+      if (data){
+         setTitle(data.blog.title)
+         setCategory(data.blog.category)
+         setImg(data.blog.img)
+         setContent(data.blog.content)
+      }
+   }, [data])
 
    // Animate page
    useLayoutEffect(() => {
-      window.scrollTo(0, 0);
-      const abortCont = new AbortController()
-      gsap.from('main', {background: 'none', paddingTop: 250, duration: 0.5, ease: 'circ', opacity: 0.3})
-      return () => abortCont.abort()
+      if (window){
+         window.scroll(0, 0);
+      }
+      const abortCont = new AbortController();
+      gsap.from('main', {background: 'none', paddingTop: 250, duration: 0.5, ease: 'circ', opacity: 0.3});
+      return () => abortCont.abort();
    }, [])
 
    
    // Handle Submission
    const HandleSubmit = async (e) => {
       e.preventDefault();
+      console.log('Submitting...');
       
-      const imageId = await useCloudinary(cover);
+      let originalImage = null;
+      if (data) {originalImage = data.blog.img}
+      
+      let imageId = await useCloudinary(originalImage !== img ? img : null);
+      console.log(`imageId: ${imageId}`);
+      console.log(`originalImage: ${originalImage}`);
+      console.log(`img: ${img}`);
       // const imageId = true;
       
       // Check content
       if (content.length < 500) {
-         displayPopup('content_below_500')
+         displayPopup('content_below_500');
+         setIsLoading(false);
          return
       } else if (content.length > 5000){
          displayPopup('content_over_5000')
-         console.log()
+         setIsLoading(false);
          return
       }
-      
-      if (imageId){
-         const body = {'id': data.owner.id, 'title': title, 'category': category, 'cover': imageId, 'content': content}
-         console.log(host_url)
-         console.log(body)
-         axios.post(`${host_url}/blogs`, body)
+
+      // Create a new Blog
+      function createBlog () {
+         const body = {'title': title, 'category': category, 'cover': imageId, 'content': content}
+         fetch(`${host_url}/blogs`, {
+            method: 'POST',
+            headers: {
+               'Content-Type': 'application/json',
+               'X-Access-Token': getCookie('usrin')
+            },
+            body: JSON.stringify(body)
+         })
          .then(res => {
-            console.log(res)
+            return res.json()
+         })
+         .then(data => {
+            console.log(data)
+            setIsLoading(false);
+            displayPopup('successful_blog_creation')
             
+            setTimeout(() => {
+               navigate(`/blogs/${data.id}`)
+            }, 2000)
+         })
+         setIsLoading(false);
+      } 
+      
+      // Update an existing Blog
+      function updateBlog () {
+         // Ensure image is not null if user doesn't update it
+         imageId = imageId ? imageId : data.blog.img;
+         
+         const keys = ['title', 'category', 'img', 'content'];
+         const currentFields = {'title': title, 'category': category, 'img': imageId, 'content': content};
+         const body = {};
+         
+         // Add only changed fields to body
+         keys.map(key => {
+            if (data.blog[key] !== currentFields[key]){
+               body[key] = currentFields[key];
+            }
+         });
+         console.log("Updated Fields: ")
+         console.log(body)
+         
+         // Update user
+         fetch(`${host_url}/blogs/${id}`, {
+            method: 'PUT',
+            headers: {
+               'Content-Type': 'application/json',
+               'X-Access-Token': getCookie('usrin')
+            },
+            body: JSON.stringify(body)
+         })
+         .then(res => res.json())
+         .then(data => {
+            console.log(data)
+            setIsLoading(false);
             displayPopup('successful_blog_creation')
             setTimeout(() => {
-               navigate(`/blogs/${res.data}`)
+               navigate(`/blogs/${data.id}`)
             }, 2000)
          })
       }
+
+      if (data){
+         updateBlog()
+      } else if (imageId) {
+         createBlog();
+      }
    }
 
+   // Textarea Auto Resize
    useEffect(() => {
       const textarea = document.getElementById("textarea")
 
@@ -82,7 +165,6 @@ export const CreateBlog = () => {
       const imageInput = document.querySelector('input[type="file"]');
       var uploaded_image = '';
       
-      console.log(imageInput);
       imageInput.addEventListener("change", function() {
          const reader = new FileReader();
          reader.addEventListener('load', () => {
@@ -90,17 +172,17 @@ export const CreateBlog = () => {
             document.querySelector('.display-image img').src = uploaded_image;
          })
          reader.readAsDataURL(this.files[0]);
-      }, [data])
-   }, [])
+      })
+   })
 
 
    return (
       <div className='create-blog'>
 
-         <HeaderLogin />
+         <HeaderSub owner={data ? data.owner : null} />
 
          {/* POP UP */}
-         <div class="pop-up-container"></div>
+         <div className="pop-up-container"></div>
 
          <main className=" t-pad-120 b-pad-50">
             
@@ -113,33 +195,36 @@ export const CreateBlog = () => {
                         {/* TITLE */}
                         <div className="cb-title rl-fields">
                            <label htmlFor="title">Title</label>
-                           <input type="text" name="title" id="title" onChange={(e) => setTitle(e.target.value)} required />
+                           <input type="text" name="title" id="title" value={title} onChange={(e) => setTitle(e.target.value)} />
                         </div>
 
                         {/* THUMBNAIL */}
                         <div className='cb-category rl-fields t-pad-35'>
                            <label htmlFor="category">Category</label>
-                           <input type="text" name='category' id='category' onChange={(e) => setCategory(e.target.value)} required />
+                           <input type="text" name='category' value={category} id='category' onChange={(e) => setCategory(e.target.value)} required />
                         </div>
 
                         <div className="t-pad-50">
-                           <input type="file" onChange={(e) => setCover(e.target.files[0])} required/>
+                           {data && <input type="file" onChange={(e) => setImg(e.target.files[0])}/>}
+                           { !data && <input type="file" onChange={(e) => setImg(e.target.files[0])} required/>}
                         </div>
                         <div className="cb-thumbnail display-image t-mar-50">
-                           <img src='' alt=''/>
+                           <img src={img ? `${cloudinary_image_url}/${img}` : ''} alt=''/>
                         </div>
 
                         {/* CONTENT */}
                         <div className="cb-content rl-fields t-mar-50">
-                           <div class="cb-content-flex">
-                              <label for="content">Content</label>
+                           <div className="cb-content-flex">
+                              <label htmlFor="content">Content</label>
                               <span  style={content.length > 5000 ? {color: "red"} : {color: "var(--theme-text-grey)"}}>{content.length}/5000</span>
                            </div>
-                           <textarea name="content" className="" id="textarea" onChange={(e) => setContent(e.target.value)} required></textarea>
+                           <textarea name="content" className="" id="textarea" value={content} onChange={(e) => setContent(e.target.value)} required></textarea>
                            <div className="flex-right">
-                           <button className="btn-square t-mar-10" >Create</button>
-                           {/* {content.length <= 5000 && <button className="btn-square t-mar-10" >Create</button>} */}
-                              {/* {content.length > 5000 && <button className="btn-square btn-square-disabled t-mar-10" disabled>Create</button>} */}
+                              {!isLoading && <button className="btn-square t-mar-10" onClick={(e) => {setIsLoading(true); HandleSubmit(e)}}>{data ? 'Save' : 'Create'}</button>}
+                              {isLoading && 
+                              <button className="btn-square-loading t-mar-10" disabled>
+                                    <ClipLoader color={"var(--theme-white)"} size={13} cssOverride={spinnerStyle}/>
+                              </button>}
                            </div>
 
                         </div>
