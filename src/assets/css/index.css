@@ -336,6 +336,7 @@ li {
 
 .title-container h1 {
   font-size: 2.5rem;
+  text-align: center;
 }
 
 .blog-owner {
@@ -552,13 +553,19 @@ em {
   cursor: pointer;
 }
 
-.btn-square {
+.btn-square, .btn-square-loading {
   background-color: var(--theme-green);
   color: var(--theme-white);
-  padding: 10px 20px;
+  /* padding: 10px 20px; */
+  height: 40px;
+  width: 120px;
   border: none;
   border-radius: 3px;
   cursor: pointer;
+}
+
+.btn-square-loading {
+  background-color: var(--theme-green-deep);
 }
 
 .btn:hover {
@@ -736,7 +743,6 @@ form p a:hover {
 }
 
 .pp-card p {
-  /* padding: 20px 20px 40px; */
   padding: 20px 20px;
 }
 
@@ -1021,4 +1027,70 @@ form p a:hover {
 .btn-square-disabled {
   background-color: var(--theme-grey-bg);
   color: var(--theme-black);
+}
+
+/* Center Pop Up */
+
+.pc-bg {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.pc-box {
+  position: fixed;
+  background-color: var(--theme-white);
+  /* height: 60px; */
+  width: 350px;
+  padding: 30px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.pc-box p, .pc-box span {
+  font-size: 18px;
+  text-align: center;
+}
+
+.pc-box span{
+  cursor: pointer;
+  color: var(--theme-grey);
+  font-weight: 600;
+  box-sizing: border-box;
+}
+
+.pc-box span:hover {
+  color: var(--theme-green);
+}
+
+.pc-wrapper, .pc-box-wrapper {
+  height: 100%;
+  width: 100%;
+}
+
+.pc-box-wrapper {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+}
+
+.pc-options {
+  /* background-color: gray; */
+  width: 150px;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* SPINNER */
+.spinner-container {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  display: flex;
 }
