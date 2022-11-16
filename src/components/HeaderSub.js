@@ -18,8 +18,8 @@ export const HeaderSub = ({owner}) => {
 
    return (
       <div className='header-sub-react'>
-         <header class="content-wrapper">
-            <div class="wrapper-rl max-w-1000"> 
+         <header className="content-wrapper">
+            <div className="wrapper-rl max-w-1000"> 
                <div className="left">
                   <Link to="/">
                      <div className="logo-text">
