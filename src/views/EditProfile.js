@@ -1,18 +1,22 @@
 import axios from 'axios';
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom';
-import HeaderLogin from '../components/HeaderLogin'
+import { HeaderSub } from '../components/HeaderSub';
 import { useCloudinary } from '../hooks/useCloudinary';
+import { useConstants } from '../hooks/useConstants';
 import useFetch from '../hooks/useFetch';
 import { useUrl } from '../hooks/useUrl';
 import displayPopup from '../utils/displayPopup';
-import getCookie from '../utils/getCookie';
+import { ClipLoader } from 'react-spinners';
+
 
 
 const EditProfile = () => {
    const {data} = useFetch();
    const navigate = useNavigate();
    const {cloudinary_image_url} = useUrl();
+   const {spinnerStyle} = useConstants();
+   const [isLoading, setIsLoading] = useState(false);
 
    // Inputs
    const [name, setName] = useState();
@@ -72,14 +76,19 @@ const EditProfile = () => {
          body["avatar"] = imageId;
       }
 
-      if (Object.keys(body).length === 0) return;
+      if (Object.keys(body).length === 0) {
+         setIsLoading(false)
+         return
+      };
       
       // Put request to update user information
       const res = await axios.put(`${process.env.REACT_APP_HOST_API}/users/${data.owner.id}`, body);
       if (res.data.invalid_fields){
+         setIsLoading(false)
          displayPopup(res.data.invalid_fields[0])
       } else {
-         displayPopup("successful_profile_update")
+         setIsLoading(false)
+         displayPopup("Profile was Successful! ✅")
          setTimeout(() => {
             navigate(`/users/${data.owner.id}`)
          }, 2000)
@@ -115,7 +124,7 @@ const EditProfile = () => {
    return (
       <div className='edit-profile-react'>
 
-         <HeaderLogin />
+         <HeaderSub />
 
          {/* POP UP */}
          <div class="pop-up-container"></div>
@@ -143,7 +152,6 @@ const EditProfile = () => {
                         </div>
          
                         {/* SECTON: RIGHT, INFO FIELDS */}
-                        { data &&
                         <div className="ep-contianer-2 ep rl-fields">
                            <div className="ep-info-container">
                               <div className="ep-info-l1 r-pad-10">
@@ -177,13 +185,16 @@ const EditProfile = () => {
                               <label htmlFor="bio">Bio</label>
                               <textarea name="bio" className="bio-textarea" value={bio} onChange={(e) => setBio(e.target.value)} ></textarea>
                               <div className="flex-right">
-                                 <button className="btn-square t-mar-10" disabled>Cancel</button>
-                                 <button className="btn-square t-mar-10 l-mar-20">Save Changes</button>
+                                 {!isLoading && <button className="btn-square t-mar-10" onClick={(e) => {setIsLoading(true); HandleSubmit(e)}}>{data ? 'Save' : 'Create'}</button>}
+                                 {isLoading && 
+                                 <button className="btn-square-loading t-mar-10" disabled>
+                                       <ClipLoader color={"var(--theme-white)"} size={13} cssOverride={spinnerStyle}/>
+                                 </button>}
                               </div>
          
                            </div>
          
-                        </div>}
+                        </div>
          
                      </div>
                   </form>
