@@ -7,12 +7,16 @@ import useLogin from '../hooks/useLogin'
 import gsap from 'gsap'
 import displayPopup from '../utils/displayPopup'
 import removeCookie from '../utils/removeCookie'
+import { ClipLoader } from 'react-spinners';
+import { useConstants } from '../hooks/useConstants'
 
 
 const Login = () => {
-   const [username, setUsername] = useState()
-   const [password, setPassword] = useState()
-   const navigate = useNavigate()
+   const [isLoading, setIsLoading] = useState(false);
+   const [username, setUsername] = useState();
+   const [password, setPassword] = useState();
+   const {spinnerStyle} = useConstants();
+   const navigate = useNavigate();
 
    useEffect(() => {
       removeCookie('usrin')
@@ -22,6 +26,7 @@ const Login = () => {
       e.preventDefault()
       useLogin(username, password)
       .then(res => {
+         setIsLoading(false);
          if (res){navigate('/')} else {displayPopup();}
       })
    }
@@ -58,7 +63,11 @@ const Login = () => {
                                  <label htmlFor="password">Password</label>
                                  <input type="password" name="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
          
-                                 <button className="btn-square t-mar-25">Login</button>
+                                 {!isLoading && <button className="btn-square t-mar-25" onClick={(e) => {setIsLoading(true); HandleSubmit(e)}}>Login</button>}
+                                 {isLoading && 
+                                 <button className="btn-square-loading t-mar-25" disabled>
+                                       <ClipLoader color={"var(--theme-white)"} size={13} cssOverride={spinnerStyle}/>
+                                 </button>}
          
                                  <p className="t-mar-25">Don't have an account. <Link to="/sign-up">Sign up</Link></p>
                                  
