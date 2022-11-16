@@ -2,8 +2,6 @@ import { Link } from 'react-router-dom'
 import useFetch from '../hooks/useFetch'
 
 const HeaderLogin = (owner=null) => {
-   const {data} = useFetch()
-
    return (
       <header className="content-wrapper">
          <div className="wrapper-rl max-w-1000"> 
