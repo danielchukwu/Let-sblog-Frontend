@@ -31,7 +31,7 @@ export default function useFetch(url='') {
       return () => {}
    }, [url])
 
-   return {data, tokenIsValid}
+   return {data, setData, tokenIsValid}
 }
 
 // export default useFetch;
