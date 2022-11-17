@@ -29,6 +29,7 @@ body {
   --theme-dark: #181818;
   --theme-grey-bg: #f0f1f3;
   --theme-text-grey: #707070;
+  --theme-light-blue: #2192ff;
   /* --card-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px; */
   --card-shadow: rgba(0, 0, 0, 0.01) 0px 1px 3px 0px,
     rgba(27, 31, 35, 0.04) 0px 0px 0px 1px;
@@ -434,10 +435,18 @@ li {
   overflow: hidden;
 }
 
+.round-img-45 {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
 .round-img-xs img,
 .round-img-s img,
 .round-img-l img,
 .round-img-40 img,
+.round-img-45 img,
 .round-img-200 img {
   width: auto;
   height: 100%;
@@ -632,7 +641,9 @@ em {
   font-size: 21px;
 }
 
-.right-username:hover {
+.right-username:hover,
+.cb-replies:hover,
+.underline:hover {
   text-decoration: underline;
 }
 
@@ -697,9 +708,25 @@ em {
   font-size: 15px;
 }
 
+.traditional-input-2 input {
+  border: 0px;
+  background-color: var(--theme-grey-bg);
+  padding: 10px 10px;
+  box-sizing: border-box;
+  border-bottom: 3px solid #00abb3;
+  border-radius: 3px;
+  outline: none;
+  font-size: 15px;
+}
+
 .traditional-input input:focus {
   background-color: #dadcde;
 }
+
+.traditional-input-2 input:focus {
+  background-color: var(--theme-white);
+}
+
 
 form p a {
   color: var(--theme-green);
@@ -799,6 +826,11 @@ form p a:hover {
   margin: 2px 7px 0;
   border-radius: 50%;
   background-color: var(--theme-grey);
+}
+
+.flex-a-center {
+  display: flex;
+  align-items: center;
 }
 
 .flex-a-center {
@@ -939,7 +971,7 @@ form p a:hover {
 .white-space{white-space: pre-wrap;}
 
 /* MANAGE BLOGS */
-.cud {
+.cud, .ct-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -959,6 +991,15 @@ form p a:hover {
 }
 .ud svg:active {
   fill: var(--theme-green-deep);
+}
+
+.svg-green svg {
+  fill: var(--theme-green)
+}
+
+.ud small{
+  font-size: 15px;
+  margin-left: 10px;
 }
 
 .mb-container {
@@ -988,7 +1029,7 @@ form p a:hover {
 
 .cb-grid {
   display: grid;
-  grid-template-columns: 1fr 11fr;
+  grid-template-columns: 1fr 14fr;
 }
 
 .cb-username {
@@ -996,8 +1037,16 @@ form p a:hover {
 }
 
 .cb-replies {
-  font-weight: 600;
-  color: #2192ff;
+  font-weight: 400;
+  color: var(--theme-light-blue);
+}
+
+.cb-3 {
+  display: flex;
+  align-items: center;
+  /* background-color: #008a91; */
+  /* width: 100px; */
+  /* justify-content: space-between; */
 }
 
 #comment {
