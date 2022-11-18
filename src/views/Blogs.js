@@ -21,6 +21,8 @@ const Blogs = () => {
    const {cloudinary_image_url} = useUrl();
    const {spinnerStyle} = useConstants();
 
+   const [commentIsLoading, setCommentIsLoading] = useState(false);
+
    // Input
    const [content, setContent] = useState();
 
@@ -34,11 +36,12 @@ const Blogs = () => {
 
 
    // Handle Submission
-   const HandleSubmit = async (e) => {
+   const HandleSubmit = async (e, blog_id) => {
       e.preventDefault();
-      console.log(content)
-
-      const body = {'content': content}
+      const body = {'content': content, 'blog_id': blog_id}
+      setCommentIsLoading(true);
+      setContent('') // Empty Comment Input Field
+      
       fetch(`${host_url}/comments`, {
          method: 'POST',
          headers: {
@@ -48,12 +51,12 @@ const Blogs = () => {
          body: JSON.stringify(body)
       })
       .then(res => {
-         return res.json()
+         return res.json();
       })
       .then(data => {
-         console.log(data)
-         // setIsLoading(false);
-         displayPopup('successful_blog_creation')
+         const newBlog = [data, ...comments];
+         setCommentIsLoading(false);
+         setComments(newBlog);
       })
    }
 
@@ -77,7 +80,7 @@ const Blogs = () => {
 
       // Update like state (Comments)
       function updateLikeStateComments (liked, likes, disliked, dislikes) {
-         const newDataList = comments.comments;
+         const newDataList = comments;
          
          newDataList.map(comment => {
             if (comment.id === id){
@@ -91,7 +94,7 @@ const Blogs = () => {
             }
          })
 
-         setComments({"comments": newDataList})
+         setComments([...newDataList])
       }
 
       // Like Or Dislike
@@ -220,25 +223,30 @@ const Blogs = () => {
                <div className="comment-container t-mar-50">
                   <div className="comment-wrapper lr-pad-20 tb-pad-20">
 
-                     <div className="comment-form">
+                     <div className="comment-form b-pad-10">
                         <div className="ct-container">
-                           <span>{comments ? comments.comments.length : '0'} Comment{comments && comments.comments.length === 1 ? '' : 's'}</span>
+                           <span>{comments ? comments.length : '0'} Comment{comments && comments.length === 1 ? '' : 's'}</span>
                            {/* <span>Replying to @dandizzy</span> */}
                         </div>
-                        <form onSubmit={(e) => HandleSubmit(e)}>
+                        <form onSubmit={(e) => HandleSubmit(e, blog.id)}>
                         <div className="cb-grid t-pad-20 traditional-input-2">
                            <div className="round-img-45">
                               <img src={`${cloudinary_image_url}/${owner.avatar}`} alt="" />
                            </div>
-                              <input type="text" name="comment" id="comment" onChange={(e) => setContent(e.target.value)} />
+                              <input type="text" name="comment" value={content} id="comment" onChange={(e) => setContent(e.target.value)} />
                         </div>
                         </form>
                      </div>
 
+                     { commentIsLoading &&
+                     <div className='comment-loader'>
+                        <ClipLoader color={"var(--theme-green)"} size={20} cssOverride={spinnerStyle}/>
+                     </div>}
+
 
                      {/* Comment Box */}
                      { comments && 
-                     comments.comments.map((comment) => {
+                        comments.map((comment) => {
                         return (
                         <div className="comment-box cb-grid t-pad-20" key={comment.id}>
                            {/* Profile Picture */}
@@ -252,7 +260,7 @@ const Blogs = () => {
                                  <span className="cb-time fs-13 l-mar-10">3 mins ago</span>
                               </div>
                               <div className="cb-2 t-pad-5">
-                                 <p className="cb-content fs-16">{comment.content}</p>
+                                 <p className="cb-content fs-14">{comment.content}</p>
                               </div>
                               <div className="cb-3 t-pad-5">
                                  <span className="ud pointer r-pad-20" onClick={() => HandleLike('comments', comment.id, false)}>
