@@ -1143,3 +1143,7 @@ form p a:hover {
   height: 100%;
   display: flex;
 }
+
+.comment-loader {
+  padding: 45.7px 0;
+}
