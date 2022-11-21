@@ -163,6 +163,7 @@ li {
 .b-mar-25 {margin-bottom: 25px;}
 .b-mar-50 {margin-bottom: 50px;}
 
+.l-mar-5 {margin-left: 5px;}
 .l-mar-10 {margin-left: 10px;}
 .l-mar-20 {margin-left: 20px;}
 .r-mar-10 {margin-right: 10px;}
@@ -573,6 +574,28 @@ em {
   cursor: pointer;
 }
 
+.btn-round, .btn-round-off {
+  background-color: var(--theme-green);
+  color: var(--theme-white);
+  padding: 7px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.btn-round-off {
+  background-color: initial;
+  color: var(--theme-dark);
+}
+
+.sc-container {
+  display: flex;
+  justify-content: flex-end;
+  /* background-color: #000; */
+  padding: 15px 0 0;
+}
+
 .btn-square-loading {
   background-color: var(--theme-green-deep);
 }
@@ -583,7 +606,12 @@ em {
 .btn:active {
   box-shadow: rgba(1, 171, 179, 0.8) 0px 3px 3px;
 }
-
+.btn-round-off:hover {
+  background-color: var(--theme-grey-bg);
+}
+.btn-round:hover {
+  background-color: var(--theme-green-deep);
+}
 .btn-square:hover {
   box-shadow: rgba(1, 171, 179, 0.4) 0px 3px 3px;
 }
@@ -1136,6 +1164,18 @@ form p a:hover {
   justify-content: space-between;
 }
 
+.reply-comment-container {
+  background-color: var(--theme-grey-bg);
+  padding: 10px 15px;
+  margin: 0 0 10px;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+.rc input {
+  width: 100%;
+}
+
 /* SPINNER */
 .spinner-container {
   position: fixed;
@@ -1147,3 +1187,5 @@ form p a:hover {
 .comment-loader {
   padding: 45.7px 0;
 }
+
+
