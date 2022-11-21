@@ -7,15 +7,66 @@ import getCookie from '../utils/getCookie';
 import { CommentContext } from '../views/Blogs';
 
 const CommentList = (props) => {
-   const {cloudinary_image_url} = useUrl();
+   const {cloudinary_image_url, host_url} = useUrl();
    const [comments, setComments] = useState();
    const [subComments, setSubComments] = useState({});
-   const {setReplyComment} = useContext(CommentContext);
+   const {replyCommentIds, setReplyCommentIds} = useContext(CommentContext);
 
+   // Add Comments
    useEffect(() => {
       setComments(props.comments);
    }, [props])
 
+
+   // Handle Submission
+   const HandleSubmit = async (e, comment_id) => {
+      e.preventDefault();
+      console.log(`input-${comment_id}`)
+      const input = document.querySelector(`#input-${comment_id}`);
+      const content = input.value;
+      input.value = '';
+
+      if (content.length === 0){
+         return;
+      }
+      const body = {'content': content, 'comment_id': comment_id}
+      // setCommentIsLoading(true);
+
+      const updateRepliesCount = () => {
+         const newData = comments;
+         newData.map(comment => {
+            if (comment.id === comment_id){
+               comment['sub_comments_count'] += 1
+            }
+         })
+         setComments([...newData])
+      }
+      
+      fetch(`${host_url}/comments`, {
+         method: 'POST',
+         headers: {
+            'Content-Type': 'application/json',
+            'X-Access-Token': getCookie('usrin')
+         },
+         body: JSON.stringify(body)
+      })
+      .then(res => {
+         return res.json();
+      })
+      .then(data => {
+         console.log("Response");
+         console.log(data);
+         updateRepliesCount();
+         const newData = subComments;
+         if (newData[comment_id]){
+            newData[comment_id].unshift(data);
+         }
+         console.log(newData[comment_id]);
+         setSubComments({...newData});
+      })
+   }
+   
+   
    // Handle Like
    const HandleLike = async (id, is_like, comments, setComments) => {
       // Passing comments state and the setComments function 
@@ -129,8 +180,31 @@ const CommentList = (props) => {
                      </svg>
                      <small>{comment.likes}</small>
                   </span>
-                  <span className="fs-14 underline fw-600 pointer" onClick={() => setReplyComment(comment)}>Reply</span>
+                  <span className="fs-14 underline fw-600 pointer" onClick={() => {
+                     const newData = replyCommentIds;
+                     newData.add(comment.id);
+                     setReplyCommentIds(new Set(newData));
+                  }}>Reply</span>
                </div>
+               {/* Reply Comment */}
+               { replyCommentIds.has(comment.id) &&
+               <div class="rc t-pad-5 traditional-input-2">
+                  
+                  <input type="text" name="comment" id={`input-${comment.id}`} autoFocus />
+                  {/* TODO: complete */}
+                  
+                  <div class="sc-container">
+                     <div class="sc-buttons">
+                        <span class="btn-round-off" onClick={() => {
+                           const newData = replyCommentIds;
+                           newData.delete(comment.id);
+                           setReplyCommentIds(new Set(newData));
+                        }}>Cancel</span>
+                        <span class="btn-round l-mar-10" onClick={(e) => HandleSubmit(e, comment.id)}>Reply</span>
+                     </div>
+                  </div>
+               </div>
+               }
                <div className="cb-4 t-pad-5">
                   { comment.sub_comments_count > 0 &&
                   <span>
