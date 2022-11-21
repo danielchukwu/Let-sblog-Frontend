@@ -159,7 +159,7 @@ const CommentList = (props) => {
             <div className="">
                <div className="cb-1">
                   <span className="cb-username fs-15 pointer">{comment.username}</span>
-                  <span className="cb-time fs-13 l-mar-10">3 mins ago</span>
+                  {/* <span className="cb-time fs-13 l-mar-10">3 mins ago</span> */}
                </div>
                <div className="cb-2 t-pad-5">
                   <p className="cb-content fs-14">{comment.content}</p>
