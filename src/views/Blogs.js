@@ -24,9 +24,10 @@ const Blogs = () => {
    const {data: comments, setData: setComments} = useFetch(`/blogs/${id}/comments`);
    const {cloudinary_image_url} = useUrl();
    const {spinnerStyle} = useConstants();
+   const [showCommentBtn, setShowCommentBtn] = useState(false);
 
    const [commentIsLoading, setCommentIsLoading] = useState(false);
-   const [replyComment, setReplyComment] = useState(false);
+   const [replyCommentIds, setReplyCommentIds] = useState(new Set());       
 
    // Input
    const [content, setContent] = useState();
@@ -43,7 +44,11 @@ const Blogs = () => {
    // Handle Submission
    const HandleSubmit = async (e, blog_id) => {
       e.preventDefault();
+      if (content.length === 0){
+         return;
+      }
       const body = {'content': content, 'blog_id': blog_id}
+      // setShowSubmitCommentBtn(false);
       setCommentIsLoading(true);
       setContent('') // Empty Comment Input Field
       
@@ -110,7 +115,7 @@ const Blogs = () => {
 
    
    return (
-      <CommentContext.Provider value={{setReplyComment}} >
+      <CommentContext.Provider value={{ replyCommentIds, setReplyCommentIds }} >
          <div className='blogs'>
 
             <HeaderMain owner={owner ? owner : null} showRight={owner ? true : false} />
@@ -197,19 +202,26 @@ const Blogs = () => {
                   <div className="comment-container t-mar-50">
                      <div className="comment-wrapper lr-pad-20 tb-pad-20">
 
-                        {replyComment && <h3>{replyComment.content}</h3>}
-
                         <div className="comment-form b-pad-10">
-                           <div className="ct-container">
+                           <div className="ct-container b-pad-20">
                               <span>{comments ? comments.length : '0'} Comment{comments && comments.length === 1 ? '' : 's'}</span>
                               {/* <span>Replying to @dandizzy</span> */}
                            </div>
                            <form onSubmit={(e) => HandleSubmit(e, blog.id)}>
-                           <div className="cb-grid t-pad-20 traditional-input-2">
+                           <div className="cb-grid traditional-input-2">
                               <div className="round-img-45">
                                  <img src={`${cloudinary_image_url}/${owner.avatar}`} alt="" />
                               </div>
-                                 <input type="text" name="comment" value={content} id="comment" onChange={(e) => setContent(e.target.value)} />
+                              <div class="rc t-pad-5 traditional-input-2">
+                                 <input type="text" name="comment" value={content} id="comment" onChange={(e) => setContent(e.target.value)} onFocus={() => setShowCommentBtn(true)}/>
+                                 { showCommentBtn && 
+                                 <div class="sc-container">
+                                    <div class="sc-buttons">
+                                       <span class="btn-round-off" onClick={() => setShowCommentBtn(false)}>Cancel</span>
+                                       <span class="btn-round l-mar-10" onClick={(e) => HandleSubmit(e, blog.id)}>Comment</span>
+                                    </div>
+                                 </div>}
+                              </div>
                            </div>
                            </form>
                         </div>
