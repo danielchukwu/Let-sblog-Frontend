@@ -23,6 +23,7 @@ body {
   --theme-white: #fff;
   --theme-black: #000;
   --theme-green: #00abb3;
+  --theme-green-light-deep: #0a99a1;
   --theme-green-deep: #008a91;
   --theme-grey-mid: #3c4048;
   --theme-grey: #5c5f65;
@@ -30,10 +31,16 @@ body {
   --theme-grey-bg: #f0f1f3;
   --theme-text-grey: #707070;
   --theme-light-blue: #2192ff;
+  --theme-border-grey: #d0d7de;
   /* --card-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px; */
   --card-shadow: rgba(0, 0, 0, 0.01) 0px 1px 3px 0px,
     rgba(27, 31, 35, 0.04) 0px 0px 0px 1px;
 }
+
+::-webkit-scrollbar {width: 5px;}
+::-webkit-scrollbar-track {background-color: #f1f1f1;}
+::-webkit-scrollbar-thumb { background-color: var(--theme-text-grey); border-radius: 5px;}
+::-webkit-scrollbar-thumb:hover { background-color: var(--theme-grey)}
 
 header {
   position: fixed;
@@ -159,6 +166,8 @@ li {
 .t-mar-15 {margin-top: 15px;}
 .t-mar-25 {margin-top: 25px;}
 .t-mar-50 {margin-top: 50px;}
+.b-mar-3 {margin-bottom: 3px;}
+.b-mar-5 {margin-bottom: 5px;}
 .b-mar-7 {margin-bottom: 7px;}
 .b-mar-25 {margin-bottom: 25px;}
 .b-mar-50 {margin-bottom: 50px;}
@@ -851,7 +860,7 @@ form p a:hover {
 
 .dot {
   padding: 4px;
-  margin: 2px 7px 0;
+  margin: 0px 7px 0;
   border-radius: 50%;
   background-color: var(--theme-grey);
 }
@@ -871,25 +880,37 @@ form p a:hover {
   height: 100%;
 }
 
-.btn-f {
+.btn-f, .btn-f-clicked {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: #fff;
-  padding: 8px 15px;
-  border-radius: 5px;
+  height: 30px;
+  width: 100px;
+  border-radius: 10px;
+  border: 1px solid var(--theme-border-grey);
   background-color: var(--theme-green);
   cursor: pointer;
 }
 
 .btn-f-clicked {
   color: var(--theme-dark);
-  padding: 8px 15px;
-  border-radius: 5px;
   background-color: var(--theme-white);
-  box-shadow: var(--card-shadow);
-  cursor: pointer;
+  border: 1px solid #d0d7de;
+  /* box-shadow: var(--card-shadow); */
 }
 
 .btn-f:hover {
-  background-color: var(--theme-green-deep);
+  background-color: var(--theme-green-light-deep);
+}
+.btn-f:active {
+  background-color: var(--theme-green);
+}
+.btn-f-clicked:hover {
+  background-color: #f9f9f9;
+}
+.btn-f-clicked:active {
+  background-color: var(--theme-white);
 }
 
 .pm-bottom-l2 {
@@ -1107,12 +1128,100 @@ form p a:hover {
 }
 
 /* Center Pop Up */
+.f-container {
+  position: fixed;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.f-box {
+  background-color: #fff;
+  height: 400px;
+  width: 400px;
+  border-radius: 10px;
+  border: 1px solid var(--theme-border-grey);
+  overflow: hidden;
+}
+
+.f-title {
+  /* background-color: red; */
+  position: relative;
+  height: 45px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid var(--theme-border-grey);
+}
+
+.f-title h3{
+  font-size: 20px;
+}
+
+.f-cancel {
+  position: absolute;
+  /* background-color: red;  */
+  display: flex;
+  justify-content: center;
+  right: 0;
+  width: 40px;
+  cursor: pointer;
+}
+
+.f-cancel svg {
+  fill: var(--theme-dark);
+  width: 15px;
+}
+.f-cancel svg:hover {
+  fill: var(--theme-black);
+  width: 15px;
+}
+
+.f-body-container {
+  padding: 0 15px;
+  height: 340px;
+  overflow-y: scroll;
+}
+
+.fb-item {
+  display: grid;
+  grid-template-columns: 1fr 4fr 2fr;
+}
+
+.fb-follow {
+  display: flex;
+  align-items: center;
+}
+
+.fb-username {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.fb-username h3 {font-size: 18px;}
+.fb-username p {font-size: 14px; color: var(--theme-grey);}
 
 .pc-bg {
   position: fixed;
   height: 100%;
   width: 100%;
   background-color: rgba(0, 0, 0, 0.5);
+}
+
+.pc-bg-2 {
+  display: flex;
+  height: 100%;
+  width: 100%;
+}
+
+.z-index-1 {
+  z-index: 1;
+}
+.z-index-2 {
+  z-index: 2;
 }
 
 .pc-box {
@@ -1149,12 +1258,15 @@ form p a:hover {
   width: 100%;
 }
 
+.header {
+  z-index: 0;
+}
+
 .pc-box-wrapper {
   position: absolute;
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1;
 }
 
 .pc-options {
