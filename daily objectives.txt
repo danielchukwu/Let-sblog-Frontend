@@ -34,12 +34,19 @@ Implement Sub comments update ✅
 Implement Replies count update ✅
 Fix DB comments constraint ✅
 
-display Follow and unFollow Button on user profile
-impliment follow and unfollowing logic
-implement follow and unfollow ui update
-implement view followers and following logic
+Tuesday 22nd November
 
-implement update skills
+display Follow and unFollow Button on user profile ✅
+implement is_following feature ✅
+implement following and followers count ✅
+impliment follow and unfollowing logic ✅
+implement follow and unfollow ui update ✅
+Design view following and followers pop up ✅
+implement view followers and following logic ✅
+
+design follow popup
+design update skills, job, work place
+implement update skills 
 implement update job and work place
 
 
