@@ -55,7 +55,7 @@ export const ManageBlogs = () => {
             <ClipLoader color={"var(--theme-green)"} size={30} cssOverride={spinnerStyle}/>
          </div>}
 
-         <div class="popup-center-container">
+         <div className="popup-center-container">
             {showCenterPopUp && 
             <div className="pc-wrapper">
                <div className="pc-box-wrapper" onClick={() => setShowCenterPopUp(false)}>
