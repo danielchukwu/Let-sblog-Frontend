@@ -1,3 +1,17 @@
+BIG FIXES
+Image uploads - crop dp 50 by 50, get two quality types, small and extra small, blog upload crop
+      - Avatar: small (100x100), standard (400x400)
+      - Cover:  standard (550x250)  
+      - blog_cover: small (250x200), standard ()
+Home Page: Fix Blog Title being too long
+Fix HeaderSub animation
+Fix displaypopups multiple components
+Fix social networks open actual route in some other tab
+Substitute all social network with img to svg
+Fix header dropdown menu
+Implement time ago function for backend (optional) 
+Change EditProfile Header to HeaderSub
+
 Thursday 17th November
 
 Objectives For Today
@@ -44,8 +58,16 @@ implement follow and unfollow ui update ✅
 Design view following and followers pop up ✅
 implement view followers and following logic ✅
 
-design follow popup
-design update skills, job, work place
+
+Tuesday 23nd November
+
+design follow popup ✅
+Refine Application ✅✅✅
+design update skills, job, work place ✅
+
+Thursday 24th November
+Refine Application ✅✅✅
+design notification popup  ✅ ()
 implement update skills 
 implement update job and work place
 
