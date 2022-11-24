@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useState } from 'react'
 import { useContext } from 'react';
 import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useUrl } from '../hooks/useUrl';
 import getCookie from '../utils/getCookie';
 import { CommentContext } from '../views/Blogs';
@@ -152,17 +153,20 @@ const CommentList = (props) => {
          return (
          <div className="comment-box cb-grid t-pad-20" key={comment.id} id>
             {/* Profile Picture */}
-            <div className="round-img-45">
-               <img src={`${cloudinary_image_url}/${comment.avatar}`} alt="" />
+            <div className={"round-img-40 t-mar-5"}>
+               {!comment.avatar && <p className="img-text">{comment.username[0].toUpperCase()}</p>}
+               {comment.avatar  && <img src={`${cloudinary_image_url}/${comment.avatar}`} alt="" />}
             </div>
             {/* Content */}
             <div className="">
-               <div className="cb-1">
-                  <span className="cb-username fs-15 pointer">{comment.username}</span>
-                  {/* <span className="cb-time fs-13 l-mar-10">3 mins ago</span> */}
-               </div>
+               <Link to={`/users/${comment.user_id}`} >
+                  <div className="cb-1">
+                     <span className="cb-username fs-15 pointer">{comment.username}</span>
+                     {/* <span className="cb-time fs-13 l-mar-10">3 mins ago</span> */}
+                  </div>
+               </Link>
                <div className="cb-2 t-pad-5">
-                  <p className="cb-content fs-14">{comment.content}</p>
+                  <p className="cb-content fs-16">{comment.content}</p>
                </div>
                <div className="cb-3 t-pad-5">
                   <span className="ud pointer r-pad-20" onClick={() => {
