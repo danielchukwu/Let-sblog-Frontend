@@ -7,26 +7,30 @@ import { useUrl } from '../hooks/useUrl';
 
 // This Header is for users that are either logged in or not
 const HeaderMain = ({owner, showRight=true}) => {
-   const [enabledOptions, setEnabledOptions] = useState(false);
-   const navigate = useNavigate()
-   const {cloudinary_image_url} = useUrl()
+   // const [enabledOptions, setEnabledOptions] = useState(false);
+   const navigate = useNavigate();
+   const {cloudinary_image_url} = useUrl();
+   const [enableOptionsDropdown, setEnableOptionsDropdown] = useState(false);
+   const [enableNotificationDropdown, setEnableNotificationDropdown] = useState(false);
 
    // login_sign_up_btn, user_profile_btn,
    useEffect(() => {
       const handleScroll = e => {
          if (window.pageYOffset >= 20){
-            gsap.to('.header', {background: '#00ABB3',duration: 0.3, opacity: 1, ease: 'power1.out', boxShadow: 'rgba(0,0,0,0.3) 0px 1px'})
+            gsap.to('.header', {background: '#00ABB3',duration: 0.3, opacity: 1, ease: 'power1.out'})
             gsap.to('.wrapper', {padding: '10px 0', duration: 0.3})
             gsap.to('.right-username', {duration: 0.25, color: "#fff"})
             gsap.to('.logo-text h1', {fontSize: '2.2rem', duration: 0.25, color: "#fff"})
             gsap.to('.btn', {borderRadius: 0, color: '#fff', duration: 0.3})
+            gsap.to('.right-item svg, .right-item p', {color: '#fff', fill: '#f0f1f3', duration: 0.3})
          }
          else if (window.pageYOffset < 19){
-            gsap.to('.header', {background: '#f0f1f3', duration: 0.3, opacity: 1, boxShadow: 'none'})
+            gsap.to('.header', {background: '#f0f1f3', duration: 0.3, opacity: 1, border: 'none'})
             gsap.to('.wrapper', {padding: '50px 0', duration: 0.3, ease: 'power1.out'})
             gsap.to('.right-username', {duration: 0.25, color: "#000"})
             gsap.to('.logo-text h1', {fontSize: '3rem',  color: '#000', duration: 0.3})
             gsap.to('.btn', {borderRadius: '20', color: '#fff', duration: 0.3})
+            gsap.to('.right-item svg, .right-item p', {color: '#000', fill: '#3c4048', duration: 0.3})
          }
       }
 
@@ -39,60 +43,229 @@ const HeaderMain = ({owner, showRight=true}) => {
 
    // LOGOUT
    const handleLogout = () => {
-      removeCookie('usrin')
-      navigate('/login')
+      removeCookie('usrin');
+      navigate('/login');
    }
    
 
    return (
-      <header className="header content-wrapper">
-         <div className="wrapper max-w-1000">
-            <div className="left">
-               <Link to="/">
-                  <div className="logo-text">
-                     <h1 title="Home">Let's Bl😉g.</h1>
-                  </div>
-               </Link>
-            </div>
-            {! owner && showRight &&
-            <div className="right">
-               <Link to="/login"><span className="btn">Login</span></Link>
-               <Link to="/sign-up"><span className="btn l-mar-10">Sign Up</span></Link>
-            </div>}
+      <>
+         <header className="header content-wrapper" onClick={() => {
+            if (enableOptionsDropdown) {
+               setEnableOptionsDropdown(false);
+            }
+            if (enableNotificationDropdown) {
+               setEnableNotificationDropdown(false)
+            }
+         }}>
+            <div className="wrapper max-w-1000">
+               <div className="left">
+                  <Link to="/">
+                     <div className="logo-text">
+                        <h1 title="Home">Let's Bl😉g.</h1>
+                     </div>
+                  </Link>
+               </div>
+               {! owner && showRight &&
+               <div className="right">
+                  <Link to="/login"><span className="btn">Login</span></Link>
+                  <Link to="/sign-up"><span className="btn l-mar-10">Sign Up</span></Link>
+               </div>}
 
-            { owner && 
-            <div className="right">
-               <Link to={`/users/${owner.id}`}><p  className="right-username">{owner.username}</p></Link>
-               <Link onClick={() => enabledOptions ? setEnabledOptions(false) :  setEnabledOptions(true)}>
-                  <div className="round-img-40 r-mar-10">
-                     {!owner.avatar && <p className="img-text">{owner.name[0].toUpperCase()}</p>}
-                     { owner.avatar && <img src={`${cloudinary_image_url}/${owner.avatar}`} alt=''/>}
-                  </div>
-                  <div className="svg-dropdown svg-15">
-                     <img src={down} alt="" />
-                  </div>
-               </Link>
-
-               {/* POP UP container */}
-               <div className="user-options-container">
-                  { enabledOptions &&
-                  <div className="user-options-wrapper">
-                     <div className="flex-right content-wrapper max-w-1000">
-                        <div className="up-card tb-pad-10">
-                           <Link to={`/`}><p>Home</p></Link>
-                           <Link to={`/users/${owner.id}`}><p>Profile</p></Link>
-                           <Link to={"/create-blog"}><p>Create Blog</p></Link>
-                           <Link to={"/manage-blogs"}><p>Manage Blogs</p></Link>
-                           <hr />
-                           <p className='pointer' onClick={handleLogout}>Logout</p>
-                           
+               { owner && 
+               <div className="right">
+                  {/* Home */}
+                  <Link to={'/'} style={{height: "100%"}}>
+                     <div className='right-item l-mar-40'>
+                        <div className='rn-svg-center home-svg'>
+                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+                              <path d="M575.8 255.5c0 18-15 32.1-32 32.1h-32l.7 160.2c0 2.7-.2 5.4-.5 8.1V472c0 22.1-17.9 40-40 40H456c-1.1 0-2.2 0-3.3-.1c-1.4 .1-2.8 .1-4.2 .1H416 392c-22.1 0-40-17.9-40-40V448 384c0-17.7-14.3-32-32-32H256c-17.7 0-32 14.3-32 32v64 24c0 22.1-17.9 40-40 40H160 128.1c-1.5 0-3-.1-4.5-.2c-1.2 .1-2.4 .2-3.6 .2H104c-22.1 0-40-17.9-40-40V360c0-.9 0-1.9 .1-2.8V287.6H32c-18 0-32-14-32-32.1c0-9 3-17 10-24L266.4 8c7-7 15-8 22-8s15 2 21 7L564.8 231.5c8 7 12 15 11 24z"/>
+                           </svg>
+                        </div>
+                        <div className='right-item-bottom'>
+                           <p className='fs-14'>Home</p>
                         </div>
                      </div>
+                  </Link>
+                  {/* Notification */}
+                  <div className='right-item l-mar-40' onClick={() => setEnableNotificationDropdown( !enableNotificationDropdown )}>
+                     <div className='rn-svg-center'>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                           <path d="M224 0c-17.7 0-32 14.3-32 32V51.2C119 66 64 130.6 64 208v18.8c0 47-17.3 92.4-48.5 127.6l-7.4 8.3c-8.4 9.4-10.4 22.9-5.3 34.4S19.4 416 32 416H416c12.6 0 24-7.4 29.2-18.9s3.1-25-5.3-34.4l-7.4-8.3C401.3 319.2 384 273.9 384 226.8V208c0-77.4-55-142-128-156.8V32c0-17.7-14.3-32-32-32zm45.3 493.3c12-12 18.7-28.3 18.7-45.3H224 160c0 17 6.7 33.3 18.7 45.3s28.3 18.7 45.3 18.7s33.3-6.7 45.3-18.7z"/>
+                        </svg>
+                     </div>
+                     <div className='right-item-bottom'>
+                        <p className='fs-14'>Notifications</p>
+                        {/* <svg className='l-mar-3' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+                           <path d="M137.4 374.6c12.5 12.5 32.8 12.5 45.3 0l128-128c9.2-9.2 11.9-22.9 6.9-34.9s-16.6-19.8-29.6-19.8L32 192c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9l128 128z"/>
+                        </svg> */}
+                     </div>
+                  </div>
+
+                  {/* Notification Dropdown */}
+                  {enableNotificationDropdown && 
+                  <div className="pc-wrapper-2">
+                     
+                     {/* popup Content */}
+                     <div className="noti-card">
+                        <div className='noti-title'>
+                           <h3>Notifications</h3>
+                        </div>
+                        <div className='noti-body'>
+                           <div className='noti-item'>
+                              <div className='ns-title'>
+                                 <h3>Today</h3>
+                              </div>
+                              {/* Follow item */}
+                              <div className='ns-item'>
+                                 <div className='ns-img'>
+                                    <div className={"round-img-35"}>
+                                       {!owner.avatar && <p className="img-text">{owner.username[0].toUpperCase()}</p>}
+                                       {owner.avatar  && <img src={`${cloudinary_image_url}/${owner.avatar}`} alt="" />}
+                                    </div>
+                                 </div>
+                                 <div className='ns-text'>
+                                    <p><b className='bold'>{owner.username}</b> started following you.</p>
+                                 </div>
+                                 <div className='fb-follow'>
+                                    {/* <span className='btn-f-s'>Follow</span> */}
+                                    <span className='btn-f-s-clicked'>Following</span>
+                                 </div>
+                              </div>
+                              {/* Liked blog item */}
+                              <div className='ns-item'>
+                                 <div className='ns-img'>
+                                    <div className={"round-img-35"}>
+                                       {!owner.avatar && <p className="img-text">{owner.username[0].toUpperCase()}</p>}
+                                       {owner.avatar  && <img src={`${cloudinary_image_url}/${owner.avatar}`} alt="" />}
+                                    </div>
+                                 </div>
+                                 <div className='ns-text'>
+                                    <p><b className='bold'>{owner.username}</b> liked your post.</p>
+                                 </div>
+                                 <div className='ns-blog'>
+                                    {owner.avatar  && <img src={`${cloudinary_image_url}/${owner.avatar}`} alt="" />}
+                                 </div>
+                              </div>
+                              {/* Liked comment item */}
+                              <div className='ns-item'>
+                                 <div className='ns-img'>
+                                    <div className={"round-img-35"}>
+                                       {!owner.avatar && <p className="img-text">{owner.username[0].toUpperCase()}</p>}
+                                       {owner.avatar  && <img src={`${cloudinary_image_url}/${owner.avatar}`} alt="" />}
+                                    </div>
+                                 </div>
+                                 <div className='ns-text'>
+                                    <p><b className='bold'>{owner.username}</b> liked your comment on a post.</p>
+                                 </div>
+                              </div>
+                              {/* Commented on your blog item */}
+                              <div className='ns-item'>
+                                 <div className='ns-img'>
+                                    <div className={"round-img-35"}>
+                                       {!owner.avatar && <p className="img-text">{owner.username[0].toUpperCase()}</p>}
+                                       {owner.avatar  && <img src={`${cloudinary_image_url}/${owner.avatar}`} alt="" />}
+                                    </div>
+                                 </div>
+                                 <div className='ns-text'>
+                                    <p><b className='bold'>{owner.username}</b> commented on your blog.</p>
+                                 </div>
+                                 <div className='ns-blog'>
+                                    {owner.avatar  && <img src={`${cloudinary_image_url}/${owner.avatar}`} alt="" />}
+                                 </div>
+                              </div>
+                              {/* Commented on your blog item */}
+                              <div className='ns-item'>
+                                 <div className='ns-img'>
+                                    <div className={"round-img-35"}>
+                                       {!owner.avatar && <p className="img-text">{owner.username[0].toUpperCase()}</p>}
+                                       {owner.avatar  && <img src={`${cloudinary_image_url}/${owner.avatar}`} alt="" />}
+                                    </div>
+                                 </div>
+                                 <div className='ns-text'>
+                                    <p><b className='bold'>{owner.username}</b> commented on your blog.</p>
+                                 </div>
+                                 <div className='ns-blog'>
+                                    {owner.avatar  && <img src={`${cloudinary_image_url}/${owner.avatar}`} alt="" />}
+                                 </div>
+                              </div>
+                              {/* Responded to your comment item */}
+                              <div className='ns-item'>
+                                 <div className='ns-img'>
+                                    <div className={"round-img-35"}>
+                                       {!owner.avatar && <p className="img-text">{owner.username[0].toUpperCase()}</p>}
+                                       {owner.avatar  && <img src={`${cloudinary_image_url}/${owner.avatar}`} alt="" />}
+                                    </div>
+                                 </div>
+                                 <div className='ns-text'>
+                                    <p><b className='bold'>{owner.username}</b> responded to your comment.</p>
+                                 </div>
+                                 <div className='ns-blog'>
+                                    {owner.avatar  && <img src={`${cloudinary_image_url}/${owner.avatar}`} alt="" />}
+                                 </div>
+                              </div>
+                              
+                           </div>
+                           <hr />
+
+                        </div>
+                        
+                     </div>
+
                   </div>}
-               </div>
-            </div>}
-         </div>
-      </header>
+
+                  
+                  {/* User Option */}
+                  <div className='right-item l-mar-40' onClick={() => setEnableOptionsDropdown(true)}>
+                     <div className="round-img-35 r-mar-10">
+                        {!owner.avatar && <h3 className="img-text">{owner.name[0].toUpperCase()}</h3>}
+                        { owner.avatar && <img src={`${cloudinary_image_url}/${owner.avatar}`} alt=''/>}
+                     </div>
+                     <div className='right-item-bottom'>
+                        <p className='fs-14'>Me</p>
+                        <svg className='l-mar-3' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+                           <path d="M137.4 374.6c12.5 12.5 32.8 12.5 45.3 0l128-128c9.2-9.2 11.9-22.9 6.9-34.9s-16.6-19.8-29.6-19.8L32 192c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9l128 128z"/>
+                        </svg>
+                     </div>
+                  </div>
+
+                  {/* User Options Dropdown */}
+                  {enableOptionsDropdown && 
+                  <div className="pc-wrapper-2">
+                     
+                     {/* popup Content */}
+                     <div className="up-card tb-pad-10">
+                        <Link to={`/users/${owner.id}`}>
+                           <div className='up-profile'>
+                              <div className="round-img-50 r-mar-10">
+                                 {!owner.avatar && <h3 className="img-text">{owner.name[0].toUpperCase()}</h3>}
+                                 { owner.avatar && <img src={`${cloudinary_image_url}/${owner.avatar}`} alt=''/>}
+                              </div>
+                              <div className='up-profile-name'>
+                                 <h3>{owner ? owner.name : ''}</h3>
+                                 <small>@{owner ? owner.username : ''}</small>
+                              </div>
+
+                           </div>
+                        </Link>
+                        <hr />
+                        <Link to={`/users/${owner.id}`}><p>Profile</p></Link>
+                        <Link to={"/create-blog"}><p>Create Blog</p></Link>
+                        <Link to={"/manage-blogs"}><p>Manage Blogs</p></Link>
+                        <hr />
+                        <p className='pointer' onClick={handleLogout}>Logout</p>
+                        
+                     </div>
+
+                  </div>}
+
+
+               </div>}
+            </div>
+         </header>
+         {enableNotificationDropdown && <div className="pc-bg-out" onClick={() => setEnableNotificationDropdown(false)}></div>}
+         {enableOptionsDropdown && <div className="pc-bg-out" onClick={() => setEnableOptionsDropdown(false)}></div>}
+      </>
    )
 }
 
