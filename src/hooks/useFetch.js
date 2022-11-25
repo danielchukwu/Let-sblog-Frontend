@@ -13,9 +13,9 @@ export default function useFetch(url='') {
       let config = {params : {'x-access-token': getCookie('usrin')}}
       axios.get(`${process.env.REACT_APP_HOST_API}${url}`, config)
          .then(data => {
-            if (data.data.message){
-               throw Error('missing token')
-            }
+            // if (data.data.message != 'successful'){
+            //    throw Error('missing token')
+            // }
             console.log(data.data)
             setTokenIsValid(true)
             setData(data.data)
