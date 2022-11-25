@@ -14,7 +14,8 @@ import { useConstants } from '../hooks/useConstants'
 
 export const CreateBlog = () => {
    const {id} = useParams();
-   const {data} = useFetch(id ? `/blogs/${id}` : null);
+   const {data: owner} = useFetch(`/users/me`);
+   const {data: blog} = useFetch(id ? `/blogs/${id}` : null);
    const {cloudinary_image_url, host_url} = useUrl();
    const navigate = useNavigate();
    const {spinnerStyle} = useConstants();
@@ -29,13 +30,13 @@ export const CreateBlog = () => {
 
    // Add data of blog to be updated
    useEffect(() => {
-      if (data){
-         setTitle(data.blog.title)
-         setCategory(data.blog.category)
-         setImg(data.blog.img)
-         setContent(data.blog.content)
+      if (blog){
+         setTitle(blog.title)
+         setCategory(blog.category)
+         setImg(blog.img)
+         setContent(blog.content)
       }
-   }, [data])
+   }, [blog])
 
    // Animate page
    useLayoutEffect(() => {
@@ -54,7 +55,7 @@ export const CreateBlog = () => {
       console.log('Submitting...');
       
       let originalImage = null;
-      if (data) {originalImage = data.blog.img}
+      if (blog) {originalImage = blog.img}
       
       let imageId = await useCloudinary(originalImage !== img ? img : null);
       console.log(`imageId: ${imageId}`);
@@ -90,7 +91,7 @@ export const CreateBlog = () => {
          .then(data => {
             console.log(data)
             setIsLoading(false);
-            displayPopup('successful_blog_creation')
+            displayPopup('Blog Was Successfully Updated! ✅')
             
             setTimeout(() => {
                navigate(`/blogs/${data.id}`)
@@ -102,7 +103,7 @@ export const CreateBlog = () => {
       // Update an existing Blog
       function updateBlog () {
          // Ensure image is not null if user doesn't update it
-         imageId = imageId ? imageId : data.blog.img;
+         imageId = imageId ? imageId : blog.img;
          
          const keys = ['title', 'category', 'img', 'content'];
          const currentFields = {'title': title, 'category': category, 'img': imageId, 'content': content};
@@ -110,7 +111,7 @@ export const CreateBlog = () => {
          
          // Add only changed fields to body
          keys.map(key => {
-            if (data.blog[key] !== currentFields[key]){
+            if (blog[key] !== currentFields[key]){
                body[key] = currentFields[key];
             }
          });
@@ -130,14 +131,14 @@ export const CreateBlog = () => {
          .then(data => {
             console.log(data)
             setIsLoading(false);
-            displayPopup('successful_blog_creation')
+            displayPopup('Blog Was Successfully Updated! ✅');
             setTimeout(() => {
-               navigate(`/blogs/${data.id}`)
+               navigate(`/blogs/${data.id}`);
             }, 2000)
          })
       }
 
-      if (data){
+      if (blog){
          updateBlog()
       } else if (imageId) {
          createBlog();
@@ -179,7 +180,7 @@ export const CreateBlog = () => {
    return (
       <div className='create-blog'>
 
-         <HeaderSub owner={data ? data.owner : null} />
+         <HeaderSub owner={owner ? owner : null} />
 
          {/* POP UP */}
          <div className="pop-up-container"></div>
@@ -205,8 +206,8 @@ export const CreateBlog = () => {
                         </div>
 
                         <div className="t-pad-50">
-                           {data && <input type="file" onChange={(e) => setImg(e.target.files[0])}/>}
-                           { !data && <input type="file" onChange={(e) => setImg(e.target.files[0])} required/>}
+                           {blog && <input type="file" onChange={(e) => setImg(e.target.files[0])}/>}
+                           { !blog && <input type="file" onChange={(e) => setImg(e.target.files[0])} required/>}
                         </div>
                         <div className="cb-thumbnail display-image t-mar-50">
                            <img src={img ? `${cloudinary_image_url}/${img}` : ''} alt=''/>
@@ -220,7 +221,7 @@ export const CreateBlog = () => {
                            </div>
                            <textarea name="content" className="" id="textarea" value={content} onChange={(e) => setContent(e.target.value)} required></textarea>
                            <div className="flex-right">
-                              {!isLoading && <button className="btn-square t-mar-10" onClick={(e) => {setIsLoading(true); HandleSubmit(e)}}>{data ? 'Save' : 'Create'}</button>}
+                              {!isLoading && <button className="btn-square t-mar-10" onClick={(e) => {setIsLoading(true); HandleSubmit(e)}}>{blog ? 'Save' : 'Create'}</button>}
                               {isLoading && 
                               <button className="btn-square-loading t-mar-10" disabled>
                                     <ClipLoader color={"var(--theme-white)"} size={13} cssOverride={spinnerStyle}/>
