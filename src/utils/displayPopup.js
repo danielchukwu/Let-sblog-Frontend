@@ -16,8 +16,6 @@ const displayPopup = (invalid_input=null) => {
       msg = 'User Profile Successfully Updated! ✅';
    } else if (invalid_input === 'successful_registration' ){
       msg = 'Account Was Successfully Created! ✅';
-   } else if (invalid_input === 'successful_blog_creation' ){
-      msg = 'Blog Was Successfully Created! ✅';
    } else if (invalid_input === 'successful_deletion' ){
       msg = 'Blog Was Successfully Deleted! ✅';
    } else if (invalid_input === 'content_over_5000' ){
