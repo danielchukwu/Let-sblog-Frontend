@@ -67,9 +67,34 @@ design update skills, job, work place ✅
 
 Thursday 24th November
 Refine Application ✅✅✅
-design notification popup  ✅ ()
-implement update skills 
-implement update job and work place
+design notification popup  ✅
+
+Friday 25th November
+- Design Notifications Table ✅
+- Create Notifications migration ✅
+- Migrate Table ✅
+- Hardcode all 5 types of Notifications on a specific user
+- Implement Backend for Notifications fetching
+- Implement frontend look
+- 
+- implement update skills 
+- implement update job and work place
 
 
+// junior_id   senior_id
+// following     user
+// liked         blog
+// liked       comment
+// comment       blog
+// comment     comment
+TABLE notifications {
+  id serial [pk, increment]
+  leader_id int [ref: > users.id]
+  junior_id int
+  senior_id int
+  seen boolean
+  type varchar (20)
+  
+  created_at timestamp
+}
 
