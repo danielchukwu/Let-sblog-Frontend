@@ -18,9 +18,8 @@ export const CommentContext = createContext();
 const Blogs = () => {
    const {id} = useParams();
    const {host_url} = useUrl();
-   const {data} = useFetch(`/blogs/${id}`);
-   const [blog, setBlog] = useState(null);
-   const [owner, setOwner] = useState(null);
+   const {data : blog, setData: setBlog} = useFetch(`/blogs/${id}`);
+   const {data : owner, setData: setOwner} = useFetch(`/users/me`);
    const {data: comments, setData: setComments} = useFetch(`/blogs/${id}/comments`);
    const {cloudinary_image_url} = useUrl();
    const {spinnerStyle} = useConstants();
@@ -31,14 +30,6 @@ const Blogs = () => {
 
    // Input
    const [content, setContent] = useState();
-
-   // Set Blog and Owner State
-   useEffect(() => {
-      if (data) {
-         setBlog(data.blog);
-         setOwner(data.owner);
-      }
-   }, [data])
 
 
    // Handle Submission
@@ -165,7 +156,7 @@ const Blogs = () => {
                      </div>
                   </div>
                   
-                  <div className="body-section t-pad-50 lr-pad-50">
+                  <div className="body-section t-pad-50 lr-pad-30">
       
                      <div className="main-text lh-30">
                         <p className='white-space'>{blog.content}</p>
@@ -209,8 +200,11 @@ const Blogs = () => {
                            </div>
                            <form onSubmit={(e) => HandleSubmit(e, blog.id)}>
                            <div className="cb-grid traditional-input-2">
-                              <div className="round-img-45">
-                                 <img src={`${cloudinary_image_url}/${owner.avatar}`} alt="" />
+                              <div className='flex-a-center'>
+                                 <div className={"round-img-40"}>
+                                    {owner && !owner.avatar && <p className="img-text">{owner.name[0].toUpperCase()}</p>}
+                                    {owner && owner.avatar  && <img src={`${cloudinary_image_url}/${owner.avatar}`} alt="" />}
+                                 </div>
                               </div>
                               <div class="rc t-pad-5 traditional-input-2">
                                  <input type="text" name="comment" value={content} id="comment" onChange={(e) => setContent(e.target.value)} onFocus={() => setShowCommentBtn(true)}/>
@@ -243,7 +237,7 @@ const Blogs = () => {
 
 
 
-            {data && <FooterMain />}
+            {blog && <FooterMain />}
          </div>
       </CommentContext.Provider>
    )
