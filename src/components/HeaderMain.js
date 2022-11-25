@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import down from '../assets/images/icons/down.svg'
 import removeCookie from '../utils/removeCookie'
 import { useUrl } from '../hooks/useUrl';
+import { UserOptionsDropdown } from './UserOptionsDropdown';
+import { NotificatiosDropdown } from './NotificatiosDropdown';
 
 // This Header is for users that are either logged in or not
 const HeaderMain = ({owner, showRight=true}) => {
@@ -104,122 +106,17 @@ const HeaderMain = ({owner, showRight=true}) => {
 
                   {/* Notification Dropdown */}
                   {enableNotificationDropdown && 
-                  <div className="pc-wrapper-2">
-                     
-                     {/* popup Content */}
-                     <div className="noti-card">
-                        <div className='noti-title'>
-                           <h3>Notifications</h3>
-                        </div>
-                        <div className='noti-body'>
-                           <div className='noti-item'>
-                              <div className='ns-title'>
-                                 <h3>Today</h3>
-                              </div>
-                              {/* Follow item */}
-                              <div className='ns-item'>
-                                 <div className='ns-img'>
-                                    <div className={"round-img-35"}>
-                                       {!owner.avatar && <p className="img-text">{owner.username[0].toUpperCase()}</p>}
-                                       {owner.avatar  && <img src={`${cloudinary_image_url}/${owner.avatar}`} alt="" />}
-                                    </div>
-                                 </div>
-                                 <div className='ns-text'>
-                                    <p><b className='bold'>{owner.username}</b> started following you.</p>
-                                 </div>
-                                 <div className='fb-follow'>
-                                    {/* <span className='btn-f-s'>Follow</span> */}
-                                    <span className='btn-f-s-clicked'>Following</span>
-                                 </div>
-                              </div>
-                              {/* Liked blog item */}
-                              <div className='ns-item'>
-                                 <div className='ns-img'>
-                                    <div className={"round-img-35"}>
-                                       {!owner.avatar && <p className="img-text">{owner.username[0].toUpperCase()}</p>}
-                                       {owner.avatar  && <img src={`${cloudinary_image_url}/${owner.avatar}`} alt="" />}
-                                    </div>
-                                 </div>
-                                 <div className='ns-text'>
-                                    <p><b className='bold'>{owner.username}</b> liked your post.</p>
-                                 </div>
-                                 <div className='ns-blog'>
-                                    {owner.avatar  && <img src={`${cloudinary_image_url}/${owner.avatar}`} alt="" />}
-                                 </div>
-                              </div>
-                              {/* Liked comment item */}
-                              <div className='ns-item'>
-                                 <div className='ns-img'>
-                                    <div className={"round-img-35"}>
-                                       {!owner.avatar && <p className="img-text">{owner.username[0].toUpperCase()}</p>}
-                                       {owner.avatar  && <img src={`${cloudinary_image_url}/${owner.avatar}`} alt="" />}
-                                    </div>
-                                 </div>
-                                 <div className='ns-text'>
-                                    <p><b className='bold'>{owner.username}</b> liked your comment on a post.</p>
-                                 </div>
-                              </div>
-                              {/* Commented on your blog item */}
-                              <div className='ns-item'>
-                                 <div className='ns-img'>
-                                    <div className={"round-img-35"}>
-                                       {!owner.avatar && <p className="img-text">{owner.username[0].toUpperCase()}</p>}
-                                       {owner.avatar  && <img src={`${cloudinary_image_url}/${owner.avatar}`} alt="" />}
-                                    </div>
-                                 </div>
-                                 <div className='ns-text'>
-                                    <p><b className='bold'>{owner.username}</b> commented on your blog.</p>
-                                 </div>
-                                 <div className='ns-blog'>
-                                    {owner.avatar  && <img src={`${cloudinary_image_url}/${owner.avatar}`} alt="" />}
-                                 </div>
-                              </div>
-                              {/* Commented on your blog item */}
-                              <div className='ns-item'>
-                                 <div className='ns-img'>
-                                    <div className={"round-img-35"}>
-                                       {!owner.avatar && <p className="img-text">{owner.username[0].toUpperCase()}</p>}
-                                       {owner.avatar  && <img src={`${cloudinary_image_url}/${owner.avatar}`} alt="" />}
-                                    </div>
-                                 </div>
-                                 <div className='ns-text'>
-                                    <p><b className='bold'>{owner.username}</b> commented on your blog.</p>
-                                 </div>
-                                 <div className='ns-blog'>
-                                    {owner.avatar  && <img src={`${cloudinary_image_url}/${owner.avatar}`} alt="" />}
-                                 </div>
-                              </div>
-                              {/* Responded to your comment item */}
-                              <div className='ns-item'>
-                                 <div className='ns-img'>
-                                    <div className={"round-img-35"}>
-                                       {!owner.avatar && <p className="img-text">{owner.username[0].toUpperCase()}</p>}
-                                       {owner.avatar  && <img src={`${cloudinary_image_url}/${owner.avatar}`} alt="" />}
-                                    </div>
-                                 </div>
-                                 <div className='ns-text'>
-                                    <p><b className='bold'>{owner.username}</b> responded to your comment.</p>
-                                 </div>
-                                 <div className='ns-blog'>
-                                    {owner.avatar  && <img src={`${cloudinary_image_url}/${owner.avatar}`} alt="" />}
-                                 </div>
-                              </div>
-                              
-                           </div>
-                           <hr />
-
-                        </div>
-                        
-                     </div>
-
-                  </div>}
+                     <NotificatiosDropdown owner={owner}/>
+                  }
 
                   
                   {/* User Option */}
                   <div className='right-item l-mar-40' onClick={() => setEnableOptionsDropdown(true)}>
-                     <div className="round-img-35 r-mar-10">
-                        {!owner.avatar && <h3 className="img-text">{owner.name[0].toUpperCase()}</h3>}
-                        { owner.avatar && <img src={`${cloudinary_image_url}/${owner.avatar}`} alt=''/>}
+                     <div className='rn-svg-center'>
+                        <div className="round-img-35 r-mar-10">
+                           {!owner.avatar && <h3 className="img-text">{owner.name[0].toUpperCase()}</h3>}
+                           { owner.avatar && <img src={`${cloudinary_image_url}/${owner.avatar}`} alt=''/>}
+                        </div>
                      </div>
                      <div className='right-item-bottom'>
                         <p className='fs-14'>Me</p>
@@ -231,33 +128,8 @@ const HeaderMain = ({owner, showRight=true}) => {
 
                   {/* User Options Dropdown */}
                   {enableOptionsDropdown && 
-                  <div className="pc-wrapper-2">
-                     
-                     {/* popup Content */}
-                     <div className="up-card tb-pad-10">
-                        <Link to={`/users/${owner.id}`}>
-                           <div className='up-profile'>
-                              <div className="round-img-50 r-mar-10">
-                                 {!owner.avatar && <h3 className="img-text">{owner.name[0].toUpperCase()}</h3>}
-                                 { owner.avatar && <img src={`${cloudinary_image_url}/${owner.avatar}`} alt=''/>}
-                              </div>
-                              <div className='up-profile-name'>
-                                 <h3>{owner ? owner.name : ''}</h3>
-                                 <small>@{owner ? owner.username : ''}</small>
-                              </div>
-
-                           </div>
-                        </Link>
-                        <hr />
-                        <Link to={`/users/${owner.id}`}><p>Profile</p></Link>
-                        <Link to={"/create-blog"}><p>Create Blog</p></Link>
-                        <Link to={"/manage-blogs"}><p>Manage Blogs</p></Link>
-                        <hr />
-                        <p className='pointer' onClick={handleLogout}>Logout</p>
-                        
-                     </div>
-
-                  </div>}
+                     <UserOptionsDropdown owner={owner} handleLogout={handleLogout} />
+                  }
 
 
                </div>}
