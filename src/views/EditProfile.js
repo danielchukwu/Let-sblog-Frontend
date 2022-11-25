@@ -12,7 +12,8 @@ import { ClipLoader } from 'react-spinners';
 
 
 const EditProfile = () => {
-   const {data} = useFetch();
+   // const {data} = useFetch();
+   const {data: owner} = useFetch("/users/me");
    const navigate = useNavigate();
    const {cloudinary_image_url} = useUrl();
    const {spinnerStyle} = useConstants();
@@ -34,21 +35,21 @@ const EditProfile = () => {
 
    // Insert Default Profile Information
    useEffect(() => {
-      console.log(data)
-      if (data){
-         setName(data.owner.name)
-         setUsername(data.owner.username)
-         setEmail(data.owner.email)
-         setLocation(data.owner.location)
-         setInstagram(data.owner.instagram)
-         setWebsite(data.owner.website)
-         setLinkedin(data.owner.linkedin)
-         setFacebook(data.owner.facebook)
-         setYoutube(data.owner.youtube)
-         setTwitter(data.owner.twitter)
-         setBio(data.owner.bio)
+      console.log(owner)
+      if (owner){
+         setName(owner.name)
+         setUsername(owner.username)
+         setEmail(owner.email)
+         setLocation(owner.location)
+         setInstagram(owner.instagram)
+         setWebsite(owner.website)
+         setLinkedin(owner.linkedin)
+         setFacebook(owner.facebook)
+         setYoutube(owner.youtube)
+         setTwitter(owner.twitter)
+         setBio(owner.bio)
       }
-   }, [data])
+   }, [owner])
    
    
    // Handle Form Submission
@@ -61,7 +62,7 @@ const EditProfile = () => {
       
       // keys, original input values, current input values
       const fieldKeys = ['name', 'username', 'email', 'location', 'instagram', 'website', 'linkedin', 'facebook', 'youtube', 'twitter', 'bio'];
-      const originalFieldValues = [data.owner.name, data.owner.username, data.owner.email, data.owner.location, data.owner.instagram, data.owner.website, data.owner.linkedin, data.owner.facebook, data.owner.youtube, data.owner.twitter, data.owner.bio]
+      const originalFieldValues = [owner.name, owner.username, owner.email, owner.location, owner.instagram, owner.website, owner.linkedin, owner.facebook, owner.youtube, owner.twitter, owner.bio]
       const currentFieldValues  = [name, username, email, location, instagram, website, linkedin, facebook, youtube, twitter, bio];
 
       // Add only updated fields to body = {}
@@ -82,7 +83,7 @@ const EditProfile = () => {
       };
       
       // Put request to update user information
-      const res = await axios.put(`${process.env.REACT_APP_HOST_API}/users/${data.owner.id}`, body);
+      const res = await axios.put(`${process.env.REACT_APP_HOST_API}/users/${owner.id}`, body);
       if (res.data.invalid_fields){
          setIsLoading(false)
          displayPopup(res.data.invalid_fields[0])
@@ -90,7 +91,7 @@ const EditProfile = () => {
          setIsLoading(false)
          displayPopup("Profile was Successful! ✅")
          setTimeout(() => {
-            navigate(`/users/${data.owner.id}`)
+            navigate(`/users/${owner.id}`)
          }, 2000)
       }
    }
@@ -110,7 +111,7 @@ const EditProfile = () => {
             document.querySelector('.display-image img').src = uploaded_image
          })
          reader.readAsDataURL(this.files[0])
-      }, [data])
+      }, [owner])
 
       // CLICK: Image Input
       const change_picture_btn = document.querySelector('.cp')
@@ -140,9 +141,9 @@ const EditProfile = () => {
                         <div className="ep-contianer-1 ep rl-fields">
                            
                            <div className="ep-img-container t-pad-15">
-                              {data && 
+                              {owner && 
                               <div className="round-img-200 display-image">
-                                 <img src={`${cloudinary_image_url}/${data.owner.avatar}`} alt='user' />
+                                 <img src={`${cloudinary_image_url}/${owner.avatar}`} alt='user' />
                               </div>}
                            </div>
          
@@ -185,7 +186,7 @@ const EditProfile = () => {
                               <label htmlFor="bio">Bio</label>
                               <textarea name="bio" className="bio-textarea" value={bio} onChange={(e) => setBio(e.target.value)} ></textarea>
                               <div className="flex-right">
-                                 {!isLoading && <button className="btn-square t-mar-10" onClick={(e) => {setIsLoading(true); HandleSubmit(e)}}>{data ? 'Save' : 'Create'}</button>}
+                                 {!isLoading && <button className="btn-square t-mar-10" onClick={(e) => {setIsLoading(true); HandleSubmit(e)}}>{owner ? 'Save' : 'Create'}</button>}
                                  {isLoading && 
                                  <button className="btn-square-loading t-mar-10" disabled>
                                        <ClipLoader color={"var(--theme-white)"} size={13} cssOverride={spinnerStyle}/>
