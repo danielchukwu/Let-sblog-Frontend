@@ -13,21 +13,39 @@ import getCookie from '../utils/getCookie';
 
 export const ManageBlogs = () => {
    const [loading, setLoading] = useState(true);
-   const {data} = useFetch('/owners/blogs')
-   const [blogs, setBlogs] = useState(null)
-   const [showCenterPopUp, setShowCenterPopUp] = useState(false)
-   const deleteBlogIdRef = useRef()
+   // const {data} = useFetch('/owners/blogs')
+   const {data: owner, setData: setOwner} = useFetch('/users/me');
+   // const {data: blogs, setData: setBlogs} = useFetch(`/users/${owner.id}/blogs`);
+   const [blogs, setBlogs] = useState();
+   const [showCenterPopUp, setShowCenterPopUp] = useState(false);
+   const deleteBlogIdRef = useRef();
 
    const {spinnerStyle} = useConstants();
+
+   useEffect(() => {
+      if (owner){
+         let config = {params : {'x-access-token': getCookie('usrin')}}
+         axios.get(`${process.env.REACT_APP_HOST_API}/users/${owner.id}/blogs`, config)
+            .then(data => {
+               if (data.data.message){
+                  throw Error('missing token')
+               }
+               setBlogs(data.data)
+            })
+            .catch(err => {
+               console.log(`Error: ${err.message}`)
+            })
+      }
+   }, [owner])
    
 
    useEffect(() => {
-      if (data) {
-         setBlogs(data.blogs)
+      if (owner) {
+         setBlogs()
          console.log('Response: ')
          console.log(blogs)
       }
-   }, [data])
+   }, [owner])
 
    const handleDelete = async (id) => {
       fetch(`${process.env.REACT_APP_HOST_API}/blogs/${id}`, {
@@ -48,9 +66,9 @@ export const ManageBlogs = () => {
    
    return (
       <div className='manage-blogs-react'>
-         <HeaderSub owner={data ? data.owner : null} />
+         <HeaderSub owner={owner ? owner : null} />
 
-         {!data && 
+         {!blogs && 
          <div className='spinner-container t-pad-30'>
             <ClipLoader color={"var(--theme-green)"} size={30} cssOverride={spinnerStyle}/>
          </div>}
@@ -90,7 +108,7 @@ export const ManageBlogs = () => {
 
          </main>
 
-         {data && <FooterMain />}
+         {owner && <FooterMain />}
 
 
       </div>
