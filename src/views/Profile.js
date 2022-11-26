@@ -17,12 +17,18 @@ import twitter_icon from '../assets/images/icons/twitter.svg'
 import youtube_icon from '../assets/images/icons/youtube.svg'
 import { useUrl } from '../hooks/useUrl';
 import getCookie from '../utils/getCookie';
+import { FollowPopup } from '../components/FollowPopup';
+import { EditProfilePopup } from '../components/EditProfilePopup';
 
 const Profile = () => {
    const {id} = useParams();
+   const [showEditPopup, setShowEditPopup] = useState(false);
    const [showFollowPopup, setShowFollowPopup] = useState(false);
-   const {data, setData} = useFetch(`/users/${id}`);
+   const {data : user, setData : setUser} = useFetch(`/users/${id}`);
+   const {data : owner, setData : setOwner} = useFetch(`/users/me`);
+   const {data : blogs, setData : setBlogs} = useFetch(`/users/${id}/blogs`);
    const {cloudinary_image_url, host_url} = useUrl();
+   const [type, setType] = useState();     // Either followers or following
 
    useEffect(() => {
       setTimeout(() => {
@@ -30,20 +36,20 @@ const Profile = () => {
       }, 1)
    }, [])
 
-   const HandleFollow = (followe) => {
+   const HandleFollow = () => {
       // update follow state
-      const follow = !data.user.following;
-      const newData = data;
-      newData.user.following = ! newData.user.following;
-      if (newData.user.following){
-         newData.user.followers_count += 1;
+      const follow = !user.following;
+      const newData = user;
+      newData.following = ! newData.following;
+      if (newData.following){
+         newData.followers_count += 1;
       } else {
-         newData.user.followers_count -= 1;
+         newData.followers_count -= 1;
       }
-      setData({...newData});
+      setUser({...newData});
 
       // follow or unfollow
-      const body = {'follow': follow, 'leader_id': data.user.id};
+      const body = {'follow': follow, 'leader_id': user.id};
          fetch(`${host_url}/users/follow`, {
             method: 'POST',
             headers: {
@@ -69,52 +75,11 @@ const Profile = () => {
 
    return (
       <>
-         <div className="popup-center-container">
 
-            {showFollowPopup && 
-            <div className="pc-wrapper">
-
-               {/* Following Content */}
-               <div className='f-container z-index-2'>
-                  <div className='f-box'>
-                     <div className='f-title'>
-                        {/* <h3>followers</h3> */}
-                        <h3>following</h3>
-                        <span className='f-cancel' onClick={() => setShowFollowPopup(false)}>
-                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
-                              <path d="M310.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L160 210.7 54.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L114.7 256 9.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 301.3 265.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L205.3 256 310.6 150.6z"/>
-                           </svg>
-                        </span>
-                     </div>
-
-                     <div className='f-body-container'>
-                        {/* user item */}
-                        
-                        <div className='fb-item t-pad-15'>
-                           <div className="round-img-45">
-                              {data && <img src={`${cloudinary_image_url}/${data.user.avatar}`} alt="" />}
-                           </div>
-                           <div className='fb-username l-pad-10'>
-                              <h3>danielcarl4u_</h3>
-                              <p>Daniel Chukwu</p>
-                           </div>
-                           <div className='fb-follow'>
-                              {/* <span className='btn-f'>follow</span> */}
-                              <span className='btn-f-clicked'>following</span>
-                           </div>
-                        </div>
-                     </div>
-
-                  </div>
-               </div>
-               
-               {/* Dark Background */}
-               <div className="pc-bg z-index-1"onClick={() => setShowFollowPopup(false)}></div>
-            </div>}
-
-         </div>
+         {showEditPopup && <EditProfilePopup setShowEditPopup={setShowEditPopup} owner={owner} />}
+         {showFollowPopup && type && <FollowPopup id={user.id} type={type} setShowFollowPopup={setShowFollowPopup} owner={owner}/>}   {/* type: following or followers */}
          
-         <HeaderMain owner={data ? data.owner : null} showRight={data ? true : false} />
+         <HeaderMain owner={owner ? owner : null} showRight={owner ? true : false} />
 
          
 
@@ -129,8 +94,8 @@ const Profile = () => {
                         <div className="pm-top">
                            <div className="slide-img">
 
-                              {data && <img src={cover} alt="cover" />}
-                              {data && <img src={data.user.cover} alt="cover" />}
+                              {user && <img src={cover} alt="cover" />}
+                              {user && <img src={user.cover} alt="cover" />}
 
                            </div>
                         </div>
@@ -138,28 +103,28 @@ const Profile = () => {
                            {/* PROFILE PICTURE */}
                            <div className="profile-img-container">
                               <div className="round-img-l">
-                                 {data && data.user.avatar && <img src={`${cloudinary_image_url}/${data.user.avatar}`} alt="user dp" />}
+                                 {user && user.avatar && <img src={`${cloudinary_image_url}/${user.avatar}`} alt="user dp" />}
                               </div>
                            </div>
                      
                            {/* NAME, OCCUPATION, FOLLOW */}
-                           {data &&
+                           {user &&
                            <div className="pm-intro-container l-pad-20">
-                              <h1>{data.user.name}</h1>
-                              <p className="t-pad-5">{data.user.occupation} at {data.user.company}</p>
+                              <h1>{user.name}</h1>
+                              <p className="t-pad-5">{user.occupation} at {user.company}</p>
                               
                               {/* <!-- Follow & Edit --> */}
                               <div className="pm-bottom-l2">
                                  <div className="flex-a-center t-pad-5">
-                                    <span className='pointer' onClick={() => setShowFollowPopup(true)}>{data.user.followers_count} followers</span>
+                                    <span className='pointer' onClick={() => {setShowFollowPopup(true); setType('followers');}}>{user.followers_count} followers</span>
                                     <span className="dot"></span>
-                                    <span className='pointer' onClick={() => setShowFollowPopup(true)}>{data.user.following_count} following</span>
+                                    <span className='pointer' onClick={() => {setShowFollowPopup(true); setType('following');}}>{user.following_count} following</span>
                                  </div>
 
 
-                                 {data && data.owner.id !== data.user.id && !data.user.following && <span className="btn-f" onClick={() => HandleFollow(true)}>follow</span>}
-                                 {data && data.owner.id !== data.user.id &&  data.user.following && <span className="btn-f-clicked" onClick={() => HandleFollow(false)}>following</span>}
-                                 {data && data.owner.id == id && <Link to={`/edit-profile`}><p className="btn-edit-profile">Edit Profile</p></Link>}
+                                 {owner && user && owner.id !== user.id && !user.following && <span className="btn-f" onClick={() => HandleFollow()}>follow</span>}
+                                 {owner && user && owner.id !== user.id &&  user.following && <span className="btn-f-clicked" onClick={() => HandleFollow()}>following</span>}
+                                 {owner && user && owner.id == id && <Link to={`/edit-profile`}><p className="btn-edit-profile">Edit Profile</p></Link>}
                               </div>
                            </div>}
 
@@ -177,10 +142,10 @@ const Profile = () => {
                               </div>
                            </div>
                            <div className="user-card-body t-pad-10">
-                              {data && <p>{data.user.bio}</p>}
+                              {user && <p>{user.bio}</p>}
                            </div>
                            <div className="user-card-footer t-pad-25">
-                              {data && <em>{data.user.username} said.</em>}
+                              {user && <em>{user.username} said.</em>}
                            </div>
                         </div>
 
@@ -190,7 +155,7 @@ const Profile = () => {
                      <div className="pm-blogs t-mar-25">
                         <div className="grid-wrapper-2-col">
                            
-                           {data && <BlogCard blogs={data.blogs} />}
+                           {blogs && <BlogCard blogs={blogs} />}
 
                         </div>
                      </div>
@@ -201,9 +166,16 @@ const Profile = () => {
                   <div className="pm-right-wrapper">
                      
                      <div className="info-card b-mar-25">
-                        <h3>Skills</h3>
+                        <div className='ic-title'>
+                           <h3>Skills</h3>
+                           <div className='add-skills' onClick={() => setShowEditPopup(true)}>
+                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                                 <path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"/>
+                              </svg>
+                           </div>
+                        </div>
                         <div className="info-items t-pad-10">
-                           {data && data.user.skills.map(skill => <span key={skill.id}>{skill} | </span>)}
+                           {user && user.skills.map(skill => <span key={skill.id}>{skill} | </span>)}
                         </div>
                      </div>
                      
@@ -212,8 +184,8 @@ const Profile = () => {
                         <div className="info-items t-pad-10">
                            <ul>
                               {/* Website */}
-                              {data && data.user.website &&
-                              <Link to={data.user.website}>
+                              {user && user.website &&
+                              <Link to={user.website}>
                                  <li className="info-item  t-pad-15">
                                     <div className="svg-s">
                                        <img src={website_icon} alt="" />
@@ -222,8 +194,8 @@ const Profile = () => {
                                  </li>
                               </Link>}
                               {/* Facebook */}
-                              {data && data.user.facebook &&
-                              <Link to={data.user.facebook}>
+                              {user && user.facebook &&
+                              <Link to={user.facebook}>
                                  <li className="info-item t-pad-15">
                                     <div className="svg-s">
                                        <img src={facebook_icon} alt="" />
@@ -232,8 +204,8 @@ const Profile = () => {
                                  </li>
                               </Link>}
                               {/* Twitter */}
-                              {data && data.user.twitter &&
-                              <Link to={data.user.twitter}>
+                              {user && user.twitter &&
+                              <Link to={user.twitter}>
                                  <li className="info-item  t-pad-15">
                                     <div className="svg-s">
                                        <img src={twitter_icon} alt="" />
@@ -242,8 +214,8 @@ const Profile = () => {
                                  </li>
                               </Link>}
                               {/* Instagram */}
-                              {data && data.user.instagram &&
-                              <Link to={data.user.instagram}>
+                              {user && user.instagram &&
+                              <Link to={user.instagram}>
                                  <li className="info-item  t-pad-15">
                                     <div className="svg-s">
                                        <img src={instagram_icon} alt="" />
@@ -251,8 +223,8 @@ const Profile = () => {
                                     <span className="l-pad-10 b-mar-3">Instagram</span>
                                  </li>
                               </Link>}
-                              {data && data.user.linkedin &&
-                              <Link to={data.user.linkedin}>
+                              {user && user.linkedin &&
+                              <Link to={user.linkedin}>
                                  <li className="info-item  t-pad-15">
                                     <div className="svg-s">
                                        <img src={linkedin_icon} alt="" />
@@ -260,8 +232,8 @@ const Profile = () => {
                                     <span className="l-pad-10 b-mar-3">linkedin</span>
                                  </li>
                               </Link>}
-                              {data && data.user.youtube &&
-                              <Link to={data.user.youtube}>
+                              {user && user.youtube &&
+                              <Link to={user.youtube}>
                                  <li className="info-item  t-pad-15">
                                     <div className="svg-s">
                                        <img src={youtube_icon} alt="" />
