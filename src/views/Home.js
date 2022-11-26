@@ -9,16 +9,17 @@ import { useConstants } from '../hooks/useConstants'
 
 
 const Home = () => {
-  const {data} = useFetch('');
+  const {data: owner} = useFetch('/users/me');
+  const {data: blogs} = useFetch('');
   const navigate = useNavigate();
   const {spinnerStyle} = useConstants();
   
   return (
     <div>
-      {getCookie('usrin') && <HeaderMain owner={data ? data.owner : data} showRight={data ? true : false }/>}
-      {!getCookie('usrin') && <HeaderMain owner={data ? data.owner : data}/>}
+      {getCookie('usrin') && <HeaderMain owner={owner ? owner : owner} showRight={owner ? true : false }/>}
+      {!getCookie('usrin') && <HeaderMain owner={owner ? owner : owner}/>}
 
-      {!data && 
+      {!blogs && 
       <div className='spinner-container t-pad-30'>
         <ClipLoader color={"var(--theme-green)"} size={30} cssOverride={spinnerStyle}/>
       </div>}
@@ -28,13 +29,13 @@ const Home = () => {
         <div className="content-wrapper max-w-1000">
           <div className="grid-wrapper">
 
-            {data && <BlogList blogs={data.blogs} />}
+            {blogs && <BlogList blogs={blogs} />}
 
           </div>
         </div>
       </main>
 
-      {data && <FooterMain />}
+      {owner && <FooterMain />}
 
     </div>
 
