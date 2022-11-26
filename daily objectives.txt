@@ -73,9 +73,9 @@ Friday 25th November
 - Design Notifications Table ✅
 - Create Notifications migration ✅
 - Migrate Table ✅
-- Hardcode all 5 types of Notifications on a specific user
-- Implement Backend for Notifications fetching
-- Implement frontend look
+- Hardcode all 5 types of Notifications on a specific user ✅✅✅
+- Implement Backend for Notifications fetching ✅✅✅
+- Implement frontend look✅✅✅
 - 
 - implement update skills 
 - implement update job and work place
