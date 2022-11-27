@@ -38,7 +38,7 @@ const Blogs = () => {
       if (content.length === 0){
          return;
       }
-      const body = {'content': content, 'blog_id': blog_id}
+      const body = {'content': content, 'blog_id': blog_id, 'user_id': blog.user_id}
       // setShowSubmitCommentBtn(false);
       setCommentIsLoading(true);
       setContent('') // Empty Comment Input Field
