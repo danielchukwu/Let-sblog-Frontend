@@ -3,26 +3,39 @@ import { useUrl } from '../hooks/useUrl'
 import useFetch from '../hooks/useFetch'
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { NotificationList } from './NotificationList';
 
 
 export const NotificatiosDropdown = ({ owner }) => {
-   const {cloudinary_image_url} = useUrl();
    const {data} = useFetch('/users/notifications');
+
+   // Notification group states
    const [today, setToday] = useState();
+   const [yesterday, setYesterday] = useState();
+   const [thisWeek, setThisWeek] = useState();
+   const [thisMonth, setThisMonth] = useState();
+   const [thisYear, setThisYear] = useState();
+   const [old, setOld] = useState();
 
    useEffect(() => {
       if (data){
          setToday(data.unseen.today.concat(data.seen.today));
-         console.log("Test Case: ")
-         console.log(...data.seen.today);
+         setYesterday(data.unseen.yesterday.concat(data.seen.yesterday));
+         setThisWeek(data.unseen.this_week.concat(data.seen.this_week));
+         setThisMonth(data.unseen.this_month.concat(data.seen.this_month));
+         setThisYear(data.unseen.this_year.concat(data.seen.this_year));
+         setOld(data.unseen.old.concat(data.seen.old));
+         // console.log("Test Case: ")
+         // console.log(...data.seen.today);
       }
    }, [data]);
 
    useEffect(() => {
-      if (today){
-         console.log(today);
+      console.log('Yesterday...')
+      if (yesterday){
+         console.log(yesterday);
       }
-   }, [today])
+   }, [yesterday])
 
 
    return (
@@ -35,189 +48,59 @@ export const NotificatiosDropdown = ({ owner }) => {
             <div className='noti-body'>
                <div className='noti-item'>
                   {/* Today */}
-                  {today && 
+                  {today && today.length > 0 && 
                   <div className='ns-title'>
                      <h3>Today</h3>
                   </div>}
-                  
-                  {/* Follow item */}
-                  { today &&
-                  today.map(notification => {
-                     switch (notification[0].type) {
-                        case ('follow'):
-                           return (
-                              <div className='ns-item'>
-                                 <div className='ns-img'>
-                                    <div className={"round-img-35"}>
-                                       {!notification[0].avatar && <p className="img-text">{notification[0].username[0].toUpperCase()}</p>}
-                                       {notification[0].avatar  && <img src={`${cloudinary_image_url}/${notification[0].avatar}`} alt="" />}
-                                    </div>
-                                 </div>
-                                 <div className='ns-text'>
-                                    <Link to={`/users/${notification[0].junior_id}`}>
-                                          <p><b className='bold'>{notification[0].username}</b>
-                                          {notification.length > 2 && 
-                                          <> 
-                                             <b className='bold'>{`, ${notification[1].username}`}</b>
-                                             {` and ${notification.length - 2} other${notification.length-2 > 1 ? 's' : '' } started following you.`}
-                                          </>
-                                          }
-                                          {notification.length === 2 && 
-                                          <> and <b className='bold'>{`${notification[1].username}`}</b> started following you. </>
-                                          }
-                                          {notification.length === 1 && 
-                                          <> started following you.</>
-                                          }
-                                          </p>
-                                    </Link>
-                                 </div>
-                                 <div className='fb-follow'>
-                                    {/* <span className='btn-f-s'>Follow</span> */}
-                                    {/* <span className='btn-f-s-clicked'>Following</span> */}
-                                 </div>
-                              </div>
-                           )
-                           
-                        case ('liked_blog'):
-                           return (
-                              <div className='ns-item'>
-                                 <div className='ns-img'>
-                                    <div className={"round-img-35"}>
-                                       {!notification[0].avatar && <p className="img-text">{notification[0].username[0].toUpperCase()}</p>}
-                                       {notification[0].avatar  && <img src={`${cloudinary_image_url}/${notification[0].avatar}`} alt="" />}
-                                    </div>
-                                 </div>
-                                 <div className='ns-text'>
-                                    <Link to={`/users/${notification[0].junior_id}`}>
-                                       <p><b className='bold'>{notification[0].username}</b>
-                                       {notification.length > 2 && 
-                                       <> 
-                                          <b className='bold'>{`, ${notification[1].username}`}</b>
-                                          {` and ${notification.length - 2} other${notification.length-2 > 1 ? 's' : '' } liked your blog.`}
-                                       </>
-                                       }
-                                       {notification.length === 2 && 
-                                       <> and <b className='bold'>{`${notification[1].username}`}</b> liked your blog. </>
-                                       }
-                                       {notification.length === 1 && 
-                                       <> liked your blog.</>
-                                       }
-                                       </p>
-                                    </Link>
-                                 </div>
-                                 {notification[0].blog_img  && 
-                                 <Link to={`/blogs/${notification[0].senior_id}`}>
-                                    <div className='ns-blog'>
-                                       <img src={`${cloudinary_image_url}/${notification[0].blog_img}`} alt="" />
-                                    </div>
-                                 </Link>}
-                              </div>
-                           )
-                           
-                        case ('liked_comment'):
-                           return (
-                              <div className='ns-item'>
-                                 <div className='ns-img'>
-                                    <div className={"round-img-35"}>
-                                       {!notification[0].avatar && <p className="img-text">{notification[0].username[0].toUpperCase()}</p>}
-                                       {notification[0].avatar  && <img src={`${cloudinary_image_url}/${notification[0].avatar}`} alt="" />}
-                                    </div>
-                                 </div>
-                                 <div className='ns-text'>
-                                    <Link to={`/users/${notification[0].junior_id}`}>
-                                       <p><b className='bold'>{notification[0].username}</b>
-                                       {notification.length > 2 && 
-                                       <> 
-                                          <b className='bold'>{`, ${notification[1].username}`}</b>
-                                          {` and ${notification.length - 2} other${notification.length-2 > 1 ? 's' : '' } liked your comment.`}
-                                       </>
-                                       }
-                                       {notification.length === 2 && 
-                                       <> and <b className='bold'>{`${notification[1].username}`}</b> liked your comment.</>
-                                       }
-                                       {notification.length === 1 && 
-                                       <> liked your comment.</>
-                                       }
-                                       </p>
-                                    </Link>
-                                 </div>
-                              </div>
-                           )
-                           
-                        case ('commented_blog'):
-                           return (
-                              <div className='ns-item'>
-                                 <div className='ns-img'>
-                                    <div className={"round-img-35"}>
-                                       {!owner[0].avatar && <p className="img-text">{owner[0].username[0].toUpperCase()}</p>}
-                                       {owner[0].avatar  && <img src={`${cloudinary_image_url}/${owner[0].avatar}`} alt="" />}
-                                    </div>
-                                 </div>
-                                 <div className='ns-text'>
-                                    <Link to={`/users/${notification[0].junior_id}`}>
-                                       <p><b className='bold'>{notification[0].username}</b>
-                                       {notification.length > 2 && 
-                                       <> 
-                                          <b className='bold'>{`, ${notification[1].username}`}</b>
-                                          {` and ${notification.length - 2} other${notification.length-2 > 1 ? 's' : '' } commented on your blog.`}
-                                       </>
-                                       }
-                                       {notification.length === 2 && 
-                                       <> and <b className='bold'>{`${notification[1].username}`}</b> commented on your blog. </>
-                                       }
-                                       {notification.length === 1 && 
-                                       <> commented on your blog.</>
-                                       }
-                                       </p>
-                                    </Link>
-                                 </div>
-                                 {notification[0].blog_img  && 
-                                 <Link to={`/blogs/${notification[0].senior_id}`}>
-                                    <div className='ns-blog'>
-                                       <img src={`${cloudinary_image_url}/${notification[0].blog_img}`} alt="" />
-                                    </div>
-                                 </Link>}
-                              </div>
-                           )
-                           
-                        case ('commented_comment'):
-                           return (
-                              <div className='ns-item'>
-                                 <div className='ns-img'>
-                                    <div className={"round-img-35"}>
-                                       {!owner[0].avatar && <p className="img-text">{owner[0].username[0].toUpperCase()}</p>}
-                                       {owner[0].avatar  && <img src={`${cloudinary_image_url}/${owner[0].avatar}`} alt="" />}
-                                    </div>
-                                 </div>
-                                 <div className='ns-text'>
-                                    <Link to={`/users/${notification[0].junior_id}`}>
-                                       <p><b className='bold'>{notification[0].username}</b>
-                                       {notification.length > 2 && 
-                                       <> 
-                                          <b className='bold'>{`, ${notification[1].username}`}</b>
-                                          {` and ${notification.length - 2} other${notification.length-2 > 1 ? 's' : '' } commented on your comment.`}
-                                       </>
-                                       }
-                                       {notification.length === 2 && 
-                                       <> and <b className='bold'>{`${notification[1].username}`}</b> commented on your comment. </>
-                                       }
-                                       {notification.length === 1 && 
-                                       <> commented on your comment.</>
-                                       }
-                                       </p>
-                                    </Link>
-                                 </div>
-                              </div>
-                           )
-                        
-                        default:
-                           return(<div></div>)
-                     }
-                  })
-                  }
+                  {/* Today's Notificationa */}
+                  { today && <NotificationList notifications={today} owner={owner} />}
+
+                  {/* Yesterday */}
+                  {yesterday && yesterday.length > 0 && <div className='tb-pad-10'><hr/></div>} 
+                  {yesterday && yesterday.length > 0 && 
+                  <div className='ns-title'>
+                     <h3>Yesterday</h3>
+                  </div>}
+                  {/* Yesterday's Notifications */}
+                  { yesterday && <NotificationList notifications={yesterday} owner={owner} />}
+
+
+                  {/* thisWeek */}
+                  {thisWeek && thisWeek.length > 0 && 
+                  <div className='ns-title'>
+                     <h3>thisWeek</h3>
+                  </div>}
+                  {/* thisWeek's Notifications */}
+                  { thisWeek && <NotificationList notifications={thisWeek} owner={owner} />}
+
+
+                  {/* thisMonth */}
+                  {thisMonth && thisMonth.length > 0 && 
+                  <div className='ns-title'>
+                     <h3>thisMonth</h3>
+                  </div>}
+                  {/* thisMonth's Notifications */}
+                  { thisMonth && <NotificationList notifications={thisMonth} owner={owner} />}
+
+
+                  {/* thisYear */}
+                  {thisYear && thisYear.length > 0 && 
+                  <div className='ns-title'>
+                     <h3>thisYear</h3>
+                  </div>}
+                  {/* thisYear's Notifications */}
+                  { thisYear && <NotificationList notifications={thisYear} owner={owner} />}
+
+
+                  {/* thisYear */}
+                  {thisYear && thisYear.length > 0 && 
+                  <div className='ns-title'>
+                     <h3>thisYear</h3>
+                  </div>}
+                  {/* thisYear's Notifications */}
+                  { thisYear && <NotificationList notifications={thisYear} owner={owner} />}
                   
                </div>
-               <hr />
 
             </div>
             
