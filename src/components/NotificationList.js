@@ -17,24 +17,27 @@ export const NotificationList = ({notifications, notification}) => {
                         {notification[0].avatar  && <img src={`${cloudinary_image_url}/${notification[0].avatar}`} alt="" />}
                      </div>
                   </div>
-                  <div className='ns-text'>
-                     {/* <Link to={`/users/${notification[0].junior_id}`}> */}
-                           <p>
-                           <Link  to={`/users/${notification[0].junior_id}`}><b className='bold'>{notification[0].username}</b></Link>
-                           {notification.length > 2 && 
-                           <> 
-                              <Link  to={`/users/${notification[1].junior_id}`}><b className='bold'>{`, ${notification[1].username}`}</b></Link>
-                              {` and ${notification.length - 2} other${notification.length-2 > 1 ? 's' : '' } started following you.`}
-                           </>
-                           }
-                           {notification.length === 2 && 
-                           <> and <Link  to={`/users/${notification[1].junior_id}`}><b className='bold'>{`${notification[1].username}`}</b></Link> started following you. </>
-                           }
-                           {notification.length === 1 && 
-                           <> started following you.</>
-                           }
-                           </p>
-                     {/* </Link> */}
+                  <div className="flex-sb">
+                     <div className='ns-text'>
+                        {/* <Link to={`/users/${notification[0].junior_id}`}> */}
+                              <p>
+                              <Link  to={`/users/${notification[0].junior_id}`}><b className='bold'>{notification[0].username}</b></Link>
+                              {notification.length > 2 && 
+                              <> 
+                                 <Link  to={`/users/${notification[1].junior_id}`}><b className='bold'>{`, ${notification[1].username}`}</b></Link>
+                                 {` and ${notification.length - 2} other${notification.length-2 > 1 ? 's' : '' } started following you.`}
+                              </>
+                              }
+                              {notification.length === 2 && 
+                              <> and <Link to={`/users/${notification[1].junior_id}`}><b className='bold'>{`${notification[1].username}`}</b></Link> started following you. </>
+                              }
+                              {notification.length === 1 && 
+                              <> started following you.</>
+                              }
+                              </p>
+                        {/* </Link> */}
+                     </div>
+
                   </div>
                   <div className='fb-follow'>
                      {/* <span className='btn-f-s'>Follow</span> */}
@@ -52,30 +55,33 @@ export const NotificationList = ({notifications, notification}) => {
                         {notification[0].avatar  && <img src={`${cloudinary_image_url}/${notification[0].avatar}`} alt="" />}
                      </div>
                   </div>
-                  <div className='ns-text'>
-                     <Link to={`/users/${notification[0].junior_id}`}>
-                        <p><Link  to={`/users/${notification[0].junior_id}`}><b className='bold'>{notification[0].username}</b></Link>
-                        {notification.length > 2 && 
-                        <> 
-                           <Link  to={`/users/${notification[1].junior_id}`}><b className='bold'>{`, ${notification[1].username}`}</b></Link>
-                           {` and ${notification.length - 2} other${notification.length-2 > 1 ? 's' : '' } liked your blog.`}
-                        </>
-                        }
-                        {notification.length === 2 && 
-                        <> and <Link  to={`/users/${notification[1].junior_id}`}><b className='bold'>{`${notification[1].username}`}</b></Link> liked your blog. </>
-                        }
-                        {notification.length === 1 && 
-                        <> liked your blog.</>
-                        }
-                        </p>
-                     </Link>
-                  </div>
-                  {notification[0].blog_img  && 
-                  <Link to={`/blogs/${notification[0].senior_id}`}>
-                     <div className='ns-blog'>
-                        <img src={`${cloudinary_image_url}/${notification[0].blog_img}`} alt="" />
+                  <div className="flex-sb">
+                     <div className='ns-text'>
+                        <Link to={`/users/${notification[0].junior_id}`}>
+                           <p><Link  to={`/users/${notification[0].junior_id}`}><b className='bold'>{notification[0].username}</b></Link>
+                           {notification.length > 2 && 
+                           <> 
+                              <Link  to={`/users/${notification[1].junior_id}`}><b className='bold'>{`, ${notification[1].username}`}</b></Link>
+                              {` and ${notification.length - 2} other${notification.length-2 > 1 ? 's' : '' } liked your blog.`}
+                           </>
+                           }
+                           {notification.length === 2 && 
+                           <> and <Link  to={`/users/${notification[1].junior_id}`}><b className='bold'>{`${notification[1].username}`}</b></Link> liked your blog. </>
+                           }
+                           {notification.length === 1 && 
+                           <> liked your blog.</>
+                           }
+                           </p>
+                        </Link>
                      </div>
-                  </Link>}
+
+                     {notification[0].blog_img  && 
+                     <Link to={`/blogs/${notification[0].senior_id}`}>
+                        <div className='ns-blog'>
+                           <img src={`${cloudinary_image_url}/${notification[0].blog_img}`} alt="" />
+                        </div>
+                     </Link>}
+                  </div>
                </div>
             )
             
@@ -88,23 +94,26 @@ export const NotificationList = ({notifications, notification}) => {
                         {notification[0].avatar  && <img src={`${cloudinary_image_url}/${notification[0].avatar}`} alt="" />}
                      </div>
                   </div>
-                  <div className='ns-text'>
-                     <Link to={`/users/${notification[0].junior_id}`}>
-                        <p><Link  to={`/users/${notification[0].junior_id}`}><b className='bold'>{notification[0].username}</b></Link>
-                        {notification.length > 2 && 
-                        <> 
-                           <Link  to={`/users/${notification[1].junior_id}`}><b className='bold'>{`, ${notification[1].username}`}</b></Link>
-                           {` and ${notification.length - 2} other${notification.length-2 > 1 ? 's' : '' } liked your comment.`}
-                        </>
-                        }
-                        {notification.length === 2 && 
-                        <> and <Link  to={`/users/${notification[1].junior_id}`}><b className='bold'>{`${notification[1].username}`}</b></Link> liked your comment.</>
-                        }
-                        {notification.length === 1 && 
-                        <> liked your comment.</>
-                        }
-                        </p>
-                     </Link>
+                  <div className="flex-sb">
+                     <div className='ns-text'>
+                        <Link to={`/users/${notification[0].junior_id}`}>
+                           <p><Link  to={`/users/${notification[0].junior_id}`}><b className='bold'>{notification[0].username}</b></Link>
+                           {notification.length > 2 && 
+                           <> 
+                              <Link  to={`/users/${notification[1].junior_id}`}><b className='bold'>{`, ${notification[1].username}`}</b></Link>
+                              {` and ${notification.length - 2} other${notification.length-2 > 1 ? 's' : '' } liked your comment.`}
+                           </>
+                           }
+                           {notification.length === 2 && 
+                           <> and <Link  to={`/users/${notification[1].junior_id}`}><b className='bold'>{`${notification[1].username}`}</b></Link> liked your comment.</>
+                           }
+                           {notification.length === 1 && 
+                           <> liked your comment.</>
+                           }
+                           </p>
+                        </Link>
+                     </div>
+
                   </div>
                </div>
             )
@@ -118,30 +127,33 @@ export const NotificationList = ({notifications, notification}) => {
                         {notification[0].avatar  && <img src={`${cloudinary_image_url}/${notification[0].avatar}`} alt="" />}
                      </div>
                   </div>
-                  <div className='ns-text'>
-                     <Link to={`/users/${notification[0].junior_id}`}>
-                        <p><Link  to={`/users/${notification[0].junior_id}`}><b className='bold'>{notification[0].username}</b></Link>
-                        {notification.length > 2 && 
-                        <> 
-                           <Link  to={`/users/${notification[1].junior_id}`}><b className='bold'>{`, ${notification[1].username}`}</b></Link>
-                           {` and ${notification.length - 2} other${notification.length-2 > 1 ? 's' : '' } commented on your blog.`}
-                        </>
-                        }
-                        {notification.length === 2 && 
-                        <> and <Link  to={`/users/${notification[1].junior_id}`}><b className='bold'>{`${notification[1].username}`}</b></Link> commented on your blog. </>
-                        }
-                        {notification.length === 1 && 
-                        <> commented on your blog.</>
-                        }
-                        </p>
-                     </Link>
-                  </div>
-                  {notification[0].blog_img  && 
-                  <Link to={`/blogs/${notification[0].senior_id}`}>
-                     <div className='ns-blog'>
-                        <img src={`${cloudinary_image_url}/${notification[0].blog_img}`} alt="" />
+                  <div className="flex-sb">
+                     <div className='ns-text'>
+                        <Link to={`/users/${notification[0].junior_id}`}>
+                           <p><Link  to={`/users/${notification[0].junior_id}`}><b className='bold'>{notification[0].username}</b></Link>
+                           {notification.length > 2 && 
+                           <> 
+                              <Link  to={`/users/${notification[1].junior_id}`}><b className='bold'>{`, ${notification[1].username}`}</b></Link>
+                              {` and ${notification.length - 2} other${notification.length-2 > 1 ? 's' : '' } commented on your blog.`}
+                           </>
+                           }
+                           {notification.length === 2 && 
+                           <> and <Link  to={`/users/${notification[1].junior_id}`}><b className='bold'>{`${notification[1].username}`}</b></Link> commented on your blog. </>
+                           }
+                           {notification.length === 1 && 
+                           <> commented on your blog.</>
+                           }
+                           </p>
+                        </Link>
                      </div>
-                  </Link>}
+
+                     {notification[0].blog_img  && 
+                     <Link to={`/blogs/${notification[0].senior_id}`}>
+                        <div className='ns-blog'>
+                           <img src={`${cloudinary_image_url}/${notification[0].blog_img}`} alt="" />
+                        </div>
+                     </Link>}
+                  </div>
                </div>
             )
             
@@ -154,23 +166,26 @@ export const NotificationList = ({notifications, notification}) => {
                         {notification[0].avatar  && <img src={`${cloudinary_image_url}/${notification[0].avatar}`} alt="" />}
                      </div>
                   </div>
-                  <div className='ns-text'>
-                     <Link to={`/users/${notification[0].junior_id}`}>
-                        <p><Link  to={`/users/${notification[0].junior_id}`}><b className='bold'>{notification[0].username}</b></Link>
-                        {notification.length > 2 && 
-                        <> 
-                           <Link  to={`/users/${notification[1].junior_id}`}><b className='bold'>{`, ${notification[1].username}`}</b></Link>
-                           {` and ${notification.length - 2} other${notification.length-2 > 1 ? 's' : '' } commented on your comment.`}
-                        </>
-                        }
-                        {notification.length === 2 && 
-                        <> and <Link  to={`/users/${notification[1].junior_id}`}><b className='bold'>{`${notification[1].username}`}</b></Link> commented on your comment. </>
-                        }
-                        {notification.length === 1 && 
-                        <> commented on your comment.</>
-                        }
-                        </p>
-                     </Link>
+                  <div className="flex-sb">
+                     <div className='ns-text'>
+                        <Link to={`/users/${notification[0].junior_id}`}>
+                           <p><Link  to={`/users/${notification[0].junior_id}`}><b className='bold'>{notification[0].username}</b></Link>
+                           {notification.length > 2 && 
+                           <> 
+                              <Link  to={`/users/${notification[1].junior_id}`}><b className='bold'>{`, ${notification[1].username}`}</b></Link>
+                              {` and ${notification.length - 2} other${notification.length-2 > 1 ? 's' : '' } commented on your comment.`}
+                           </>
+                           }
+                           {notification.length === 2 && 
+                           <> and <Link  to={`/users/${notification[1].junior_id}`}><b className='bold'>{`${notification[1].username}`}</b></Link> commented on your comment. </>
+                           }
+                           {notification.length === 1 && 
+                           <> commented on your comment.</>
+                           }
+                           </p>
+                        </Link>
+                     </div>
+
                   </div>
                </div>
             )
