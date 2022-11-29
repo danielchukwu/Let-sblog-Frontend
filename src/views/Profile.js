@@ -79,9 +79,8 @@ const Profile = () => {
          {showEditPopup && <EditProfilePopup setShowEditPopup={setShowEditPopup} owner={owner} />}
          {showFollowPopup && type && <FollowPopup id={user.id} type={type} setShowFollowPopup={setShowFollowPopup} owner={owner}/>}   {/* type: following or followers */}
          
-         <HeaderMain owner={owner ? owner : null} showRight={owner ? true : false} />
+         <HeaderMain owner={owner ? owner : null} showRight={owner ? true : false} setOwner={setOwner}/>
 
-         
 
          <main className="profile-react t-pad-200" style={{opacity: 1}}>
             <div className="content-wrapper max-w-1000">
