@@ -8,12 +8,12 @@ import { UserOptionsDropdown } from './UserOptionsDropdown';
 import { NotificatiosDropdown } from './NotificatiosDropdown';
 
 // This Header is for users that are either logged in or not
-const HeaderMain = ({owner, showRight=true}) => {
-   // const [enabledOptions, setEnabledOptions] = useState(false);
+const HeaderMain = ({owner, showRight=true, setOwner}) => {
    const navigate = useNavigate();
    const {cloudinary_image_url} = useUrl();
    const [enableOptionsDropdown, setEnableOptionsDropdown] = useState(false);
    const [enableNotificationDropdown, setEnableNotificationDropdown] = useState(false);
+   console.log(owner)
 
    // login_sign_up_btn, user_profile_btn,
    useEffect(() => {
@@ -25,6 +25,7 @@ const HeaderMain = ({owner, showRight=true}) => {
             gsap.to('.logo-text h1', {fontSize: '2.2rem', duration: 0.25, color: "#fff"})
             gsap.to('.btn', {borderRadius: 0, color: '#fff', duration: 0.3})
             gsap.to('.right-item svg, .right-item p', {color: '#fff', fill: '#f0f1f3', duration: 0.3})
+            gsap.to('.ndw', {background: '#00ABB3', duration: 0.3})
          }
          else if (window.pageYOffset < 19){
             gsap.to('.header', {background: '#f0f1f3', duration: 0.3, opacity: 1, border: 'none'})
@@ -33,6 +34,7 @@ const HeaderMain = ({owner, showRight=true}) => {
             gsap.to('.logo-text h1', {fontSize: '3rem',  color: '#000', duration: 0.3})
             gsap.to('.btn', {borderRadius: '20', color: '#fff', duration: 0.3})
             gsap.to('.right-item svg, .right-item p', {color: '#000', fill: '#3c4048', duration: 0.3})
+            gsap.to('.ndw', {background: '#f0f1f3', duration: 0.3})
          }
       }
 
@@ -49,7 +51,6 @@ const HeaderMain = ({owner, showRight=true}) => {
       navigate('/login');
    }
    
-
    return (
       <>
          <header className="header content-wrapper" onClick={() => {
@@ -91,7 +92,11 @@ const HeaderMain = ({owner, showRight=true}) => {
                   </Link>
                   {/* Notification */}
                   <div className='right-item l-mar-40' onClick={() => setEnableNotificationDropdown( !enableNotificationDropdown )}>
-                     <div className='rn-svg-center'>
+                     <div className='rn-svg-center pos-rel'>
+                        {owner.notifications_count > 0 && 
+                        <div className='ndw'>
+                           <div className='noti-dot'></div>
+                        </div>}
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
                            <path d="M224 0c-17.7 0-32 14.3-32 32V51.2C119 66 64 130.6 64 208v18.8c0 47-17.3 92.4-48.5 127.6l-7.4 8.3c-8.4 9.4-10.4 22.9-5.3 34.4S19.4 416 32 416H416c12.6 0 24-7.4 29.2-18.9s3.1-25-5.3-34.4l-7.4-8.3C401.3 319.2 384 273.9 384 226.8V208c0-77.4-55-142-128-156.8V32c0-17.7-14.3-32-32-32zm45.3 493.3c12-12 18.7-28.3 18.7-45.3H224 160c0 17 6.7 33.3 18.7 45.3s28.3 18.7 45.3 18.7s33.3-6.7 45.3-18.7z"/>
                         </svg>
@@ -106,14 +111,14 @@ const HeaderMain = ({owner, showRight=true}) => {
 
                   {/* Notification Dropdown */}
                   {enableNotificationDropdown && 
-                     <NotificatiosDropdown owner={owner}/>
+                     <NotificatiosDropdown owner={owner} setOwner={setOwner} />
                   }
 
                   
                   {/* User Option */}
                   <div className='right-item l-mar-40' onClick={() => setEnableOptionsDropdown(true)}>
                      <div className='rn-svg-center'>
-                        <div className="round-img-35 r-mar-10">
+                        <div className="round-img-35">
                            {!owner.avatar && <h3 className="img-text">{owner.name[0].toUpperCase()}</h3>}
                            { owner.avatar && <img src={`${cloudinary_image_url}/${owner.avatar}`} alt=''/>}
                         </div>
