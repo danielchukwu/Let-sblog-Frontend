@@ -13,9 +13,7 @@ import getCookie from '../utils/getCookie';
 
 export const ManageBlogs = () => {
    const [loading, setLoading] = useState(true);
-   // const {data} = useFetch('/owners/blogs')
    const {data: owner, setData: setOwner} = useFetch('/users/me');
-   // const {data: blogs, setData: setBlogs} = useFetch(`/users/${owner.id}/blogs`);
    const [blogs, setBlogs] = useState();
    const [showCenterPopUp, setShowCenterPopUp] = useState(false);
    const deleteBlogIdRef = useRef();
@@ -66,7 +64,7 @@ export const ManageBlogs = () => {
    
    return (
       <div className='manage-blogs-react'>
-         <HeaderSub owner={owner ? owner : null} />
+         <HeaderSub owner={owner ? owner : null} setOwner={setOwner}/>
 
          {!blogs && 
          <div className='spinner-container t-pad-30'>
