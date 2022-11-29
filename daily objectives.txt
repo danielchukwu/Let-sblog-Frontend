@@ -11,6 +11,11 @@ Substitute all social network with img to svg
 Fix header dropdown menu
 Implement time ago function for backend (optional) 
 Change EditProfile Header to HeaderSub
+make comment textfield expandable
+forgot password feature
+Fix logout issue (if a user is logged out and their token deleted, we are unable to visit the home page)
+
+
 
 Thursday 17th November
 
