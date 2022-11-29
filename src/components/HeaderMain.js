@@ -13,7 +13,7 @@ const HeaderMain = ({owner, showRight=true, setOwner}) => {
    const {cloudinary_image_url} = useUrl();
    const [enableOptionsDropdown, setEnableOptionsDropdown] = useState(false);
    const [enableNotificationDropdown, setEnableNotificationDropdown] = useState(false);
-   console.log(owner)
+   
 
    // login_sign_up_btn, user_profile_btn,
    useEffect(() => {
@@ -45,6 +45,7 @@ const HeaderMain = ({owner, showRight=true, setOwner}) => {
       }
    }, [])
 
+
    // LOGOUT
    const handleLogout = () => {
       removeCookie('usrin');
@@ -53,13 +54,17 @@ const HeaderMain = ({owner, showRight=true, setOwner}) => {
    
    return (
       <>
+
+         {enableNotificationDropdown && <div className="pc-bg-out" onClick={() => setEnableNotificationDropdown(false)}></div>}
+         {enableOptionsDropdown && <div className="pc-bg-out" onClick={() => setEnableOptionsDropdown(false)}></div>}
+         
          <header className="header content-wrapper" onClick={() => {
-            if (enableOptionsDropdown) {
-               setEnableOptionsDropdown(false);
-            }
-            if (enableNotificationDropdown) {
-               setEnableNotificationDropdown(false)
-            }
+            // if (enableOptionsDropdown) {
+            //    setEnableOptionsDropdown(false);
+            // }
+            // if (enableNotificationDropdown) {
+            //    setEnableNotificationDropdown(false)
+            // }
          }}>
             <div className="wrapper max-w-1000">
                <div className="left">
@@ -91,7 +96,7 @@ const HeaderMain = ({owner, showRight=true, setOwner}) => {
                      </div>
                   </Link>
                   {/* Notification */}
-                  <div className='right-item l-mar-40' onClick={() => setEnableNotificationDropdown( !enableNotificationDropdown )}>
+                  <div className='right-item l-mar-40' onClick={() => {setEnableNotificationDropdown( !enableNotificationDropdown ); setEnableOptionsDropdown(false);}}>
                      <div className='rn-svg-center pos-rel'>
                         {owner.notifications_count > 0 && 
                         <div className='ndw'>
@@ -111,12 +116,12 @@ const HeaderMain = ({owner, showRight=true, setOwner}) => {
 
                   {/* Notification Dropdown */}
                   {enableNotificationDropdown && 
-                     <NotificatiosDropdown owner={owner} setOwner={setOwner} />
+                     <NotificatiosDropdown owner={owner} setOwner={setOwner} setEnableNotificationDropdown={setEnableNotificationDropdown} />
                   }
 
                   
                   {/* User Option */}
-                  <div className='right-item l-mar-40' onClick={() => setEnableOptionsDropdown(true)}>
+                  <div className='right-item l-mar-40' onClick={() => {setEnableOptionsDropdown(true); setEnableNotificationDropdown(false);}}>
                      <div className='rn-svg-center'>
                         <div className="round-img-35">
                            {!owner.avatar && <h3 className="img-text">{owner.name[0].toUpperCase()}</h3>}
@@ -140,8 +145,7 @@ const HeaderMain = ({owner, showRight=true, setOwner}) => {
                </div>}
             </div>
          </header>
-         {enableNotificationDropdown && <div className="pc-bg-out" onClick={() => setEnableNotificationDropdown(false)}></div>}
-         {enableOptionsDropdown && <div className="pc-bg-out" onClick={() => setEnableOptionsDropdown(false)}></div>}
+
       </>
    )
 }
