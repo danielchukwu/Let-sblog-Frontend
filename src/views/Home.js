@@ -9,14 +9,14 @@ import { useConstants } from '../hooks/useConstants'
 
 
 const Home = () => {
-  const {data: owner} = useFetch('/users/me');
+  const {data: owner, setData: setOwner} = useFetch('/users/me');
   const {data: blogs} = useFetch('');
   const navigate = useNavigate();
   const {spinnerStyle} = useConstants();
   
   return (
     <div>
-      {getCookie('usrin') && <HeaderMain owner={owner ? owner : owner} showRight={owner ? true : false }/>}
+      {getCookie('usrin') && <HeaderMain owner={owner ? owner : owner} showRight={owner ? true : false } setOwner={setOwner} />}
       {!getCookie('usrin') && <HeaderMain owner={owner ? owner : owner}/>}
 
       {!blogs && 
