@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Link } from 'react-router-dom';
 import { useUrl } from '../hooks/useUrl'
+import { NotificationsContext } from './NotificatiosDropdown';
 
-export const NotificationList = ({notifications, notification}) => {
+export const NotificationList = ({notifications}) => {
+   const setGroupList = useContext(NotificationsContext);
    const {cloudinary_image_url} = useUrl();
 
    return (
@@ -10,7 +12,7 @@ export const NotificationList = ({notifications, notification}) => {
       switch (notification[0].type) {
          case ('follow'):
             return (
-               <div className='ns-item'>
+               <div className='ns-item' onClick={() => setGroupList(notification)} key={notification[0].id}>
                   <div className='ns-img'>
                      <div className={"round-img-35"}>
                         {!notification[0].avatar && <p className="img-text">{notification[0].username[0].toUpperCase()}</p>}
@@ -19,23 +21,21 @@ export const NotificationList = ({notifications, notification}) => {
                   </div>
                   <div className="flex-sb">
                      <div className='ns-text'>
-                        {/* <Link to={`/users/${notification[0].junior_id}`}> */}
-                              <p>
-                              <Link  to={`/users/${notification[0].junior_id}`}><b className='bold'>{notification[0].username}</b></Link>
-                              {notification.length > 2 && 
-                              <> 
-                                 <Link  to={`/users/${notification[1].junior_id}`}><b className='bold'>{`, ${notification[1].username}`}</b></Link>
-                                 {` and ${notification.length - 2} other${notification.length-2 > 1 ? 's' : '' } started following you.`}
-                              </>
-                              }
-                              {notification.length === 2 && 
-                              <> and <Link to={`/users/${notification[1].junior_id}`}><b className='bold'>{`${notification[1].username}`}</b></Link> started following you. </>
-                              }
-                              {notification.length === 1 && 
-                              <> started following you.</>
-                              }
-                              </p>
-                        {/* </Link> */}
+                        <p>
+                        <Link  to={`/users/${notification[0].junior_id}`}><b className='bold'>{notification[0].username}</b></Link>
+                        {notification.length > 2 && 
+                        <> 
+                           <Link to={`/users/${notification[1].junior_id}`}><b className='bold'>{`, ${notification[1].username}`}</b></Link>
+                           {` and ${notification.length - 2} other${notification.length-2 > 1 ? 's' : '' } started following you.`}
+                        </>
+                        }
+                        {notification.length === 2 && 
+                        <> and <Link to={`/users/${notification[1].junior_id}`}><b className='bold'>{`${notification[1].username}`}</b></Link> started following you. </>
+                        }
+                        {notification.length === 1 && 
+                        <> started following you.</>
+                        }
+                        </p>
                      </div>
 
                   </div>
@@ -48,7 +48,7 @@ export const NotificationList = ({notifications, notification}) => {
             
          case ('liked_blog'):
             return (
-               <div className='ns-item'>
+               <div className='ns-item' onClick={() => setGroupList(notification)} key={notification[0].id}>
                   <div className='ns-img'>
                      <div className={"round-img-35"}>
                         {!notification[0].avatar && <p className="img-text">{notification[0].username[0].toUpperCase()}</p>}
@@ -57,8 +57,8 @@ export const NotificationList = ({notifications, notification}) => {
                   </div>
                   <div className="flex-sb">
                      <div className='ns-text'>
-                        <Link to={`/users/${notification[0].junior_id}`}>
-                           <p><Link  to={`/users/${notification[0].junior_id}`}><b className='bold'>{notification[0].username}</b></Link>
+                           <p>
+                           <Link  to={`/users/${notification[0].junior_id}`}><b className='bold'>{notification[0].username}</b></Link>
                            {notification.length > 2 && 
                            <> 
                               <Link  to={`/users/${notification[1].junior_id}`}><b className='bold'>{`, ${notification[1].username}`}</b></Link>
@@ -72,7 +72,6 @@ export const NotificationList = ({notifications, notification}) => {
                            <> liked your blog.</>
                            }
                            </p>
-                        </Link>
                      </div>
 
                      {notification[0].blog_img  && 
@@ -87,7 +86,7 @@ export const NotificationList = ({notifications, notification}) => {
             
          case ('liked_comment'):
             return (
-               <div className='ns-item'>
+               <div className='ns-item' onClick={() => setGroupList(notification)} key={notification[0].id}>
                   <div className='ns-img'>
                      <div className={"round-img-35"}>
                         {!notification[0].avatar && <p className="img-text">{notification[0].username[0].toUpperCase()}</p>}
@@ -96,22 +95,20 @@ export const NotificationList = ({notifications, notification}) => {
                   </div>
                   <div className="flex-sb">
                      <div className='ns-text'>
-                        <Link to={`/users/${notification[0].junior_id}`}>
-                           <p><Link  to={`/users/${notification[0].junior_id}`}><b className='bold'>{notification[0].username}</b></Link>
-                           {notification.length > 2 && 
-                           <> 
-                              <Link  to={`/users/${notification[1].junior_id}`}><b className='bold'>{`, ${notification[1].username}`}</b></Link>
-                              {` and ${notification.length - 2} other${notification.length-2 > 1 ? 's' : '' } liked your comment.`}
-                           </>
-                           }
-                           {notification.length === 2 && 
-                           <> and <Link  to={`/users/${notification[1].junior_id}`}><b className='bold'>{`${notification[1].username}`}</b></Link> liked your comment.</>
-                           }
-                           {notification.length === 1 && 
-                           <> liked your comment.</>
-                           }
-                           </p>
-                        </Link>
+                        <p><Link  to={`/users/${notification[0].junior_id}`}><b className='bold'>{notification[0].username}</b></Link>
+                        {notification.length > 2 && 
+                        <> 
+                           <Link  to={`/users/${notification[1].junior_id}`}><b className='bold'>{`, ${notification[1].username}`}</b></Link>
+                           {` and ${notification.length - 2} other${notification.length-2 > 1 ? 's' : '' } liked your comment.`}
+                        </>
+                        }
+                        {notification.length === 2 && 
+                        <> and <Link  to={`/users/${notification[1].junior_id}`}><b className='bold'>{`${notification[1].username}`}</b></Link> liked your comment.</>
+                        }
+                        {notification.length === 1 && 
+                        <> liked your comment.</>
+                        }
+                        </p>
                      </div>
 
                   </div>
@@ -120,7 +117,7 @@ export const NotificationList = ({notifications, notification}) => {
             
          case ('commented_blog'):
             return (
-               <div className='ns-item'>
+               <div className='ns-item' onClick={() => setGroupList(notification)} key={notification[0].id}>
                   <div className='ns-img'>
                      <div className={"round-img-35"}>
                         {!notification[0].avatar && <p className="img-text">{notification[0].username[0].toUpperCase()}</p>}
@@ -129,7 +126,6 @@ export const NotificationList = ({notifications, notification}) => {
                   </div>
                   <div className="flex-sb">
                      <div className='ns-text'>
-                        <Link to={`/users/${notification[0].junior_id}`}>
                            <p><Link  to={`/users/${notification[0].junior_id}`}><b className='bold'>{notification[0].username}</b></Link>
                            {notification.length > 2 && 
                            <> 
@@ -144,7 +140,6 @@ export const NotificationList = ({notifications, notification}) => {
                            <> commented on your blog.</>
                            }
                            </p>
-                        </Link>
                      </div>
 
                      {notification[0].blog_img  && 
@@ -159,7 +154,7 @@ export const NotificationList = ({notifications, notification}) => {
             
          case ('commented_comment'):
             return (
-               <div className='ns-item'>
+               <div className='ns-item' onClick={() => setGroupList(notification)} key={notification[0].id}>
                   <div className='ns-img'>
                      <div className={"round-img-35"}>
                         {!notification[0].avatar && <p className="img-text">{notification[0].username[0].toUpperCase()}</p>}
@@ -168,7 +163,6 @@ export const NotificationList = ({notifications, notification}) => {
                   </div>
                   <div className="flex-sb">
                      <div className='ns-text'>
-                        <Link to={`/users/${notification[0].junior_id}`}>
                            <p><Link  to={`/users/${notification[0].junior_id}`}><b className='bold'>{notification[0].username}</b></Link>
                            {notification.length > 2 && 
                            <> 
@@ -183,7 +177,6 @@ export const NotificationList = ({notifications, notification}) => {
                            <> commented on your comment.</>
                            }
                            </p>
-                        </Link>
                      </div>
 
                   </div>
