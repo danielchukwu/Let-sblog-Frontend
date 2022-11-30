@@ -15,9 +15,10 @@ export default function useFetch(url='') {
       function fetch() {
          axios.get(`${process.env.REACT_APP_HOST_API}${url}`, config)
             .then(data => {
-               // if (data.data.message != 'successful'){
-               //    throw Error('missing token')
-               // }
+               console.log(url)
+               if (!getCookie('usrin') && url !== '' && url !== '/users/me'){
+                  throw Error('missing token')
+               }
                console.log(data.data);
                setTokenIsValid(true);
                setData(data.data);
