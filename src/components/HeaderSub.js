@@ -3,9 +3,12 @@ import down from '../assets/images/icons/down.svg'
 import { Link, useNavigate } from 'react-router-dom'
 import { useUrl } from '../hooks/useUrl';
 import removeCookie from '../utils/removeCookie'
+import { NotificatiosDropdown } from './NotificatiosDropdown';
+import { UserOptionsDropdown } from './UserOptionsDropdown';
 
-export const HeaderSub = ({owner}) => {
-   const [enabledOptions, setEnabledOptions] = useState(false);
+export const HeaderSub = ({owner, setOwner}) => {
+   const [enableOptionsDropdown, setEnableOptionsDropdown] = useState(false);
+   const [enableNotificationDropdown, setEnableNotificationDropdown] = useState(false);
    const navigate = useNavigate()
    const {cloudinary_image_url} = useUrl()
 
@@ -18,6 +21,9 @@ export const HeaderSub = ({owner}) => {
 
    return (
       <div className='header-sub-react'>
+         {enableNotificationDropdown && <div className="pc-bg-out" onClick={() => setEnableNotificationDropdown(false)}></div>}
+         {enableOptionsDropdown && <div className="pc-bg-out" onClick={() => setEnableOptionsDropdown(false)}></div>}
+         
          <header className="content-wrapper">
             <div className="wrapper-rl max-w-1000"> 
                <div className="left">
@@ -27,10 +33,10 @@ export const HeaderSub = ({owner}) => {
                      </div>
                   </Link>
                </div>
-               
+
                { owner && 
                <div className="right">
-                  {/* Notification */}
+                  {/* Home */}
                   <Link to={'/'} style={{height: "100%"}}>
                      <div className='right-item l-mar-40'>
                         <div className='rn-svg-center home-svg'>
@@ -43,24 +49,38 @@ export const HeaderSub = ({owner}) => {
                         </div>
                      </div>
                   </Link>
-                  <div className='right-item l-mar-40'>
-                     <div className='rn-svg-center'>
+                  {/* Notification */}
+                  <div className='right-item l-mar-40' onClick={() => {setEnableNotificationDropdown( !enableNotificationDropdown ); setEnableOptionsDropdown(false);}}>
+                     <div className='rn-svg-center pos-rel'>
+                        {owner.notifications_count > 0 && 
+                        <div className='ndw'>
+                           <div className='noti-dot'></div>
+                        </div>}
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
                            <path d="M224 0c-17.7 0-32 14.3-32 32V51.2C119 66 64 130.6 64 208v18.8c0 47-17.3 92.4-48.5 127.6l-7.4 8.3c-8.4 9.4-10.4 22.9-5.3 34.4S19.4 416 32 416H416c12.6 0 24-7.4 29.2-18.9s3.1-25-5.3-34.4l-7.4-8.3C401.3 319.2 384 273.9 384 226.8V208c0-77.4-55-142-128-156.8V32c0-17.7-14.3-32-32-32zm45.3 493.3c12-12 18.7-28.3 18.7-45.3H224 160c0 17 6.7 33.3 18.7 45.3s28.3 18.7 45.3 18.7s33.3-6.7 45.3-18.7z"/>
                         </svg>
                      </div>
                      <div className='right-item-bottom'>
-                        <p className='fs-14'>Notification</p>
+                        <p className='fs-14'>Notifications</p>
                         {/* <svg className='l-mar-3' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
                            <path d="M137.4 374.6c12.5 12.5 32.8 12.5 45.3 0l128-128c9.2-9.2 11.9-22.9 6.9-34.9s-16.6-19.8-29.6-19.8L32 192c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9l128 128z"/>
                         </svg> */}
                      </div>
                   </div>
+
+                  {/* Notification Dropdown */}
+                  {enableNotificationDropdown && 
+                     <NotificatiosDropdown owner={owner} setOwner={setOwner} />
+                  }
+
+                  
                   {/* User Option */}
-                  <div className='right-item l-mar-40' onClick={() => setEnabledOptions(true)}>
-                     <div className="round-img-35 r-mar-10">
-                        {!owner.avatar && <h3 className="img-text">{owner.name[0].toUpperCase()}</h3>}
-                        { owner.avatar && <img src={`${cloudinary_image_url}/${owner.avatar}`} alt=''/>}
+                  <div className='right-item l-mar-40' onClick={() => {setEnableOptionsDropdown(true); setEnableNotificationDropdown(false);}}>
+                     <div className='rn-svg-center'>
+                        <div className="round-img-35">
+                           {!owner.avatar && <h3 className="img-text">{owner.name[0].toUpperCase()}</h3>}
+                           { owner.avatar && <img src={`${cloudinary_image_url}/${owner.avatar}`} alt=''/>}
+                        </div>
                      </div>
                      <div className='right-item-bottom'>
                         <p className='fs-14'>Me</p>
@@ -70,41 +90,17 @@ export const HeaderSub = ({owner}) => {
                      </div>
                   </div>
 
-                  {/* POP UP container */}
-                  {enabledOptions && 
-                  <div className="pc-wrapper-2">
-                     
-                     {/* popup Content */}
-                     <div className="up-card tb-pad-10">
-                        <Link to={`/users/${owner.id}`}>
-                           <div className='up-profile'>
-                              <div className="round-img-50 r-mar-10">
-                                 {!owner.avatar && <h3 className="img-text">{owner.name[0].toUpperCase()}</h3>}
-                                 { owner.avatar && <img src={`${cloudinary_image_url}/${owner.avatar}`} alt=''/>}
-                              </div>
-                              <div className='up-profile-name'>
-                                 <h3>{owner ? owner.name : ''}</h3>
-                                 <small>@{owner ? owner.username : ''}</small>
-                              </div>
+                  {/* User Options Dropdown */}
+                  {enableOptionsDropdown && 
+                     <UserOptionsDropdown owner={owner} handleLogout={handleLogout} />
+                  }
 
-                           </div>
-                        </Link>
-                        <hr />
-                        <Link to={`/users/${owner.id}`}><p>Profile</p></Link>
-                        <Link to={"/create-blog"}><p>Create Blog</p></Link>
-                        <Link to={"/manage-blogs"}><p>Manage Blogs</p></Link>
-                        <hr />
-                        <p className='pointer' onClick={handleLogout}>Logout</p>
-                        
-                     </div>
-
-                  </div>}
 
                </div>}
+               
             </div>
          </header>
 
-         {enabledOptions && <div className="pc-bg-out" onClick={() => setEnabledOptions(false)}></div>}
 
       </div>
    )
