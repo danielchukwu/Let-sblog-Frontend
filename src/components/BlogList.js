@@ -13,7 +13,7 @@ const BlogCard = ({blogs}) => {
                   <img src={`${cloudinary_image_url}/${blog.img}`} alt="blogs" />
                </div>
                <div className="blog-text">
-                  <p className="blog-cat tb-pad-20">{blog.category}</p>
+                  <p className="blog-cat">{blog.category}</p>
                   <div className="tc-grid">
                      <h3 title={blog.title}>{blog.title.slice(0,35)}</h3>
                      <p className="summary">{blog.content.slice(0,65)} ...</p>
