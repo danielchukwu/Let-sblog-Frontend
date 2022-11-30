@@ -81,6 +81,9 @@ const Profile = () => {
          
          <HeaderMain owner={owner ? owner : null} showRight={owner ? true : false} setOwner={setOwner}/>
 
+         {/* POP UP */}
+         <div class="pop-up-container"></div>
+
 
          <main className="profile-react t-pad-200" style={{opacity: 1}}>
             <div className="content-wrapper max-w-1000">
@@ -101,8 +104,12 @@ const Profile = () => {
                         <div className="pm-bottom">
                            {/* PROFILE PICTURE */}
                            <div className="profile-img-container">
-                              <div className="round-img-l">
-                                 {user && user.avatar && <img src={`${cloudinary_image_url}/${user.avatar}`} alt="user dp" />}
+                              <div className='pp-bg'>
+                                 <div className="round-pp-img">
+                                    {/* {user && user.avatar && <img src={`${cloudinary_image_url}/${user.avatar}`} alt="user dp" />} */}
+                                    {user && !user.avatar && <h3 className="img-text">{user.name[0].toUpperCase()}</h3>}
+                                    {user && user.avatar && <img src={`${cloudinary_image_url}/${user.avatar}`} alt=''/>}
+                                 </div>
                               </div>
                            </div>
                      
@@ -167,11 +174,12 @@ const Profile = () => {
                      <div className="info-card b-mar-25">
                         <div className='ic-title'>
                            <h3>Skills</h3>
+                           {owner && user && owner.id === user.id &&
                            <div className='add-skills' onClick={() => setShowEditPopup(true)}>
                               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
                                  <path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"/>
                               </svg>
-                           </div>
+                           </div>}
                         </div>
                         <div className="info-items t-pad-10">
                            {user && user.skills.map(skill => <span key={skill.id}>{skill} | </span>)}
