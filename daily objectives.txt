@@ -7,13 +7,12 @@ Home Page: Fix Blog Title being too long
 Fix HeaderSub animation
 Fix displaypopups multiple components
 Fix social networks open actual route in some other tab
-Substitute all social network with img to svg
+Substitute all social network from img to svg
 Fix header dropdown menu
 Implement time ago function for backend (optional) 
 Change EditProfile Header to HeaderSub
 make comment textfield expandable
 forgot password feature
-Fix logout issue (if a user is logged out and their token deleted, we are unable to visit the home page)
 
 
 
