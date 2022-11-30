@@ -13,7 +13,7 @@ import { ClipLoader } from 'react-spinners';
 
 const EditProfile = () => {
    // const {data} = useFetch();
-   const {data: owner} = useFetch("/users/me");
+   const {data: owner, setData: setOwner} = useFetch("/users/me");
    const navigate = useNavigate();
    const {cloudinary_image_url} = useUrl();
    const {spinnerStyle} = useConstants();
@@ -125,12 +125,12 @@ const EditProfile = () => {
    return (
       <div className='edit-profile-react'>
 
-         <HeaderSub />
+         <HeaderSub owner={owner} setOwner={setOwner} />
 
          {/* POP UP */}
          <div class="pop-up-container"></div>
          
-         <main className="vh-90 t-pad-vh-10">
+         <main className="vh-90 t-pad-30">
          
             <div className="rl-wrapper">
                <div className="rl-container max-w-1000">
