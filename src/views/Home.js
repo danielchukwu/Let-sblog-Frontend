@@ -17,7 +17,7 @@ const Home = () => {
   return (
     <div>
       {getCookie('usrin') && <HeaderMain owner={owner ? owner : owner} showRight={owner ? true : false } setOwner={setOwner} />}
-      {!getCookie('usrin') && <HeaderMain owner={owner ? owner : owner}/>}
+      {!getCookie('usrin') && <HeaderMain owner={null}/>}
 
       {!blogs && 
       <div className='spinner-container t-pad-30'>
