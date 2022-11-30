@@ -6,7 +6,7 @@
   /* font-family: ; */
   text-decoration: none;
   color: var(--theme-dark);
-  font-family: "Source Sans Pro", sans-serif;
+  font-family: "Poppins", "Source Sans Pro", sans-serif;
   font-weight: 400;
   font-size: 17px;
   letter-spacing: 0.4px;
@@ -256,6 +256,7 @@ main {min-height: 100vh;}
 
 .main-text p {
   font-size: 20px;
+  line-height: 1.8;
 }
 
 .grid-wrapper {
@@ -332,12 +333,24 @@ main {min-height: 100vh;}
   margin: 0 auto;
 }
 
+.blog-text h3 {
+  line-height: 1.2;
+}
+
 .blog-cat {
   color: var(--theme-green);
+  padding: 20px 0 5px;
+  font-size: 16px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
 }
+
+
 
 .summary {
   color: var(--theme-grey);
+  padding: 10px 0;
+  line-height: 1.5;
 }
 
 /* FOOTER */
@@ -1280,10 +1293,16 @@ form p a:hover {
   display: flex;
   align-items: center;
   color: var(--theme-grey-bg);
-  padding: 7px 10px;
+  padding: 7px 10px 8px;
   margin: 10px 10px 0 0;
   border-radius: 20px;
   text-align: center;
+  text-transform: capitalize;
+  cursor: pointer;
+}
+
+.ebs span:hover {
+  background-color: var(--theme-green);
 }
 
 .eb-title {
@@ -1296,7 +1315,7 @@ form p a:hover {
 }
 
 .eb-body {
-  padding: 15px 20px;
+  padding: 0 20px 15px;
   height: 310px;
   overflow-y: scroll;
 }
@@ -1396,6 +1415,7 @@ form p a:hover {
 .remove-skill {
   display: flex;
   cursor: pointer;
+  transform: rotateZ(45deg);
 }
 
 .remove-skill svg:hover {
@@ -1403,9 +1423,10 @@ form p a:hover {
 }
 
 .remove-skill svg {
-  width: 10px;
+  width: 15px;
   fill: var(--theme-white);
   margin-left: 5px;
+  margin-bottom: 5px;
 }
 
 
