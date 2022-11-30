@@ -3,13 +3,17 @@ import { useUrl } from '../hooks/useUrl'
 import useFetch from '../hooks/useFetch'
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { ClipLoader } from 'react-spinners';
 import { NotificationList } from './NotificationList';
+import { useConstants } from '../hooks/useConstants';
 
-const NotificationContext = createContext();
+export const NotificationsContext = createContext();
 
 
-export const NotificatiosDropdown = ({ owner, setOwner }) => {
+export const NotificatiosDropdown = ({ owner, setOwner, setEnableNotificationDropdown }) => {
+   const {cloudinary_image_url} = useUrl();
    const {data} = useFetch('/users/notifications');
+   const {spinnerStyle} = useConstants();
 
    // Notification group states
    const [today, setToday] = useState();
@@ -23,6 +27,7 @@ export const NotificatiosDropdown = ({ owner, setOwner }) => {
    const [groupList, setGroupList] = useState();
 
 
+   // Set state after fetching notifications
    useEffect(() => {
       if (data){
          setToday(data.unseen.today.concat(data.seen.today));
@@ -40,16 +45,40 @@ export const NotificatiosDropdown = ({ owner, setOwner }) => {
    }, [data]);
 
 
+   // Print groupList
+   // useEffect(() => {
+   //    if (groupList){
+   //       console.log(groupList);
+   //    }
+   // }, [groupList])
+
+
    return (
-      <NotificationContext.Provider value={ setGroupList }>
+      <NotificationsContext.Provider value={ setGroupList }>
       <div className="pc-wrapper-2">
 
             {/* popup Content */}
             <div className="noti-card">
                <div className='noti-title'>
                   <h3>Notifications</h3>
+
+                  
+                  { groupList && 
+                  <div className='noti-right' onClick={() => setGroupList(null)} title="back">
+                     <div className='noti-back'>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                           <path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/>
+                        </svg>
+                     </div>
+                  </div>
+}
                </div>
                <div className='noti-body'>
+                  {!data && 
+                     <div className='spinner-container-fit'>
+                        <ClipLoader color={"var(--theme-green)"} size={20} cssOverride={spinnerStyle}/>
+                     </div>
+                  }
                   {/*  */}
                   { !groupList &&
                   <div className='noti-item'>
@@ -112,12 +141,136 @@ export const NotificatiosDropdown = ({ owner, setOwner }) => {
                      
                   </div>}
 
+                  <div className='noti-item'>
+                     { groupList && 
+                        // <NotificationList notifications={groupList} owner={owner} />
+                        groupList.map(user => {
+                           switch(user.type) {
+                              case ('follow'):
+                                 return (
+                                    <div className='ns-item'>
+                                       <div className='ns-img'>
+                                          <div className={"round-img-35"}>
+                                             {!user.avatar && <p className="img-text">{user.username[0].toUpperCase()}</p>}
+                                             {user.avatar  && <img src={`${cloudinary_image_url}/${user.avatar}`} alt="" />}
+                                          </div>
+                                       </div>
+                                       <div className="flex-sb">
+                                          <div className='ns-text'>
+                                             <p onClick={() => setEnableNotificationDropdown(false)}>
+                                                <Link  to={`/users/${user.junior_id}`}><b className='bold'>{user.username}</b> </Link>
+                                                started following you.
+                                             </p>
+                                          </div>
+
+                                       </div>
+                                       <div className='fb-follow'>
+                                          {/* <span className='btn-f-s'>Follow</span> */}
+                                          {/* <span className='btn-f-s-clicked'>Following</span> */}
+                                       </div>
+                                    </div>
+                                 )
+                              case ('liked_blog'):
+                                 return (
+                                    <div className='ns-item'>
+                                       <div className='ns-img'>
+                                          <div className={"round-img-35"}>
+                                             {!user.avatar && <p className="img-text">{user.username[0].toUpperCase()}</p>}
+                                             {user.avatar  && <img src={`${cloudinary_image_url}/${user.avatar}`} alt="" />}
+                                          </div>
+                                       </div>
+                                       <div className="flex-sb">
+                                          <div className='ns-text'>
+                                             <p onClick={() => setEnableNotificationDropdown(false)}>
+                                                <Link  to={`/users/${user.junior_id}`}><b className='bold'>{user.username}</b> </Link>
+                                                liked your blog.
+                                             </p>
+                                          </div>
+                                       </div>
+                                       {user.blog_img  && 
+                                          <Link to={`/blogs/${user.senior_id}`}>
+                                             <div className='ns-blog'>
+                                                <img src={`${cloudinary_image_url}/${user.blog_img}`} alt="" />
+                                             </div>
+                                          </Link>}
+                                    </div>
+                                 )
+                              case ('liked_comment'):
+                                 return (
+                                    <div className='ns-item'>
+                                       <div className='ns-img'>
+                                          <div className={"round-img-35"}>
+                                             {!user.avatar && <p className="img-text">{user.username[0].toUpperCase()}</p>}
+                                             {user.avatar  && <img src={`${cloudinary_image_url}/${user.avatar}`} alt="" />}
+                                          </div>
+                                       </div>
+                                       <div className="flex-sb">
+                                          <div className='ns-text'>
+                                             <p onClick={() => setEnableNotificationDropdown(false)}>
+                                                <Link  to={`/users/${user.junior_id}`}><b className='bold'>{user.username}</b> </Link>
+                                                liked your comment.
+                                             </p>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 )
+                              case ('commented_blog'):
+                                 return (
+                                    <div className='ns-item'>
+                                       <div className='ns-img'>
+                                          <div className={"round-img-35"}>
+                                             {!user.avatar && <p className="img-text">{user.username[0].toUpperCase()}</p>}
+                                             {user.avatar  && <img src={`${cloudinary_image_url}/${user.avatar}`} alt="" />}
+                                          </div>
+                                       </div>
+                                       <div className="flex-sb">
+                                          <div className='ns-text'>
+                                             <p onClick={() => setEnableNotificationDropdown(false)}>
+                                                <Link  to={`/users/${user.junior_id}`}><b className='bold'>{user.username}</b> </Link>
+                                                commented on your blog.
+                                             </p>
+                                          </div>
+                                       </div>
+                                       {user.blog_img  && 
+                                          <Link to={`/blogs/${user.senior_id}`}>
+                                             <div className='ns-blog'>
+                                                <img src={`${cloudinary_image_url}/${user.blog_img}`} alt="" />
+                                             </div>
+                                          </Link>}
+                                    </div>
+                                 )
+                              case ('commented_comment'):
+                                 return (
+                                    <div className='ns-item'>
+                                       <div className='ns-img'>
+                                          <div className={"round-img-35"}>
+                                             {!user.avatar && <p className="img-text">{user.username[0].toUpperCase()}</p>}
+                                             {user.avatar  && <img src={`${cloudinary_image_url}/${user.avatar}`} alt="" />}
+                                          </div>
+                                       </div>
+                                       <div className="flex-sb">
+                                          <div className='ns-text'>
+                                             <p onClick={() => setEnableNotificationDropdown(false)}>
+                                                <Link  to={`/users/${user.junior_id}`}><b className='bold'>{user.username}</b> </Link>
+                                                commented on your comment.
+                                             </p>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 )
+                              default:
+                                 return (<div>Their is No notification of these type</div>)
+                           }
+                        })
+                     }
+                  </div>
+
                </div>
                
             </div>
 
 
       </div>
-      </NotificationContext.Provider>
+      </NotificationsContext.Provider>
    )
 }
