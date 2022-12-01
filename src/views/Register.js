@@ -44,6 +44,7 @@ const Register = () => {
             if (data.message){
                console.log(`Invalid Fields: ${data.message}`)
                setMessage(data.message)
+               setIsLoading(false);
                displayPopup(data.message[0])
             } else {
                Login()
