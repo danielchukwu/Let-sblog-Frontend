@@ -6,7 +6,12 @@ import getCookie from '../utils/getCookie';
 import displayPopup from '../utils/displayPopup';
 
 
-export const EditProfilePopup = ({ setShowEditPopup, owner }) => {
+// This popup only updates users
+// - occupation
+// - company
+// - skills
+
+export const EditProfilePopup = ({ setShowEditPopup, owner, setOwner }) => {
    const {host_url} = useUrl();
    const [isLoading, setIsLoading] = useState();
    const {spinnerStyle} = useConstants();
@@ -15,26 +20,31 @@ export const EditProfilePopup = ({ setShowEditPopup, owner }) => {
    const [occupation, setOccupation] = useState();
    const [company, setCompany] = useState();
    const [skillsList, setSkillsList] = useState();
+
+   // Skill Input field
    const [skill, setSkill] = useState();
+
+   const [originalSkillList, setOriginalSkillList] = useState();
+
 
    // Initiate States for our input fields
    useEffect(() => {
       setOccupation(owner.occupation);
       setCompany(owner.company);
       setSkillsList(owner.skills);
+      setOriginalSkillList([...owner.skills]);
    }, [])
 
    // Add Skill
    const handleAddSkills = (e) => {
       e.preventDefault();
       // Don't add skill if skill has already been added
-      for (let i = 0; i < skillsList.length; i++) {
-         if (skillsList[i] === skill.toLowerCase()){
-            setSkill('');
-            return;
-         }
+      if (skillsList.includes( skill.toLowerCase() )){
+         setSkill('');
+         return;
       }
 
+      // Add skill to skillList
       const newData = skillsList;
       newData.push(skill.toLowerCase());
       setSkill('');
@@ -55,17 +65,47 @@ export const EditProfilePopup = ({ setShowEditPopup, owner }) => {
       const body = {};
       // Changed fields 
       if (owner.company !== company){ body['company'] = company; }
-      if (owner.occupation !== occupation) { body['company'] = company; }
-      body['skills'] = skillsList;
+      if (owner.occupation !== occupation) { body['occupation'] = occupation; }
 
-      // add removed fields
-      const removed_skills = [];
-      for (let i = 0; i < owner.skills.length; i++) {
-         if (!skillsList.includes(owner.skills[i])){
-            removed_skills.push(owner.skills[i]);
+      // add new skills only
+      body['skills'] = [];
+      skillsList.map(sk => {
+         if (!originalSkillList.includes(sk)){
+            body['skills'].push(sk);
          }
+      })
+      
+      // add removed fields
+      body['removed_skills'] = [];
+      originalSkillList.map(sk => {
+         if (!skillsList.includes(sk)){
+            body['removed_skills'].push(sk);
+         }
+      })
+
+      function updateOwnerState () {
+         const newData = owner;
+         if (body.company) {newData.company = body.company; }
+         if (body.occupation) {newData.occupation = body.occupation; }
+         newData.skills = [...skillsList];
+
+         console.log("update Owner State")
+         console.log(setOwner)
+         setOwner({...newData})
       }
-      body['removed_skills'] = removed_skills;
+      
+      // console.log(originalSkillList)
+      // console.log(skillsList)
+      // console.log(body)
+
+      // if there is no changes or update then
+      // don't send a request to the backend
+      if (body.skills.length === 0 && body.removed_skills.length === 0 && body.company === undefined && body.occupation === undefined){
+         console.log('No Changes');
+         setIsLoading(false)
+         displayPopup('There were no changes found!');
+         return;
+      }
 
       // Send Post Request
       fetch(`${host_url}/users/update`, {
@@ -83,6 +123,11 @@ export const EditProfilePopup = ({ setShowEditPopup, owner }) => {
          console.log(data);
          setIsLoading(false)
          displayPopup("Profile was Updated Successfully ✅")
+         updateOwnerState();
+
+         setTimeout(() => {
+            setShowEditPopup(false);
+         }, 3000)
       })
       .catch((err) => {
          setIsLoading(false)
