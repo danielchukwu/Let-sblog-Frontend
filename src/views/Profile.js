@@ -76,7 +76,7 @@ const Profile = () => {
    return (
       <>
 
-         {showEditPopup && <EditProfilePopup setShowEditPopup={setShowEditPopup} owner={owner} />}
+         {showEditPopup && <EditProfilePopup setShowEditPopup={setShowEditPopup} owner={owner} setOwner={setOwner} />}
          {showFollowPopup && type && <FollowPopup id={user.id} type={type} setShowFollowPopup={setShowFollowPopup} owner={owner}/>}   {/* type: following or followers */}
          
          <HeaderMain owner={owner ? owner : null} showRight={owner ? true : false} setOwner={setOwner}/>
@@ -258,6 +258,7 @@ const Profile = () => {
                
             </div>
          </main>
+         
          
          <FooterMain />
       </>
