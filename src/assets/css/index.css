@@ -505,7 +505,6 @@ main {min-height: 100vh;}
   background-color: var(--theme-white);
   padding: 25px 20px;
   border-radius: 20px;
-  /* box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px; */
   box-shadow: var(--card-shadow);
 }
 
@@ -1616,3 +1615,27 @@ form p a:hover {
   border-radius: 50%;
 }
 
+.skill-items {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.skill-items span {
+  background-color: var(--theme-grey-bg);
+  color: var(--theme-text-grey);
+  padding: 5px 10px;
+  border-radius: 50px;
+  margin: 10px 10px 0 0;
+}
+
+.info-items span {
+  color: var(--theme-text-grey);
+}
+
+.info-items span:hover {
+  color: var(--theme-grey-mid);
+}
+
+.info-items svg {
+  fill: var(--theme-grey-mid);
+}
