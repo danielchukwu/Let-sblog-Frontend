@@ -75,7 +75,7 @@ export const HeaderSub = ({owner, setOwner}) => {
 
                   
                   {/* User Option */}
-                  <div className='right-item l-mar-40' onClick={() => {setEnableOptionsDropdown(true); setEnableNotificationDropdown(false);}}>
+                  <div className='right-item l-mar-40' onClick={() => {setEnableOptionsDropdown(!enableOptionsDropdown); setEnableNotificationDropdown(false);}}>
                      <div className='rn-svg-center'>
                         <div className="round-img-35">
                            {!owner.avatar && <h3 className="img-text">{owner.name[0].toUpperCase()}</h3>}
