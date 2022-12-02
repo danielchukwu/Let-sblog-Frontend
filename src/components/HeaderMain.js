@@ -1,11 +1,13 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { gsap } from "gsap";
-import { useEffect, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import down from '../assets/images/icons/down.svg'
 import removeCookie from '../utils/removeCookie'
 import { useUrl } from '../hooks/useUrl';
 import { UserOptionsDropdown } from './UserOptionsDropdown';
 import { NotificatiosDropdown } from './NotificatiosDropdown';
+
+export const HeaderContext = createContext(); 
 
 // This Header is for users that are either logged in or not
 const HeaderMain = ({owner, showRight=true, setOwner}) => {
@@ -53,7 +55,7 @@ const HeaderMain = ({owner, showRight=true, setOwner}) => {
    }
    
    return (
-      <>
+      <HeaderContext.Provider value={ setEnableNotificationDropdown }>
 
          {enableNotificationDropdown && <div className="pc-bg-out" onClick={() => setEnableNotificationDropdown(false)}></div>}
          {enableOptionsDropdown && <div className="pc-bg-out" onClick={() => setEnableOptionsDropdown(false)}></div>}
@@ -121,7 +123,7 @@ const HeaderMain = ({owner, showRight=true, setOwner}) => {
 
                   
                   {/* User Option */}
-                  <div className='right-item l-mar-40' onClick={() => {setEnableOptionsDropdown(true); setEnableNotificationDropdown(false);}}>
+                  <div className='right-item l-mar-40' onClick={() => {setEnableOptionsDropdown(!enableOptionsDropdown); setEnableNotificationDropdown(false);}}>
                      <div className='rn-svg-center'>
                         <div className="round-img-35">
                            {!owner.avatar && <h3 className="img-text">{owner.name[0].toUpperCase()}</h3>}
@@ -138,7 +140,7 @@ const HeaderMain = ({owner, showRight=true, setOwner}) => {
 
                   {/* User Options Dropdown */}
                   {enableOptionsDropdown && 
-                     <UserOptionsDropdown owner={owner} handleLogout={handleLogout} />
+                     <UserOptionsDropdown owner={owner} handleLogout={handleLogout} setEnableOptionsDropdown={setEnableOptionsDropdown} />
                   }
 
 
@@ -146,7 +148,7 @@ const HeaderMain = ({owner, showRight=true, setOwner}) => {
             </div>
          </header>
 
-      </>
+      </HeaderContext.Provider>
    )
 }
 
