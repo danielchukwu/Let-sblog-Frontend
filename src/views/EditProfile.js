@@ -8,17 +8,19 @@ import useFetch from '../hooks/useFetch';
 import { useUrl } from '../hooks/useUrl';
 import displayPopup from '../utils/displayPopup';
 import { ClipLoader } from 'react-spinners';
-
+import CropperPopup from '../components/CropperPopup';
+// import ReactCrop from 'react-image-crop';
+// import 'react-image-crop/dist/ReactCrop.css'
 
 
 const EditProfile = () => {
-   // const {data} = useFetch();
    const {data: owner, setData: setOwner} = useFetch("/users/me");
    const navigate = useNavigate();
    const {cloudinary_image_url} = useUrl();
    const {spinnerStyle} = useConstants();
    const [isLoading, setIsLoading] = useState(false);
-
+   
+   
    // Inputs
    const [name, setName] = useState();
    const [username, setUsername] = useState();
@@ -32,6 +34,15 @@ const EditProfile = () => {
    const [twitter, setTwitter] = useState();
    const [bio, setBio] = useState();
    const [avatar, setAvatar] = useState(null);
+   
+   
+   // Cropper Related States
+   const [newAvatar, setNewAvatar] = useState();
+   const [selectedAvatar, setSelectedAvatar] = useState();
+   const inputImageRef = useRef();
+   const [croppedImage, setCroppedImage] = useState();
+   const [isCropperBtnLoading, setIsCropperBtnLoading] = useState(false);
+   
 
    // Insert Default Profile Information
    useEffect(() => {
@@ -96,30 +107,33 @@ const EditProfile = () => {
       }
    }
 
-   
-   // Preview Image
+
+   // Then sending it to the database 
    useEffect(() => {
-      // UPLOAD IMAGE: Preview
-      const imageInput = document.querySelector('input[type="file"]');
-      var uploaded_image = '';
-      
-      console.log(imageInput);
-      imageInput.addEventListener("change", function() {
-         const reader = new FileReader();
-         reader.addEventListener('load', () => {
-            uploaded_image = reader.result;
-            document.querySelector('.display-image img').src = uploaded_image
-         })
-         reader.readAsDataURL(this.files[0])
-      }, [owner])
+      if (croppedImage) {
+         const croppedImageFile = new File([croppedImage], 'croppedImage');
+         setIsCropperBtnLoading(false);
+         setAvatar(croppedImage);
+         setNewAvatarToImageReaderFormat({0: croppedImage});
+      }
+   }, [croppedImage])
 
-      // CLICK: Image Input
-      const change_picture_btn = document.querySelector('.cp')
 
-      change_picture_btn.addEventListener('click', function() {
-         imageInput.click()
+   // Handle Image Upload to Cropper Component
+   // To crop image before upload
+   function setNewAvatarToImageReaderFormat (data, updateAvatar) {
+      const reader = new FileReader();
+      const result = reader.addEventListener('load', () => {
+         // To be sent to CropperPopup.js component for cropping
+         setSelectedAvatar(reader.result);
+         // To be shown in edit-profile avatar spot after being cropped
+         if (updateAvatar === true) {
+            setNewAvatar(reader.result);
+         }
       })
-   }, [])
+      reader.readAsDataURL(data[0]);
+      return result;
+   }
    
    
    return (
@@ -127,8 +141,11 @@ const EditProfile = () => {
 
          <HeaderSub owner={owner} setOwner={setOwner} />
 
+         {selectedAvatar && <CropperPopup yourImg={selectedAvatar} setImage={setSelectedAvatar} setCroppedImage={setCroppedImage} isLoading={isCropperBtnLoading} setIsLoading={setIsCropperBtnLoading} />}
+
+
          {/* POP UP */}
-         <div class="pop-up-container"></div>
+         <div className="pop-up-container"></div>
          
          <main className="vh-90 t-pad-30">
          
@@ -143,12 +160,14 @@ const EditProfile = () => {
                            <div className="ep-img-container t-pad-15">
                               {owner && 
                               <div className="round-img-200 display-image">
-                                 <img src={`${cloudinary_image_url}/${owner.avatar}`} alt='user' />
+                                    {!newAvatar && <img src={`${cloudinary_image_url}/${owner.avatar}`} alt='user' />}
+                                    {newAvatar && <img src={newAvatar} alt='user' />}
                               </div>}
                            </div>
          
-                           <p className="right-username cp pointer t-pad-10">Change Picture</p>
-                           <input type="file" style={{display: "none"}} onChange={(e) => setAvatar(e.target.files[0])} />
+                           <p className="right-username cp pointer t-pad-10" onClick={() => inputImageRef.current.click()}>Change Picture</p>
+                           {/* <input type="file" style={{display: "none"}} onChange={(e) => setAvatar(e.target.files[0])} /> */}
+                           <input ref={inputImageRef} type='file' style={{display: 'none'}} onChange={(e) => setNewAvatarToImageReaderFormat(e.target.files)} />
                            
                         </div>
          
