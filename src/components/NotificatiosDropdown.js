@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react'
+import React, { createContext, useContext, useState } from 'react'
 import { useUrl } from '../hooks/useUrl'
 import useFetch from '../hooks/useFetch'
 import { useEffect } from 'react';
@@ -6,11 +6,13 @@ import { Link } from 'react-router-dom';
 import { ClipLoader } from 'react-spinners';
 import { NotificationList } from './NotificationList';
 import { useConstants } from '../hooks/useConstants';
+import { HeaderContext } from './HeaderMain';
 
 export const NotificationsContext = createContext();
 
 
-export const NotificatiosDropdown = ({ owner, setOwner, setEnableNotificationDropdown }) => {
+export const NotificatiosDropdown = ({ owner, setOwner }) => {
+   const setEnableNotificationDropdown = useContext(HeaderContext);
    const {cloudinary_image_url} = useUrl();
    const {data} = useFetch('/users/notifications');
    const {spinnerStyle} = useConstants();
@@ -20,6 +22,7 @@ export const NotificatiosDropdown = ({ owner, setOwner, setEnableNotificationDro
    const [yesterday, setYesterday] = useState();
    const [thisWeek, setThisWeek] = useState();
    const [thisMonth, setThisMonth] = useState();
+   const [lastMonth, setLastMonth] = useState();
    const [thisYear, setThisYear] = useState();
    const [old, setOld] = useState();
 
@@ -34,6 +37,7 @@ export const NotificatiosDropdown = ({ owner, setOwner, setEnableNotificationDro
          setYesterday(data.unseen.yesterday.concat(data.seen.yesterday));
          setThisWeek(data.unseen.this_week.concat(data.seen.this_week));
          setThisMonth(data.unseen.this_month.concat(data.seen.this_month));
+         setLastMonth(data.unseen.last_month.concat(data.seen.last_month));
          setThisYear(data.unseen.this_year.concat(data.seen.this_year));
          setOld(data.unseen.old.concat(data.seen.old));
          
@@ -43,14 +47,6 @@ export const NotificatiosDropdown = ({ owner, setOwner, setEnableNotificationDro
       setOwner({...owner});
       }
    }, [data]);
-
-
-   // Print groupList
-   // useEffect(() => {
-   //    if (groupList){
-   //       console.log(groupList);
-   //    }
-   // }, [groupList])
 
 
    return (
@@ -120,8 +116,18 @@ export const NotificatiosDropdown = ({ owner, setOwner, setEnableNotificationDro
                      { thisMonth && <NotificationList notifications={thisMonth} owner={owner} />}
 
 
-                     {/* thisYear */}
+                     {/* lastMonth */}
                      {thisMonth && thisMonth.length > 0 && <div className='tb-pad-10'><hr/></div>}   {/* section breaker */}
+                     {lastMonth && lastMonth.length > 0 && 
+                     <div className='ns-title'>
+                        <h3>Last Month</h3>
+                     </div>}
+                     {/* lastMonth's Notifications */}
+                     { lastMonth && <NotificationList notifications={lastMonth} owner={owner} />}
+
+
+                     {/* thisYear */}
+                     {lastMonth && lastMonth.length > 0 && <div className='tb-pad-10'><hr/></div>}   {/* section breaker */}
                      {thisYear && thisYear.length > 0 && 
                      <div className='ns-title'>
                         <h3>This Year</h3>
@@ -141,6 +147,7 @@ export const NotificatiosDropdown = ({ owner, setOwner, setEnableNotificationDro
                      
                   </div>}
 
+                  {/* Sub group template */}
                   <div className='noti-item'>
                      { groupList && 
                         // <NotificationList notifications={groupList} owner={owner} />
