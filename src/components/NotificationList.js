@@ -1,10 +1,12 @@
 import React, { useContext, useEffect } from 'react'
 import { Link } from 'react-router-dom';
 import { useUrl } from '../hooks/useUrl'
+import { HeaderContext } from './HeaderMain';
 import { NotificationsContext } from './NotificatiosDropdown';
 
 export const NotificationList = ({notifications}) => {
    const setGroupList = useContext(NotificationsContext);
+   const setEnableNotificationDropdown = useContext(HeaderContext);
    const {cloudinary_image_url} = useUrl();
 
    return (
@@ -12,7 +14,7 @@ export const NotificationList = ({notifications}) => {
       switch (notification[0].type) {
          case ('follow'):
             return (
-               <div className='ns-item' onClick={() => setGroupList(notification)} key={notification[0].id}>
+               <div className='ns-item' onClick={() => {setGroupList(notification); setEnableNotificationDropdown(false)}} key={notification[0].id}>
                   <div className='ns-img'>
                      <div className={"round-img-35"}>
                         {!notification[0].avatar && <p className="img-text">{notification[0].username[0].toUpperCase()}</p>}
@@ -48,7 +50,7 @@ export const NotificationList = ({notifications}) => {
             
          case ('liked_blog'):
             return (
-               <div className='ns-item' onClick={() => setGroupList(notification)} key={notification[0].id}>
+               <div className='ns-item' onClick={() => {setGroupList(notification); setEnableNotificationDropdown(false)}} key={notification[0].id}>
                   <div className='ns-img'>
                      <div className={"round-img-35"}>
                         {!notification[0].avatar && <p className="img-text">{notification[0].username[0].toUpperCase()}</p>}
@@ -86,7 +88,7 @@ export const NotificationList = ({notifications}) => {
             
          case ('liked_comment'):
             return (
-               <div className='ns-item' onClick={() => setGroupList(notification)} key={notification[0].id}>
+               <div className='ns-item' onClick={() => {setGroupList(notification); setEnableNotificationDropdown(false)}} key={notification[0].id}>
                   <div className='ns-img'>
                      <div className={"round-img-35"}>
                         {!notification[0].avatar && <p className="img-text">{notification[0].username[0].toUpperCase()}</p>}
@@ -117,7 +119,7 @@ export const NotificationList = ({notifications}) => {
             
          case ('commented_blog'):
             return (
-               <div className='ns-item' onClick={() => setGroupList(notification)} key={notification[0].id}>
+               <div className='ns-item' onClick={() => {setGroupList(notification); setEnableNotificationDropdown(false)}} key={notification[0].id}>
                   <div className='ns-img'>
                      <div className={"round-img-35"}>
                         {!notification[0].avatar && <p className="img-text">{notification[0].username[0].toUpperCase()}</p>}
@@ -154,7 +156,7 @@ export const NotificationList = ({notifications}) => {
             
          case ('commented_comment'):
             return (
-               <div className='ns-item' onClick={() => setGroupList(notification)} key={notification[0].id}>
+               <div className='ns-item' onClick={() => {setGroupList(notification); setEnableNotificationDropdown(false)}} key={notification[0].id}>
                   <div className='ns-img'>
                      <div className={"round-img-35"}>
                         {!notification[0].avatar && <p className="img-text">{notification[0].username[0].toUpperCase()}</p>}
