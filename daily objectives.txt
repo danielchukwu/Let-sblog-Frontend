@@ -3,16 +3,17 @@ Image uploads - crop dp 50 by 50, get two quality types, small and extra small, 
       - Avatar: small (100x100), standard (400x400)
       - Cover:  standard (550x250)  
       - blog_cover: small (250x200), standard ()
-Home Page: Fix Blog Title being too long
-Fix HeaderSub animation
-Fix displaypopups multiple components
-Fix social networks open actual route in some other tab
-Substitute all social network from img to svg
-Fix header dropdown menu
+Home Page: Fix Blog Title being too long ✅
+Fix HeaderSub animation ✅
+Fix displaypopups multiple components 
+Fix social networks open actual route in some other tab ✅
+Fix header dropdown menu ✅
 Implement time ago function for backend (optional) 
-Change EditProfile Header to HeaderSub
-make comment textfield expandable
+Change EditProfile Header to HeaderSub ✅
 forgot password feature
+make comment textfield expandable
+Fix notification open up group
+Add cropper to blog upload
 
 
 
