@@ -29,7 +29,7 @@ const displayPopup = (invalid_input=null) => {
    const template = `
    <div class="pop-up-info ppi">
       <div class="pp-card">
-         <p style={'textAlign': 'center'}>${invalid_input? msg : 'Invalid Username and Password!'}</p>
+         <p style={'textAlign': 'center'}>${msg}</p>
       </div>
    </div>
    `;
