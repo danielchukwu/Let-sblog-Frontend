@@ -13,10 +13,11 @@ const BlogCard = ({blogs}) => {
                   <img src={`${cloudinary_image_url}/${blog.img}`} alt="blogs" />
                </div>
                <div className="blog-text">
-                  <p className="blog-cat">{blog.category}</p>
+                  <p className="blog-cat line-clamp-1">{blog.category}</p>
                   <div className="tc-grid">
-                     <h3 title={blog.title}>{blog.title.slice(0,35)}</h3>
-                     <p className="summary">{blog.content.slice(0,65)} ...</p>
+                     {/* <h3 title={blog.title}>{blog.title.slice(0,35)}</h3> */}
+                     <h3 className="blog-title line-clamp-2" title={blog.title}>{blog.title}</h3>
+                     <p className="summary line-clamp-2">{blog.content} ...</p>
                   </div>
                </div>
             </div>
