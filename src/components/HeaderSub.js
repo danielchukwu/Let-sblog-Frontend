@@ -1,10 +1,11 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import down from '../assets/images/icons/down.svg'
 import { Link, useNavigate } from 'react-router-dom'
 import { useUrl } from '../hooks/useUrl';
 import removeCookie from '../utils/removeCookie'
 import { NotificatiosDropdown } from './NotificatiosDropdown';
 import { UserOptionsDropdown } from './UserOptionsDropdown';
+import { gsap } from 'gsap';
 
 export const HeaderSub = ({owner, setOwner}) => {
    const [enableOptionsDropdown, setEnableOptionsDropdown] = useState(false);
@@ -15,16 +16,46 @@ export const HeaderSub = ({owner, setOwner}) => {
 
    // LOGOUT
    const handleLogout = () => {
-      removeCookie('usrin')
-      navigate('/login')
+      removeCookie('usrin');
+      navigate('/login');
    }
+
+   // login_sign_up_btn, user_profile_btn,
+   useEffect(() => {
+      const handleScroll = e => {
+         if (window.pageYOffset >= 20){
+            gsap.to('.header-2', {background: '#00ABB3',duration: 0.3, opacity: 1, ease: 'power1.out'})
+            gsap.to('.wrapper', {padding: '10px 0', duration: 0.3})
+            gsap.to('.right-username', {duration: 0.25, color: "#fff"})
+            gsap.to('.logo-text h1', {duration: 0.25, color: "#fff"})
+            gsap.to('.btn', {borderRadius: 0, color: '#fff', duration: 0.3})
+            gsap.to('.right-item svg, .right-item p', {color: '#fff', fill: '#f0f1f3', duration: 0.3})
+            gsap.to('.ndw', {background: '#00ABB3', duration: 0.3})
+         }
+         else if (window.pageYOffset < 19){
+            gsap.to('.header-2', {background: '#f0f1f3', duration: 0.3, opacity: 1})
+            gsap.to('.wrapper', {padding: '50px 0', duration: 0.3, ease: 'power1.out'})
+            gsap.to('.right-username', {duration: 0.25, color: "#000"})
+            gsap.to('.logo-text h1', {fontSize: '3rem',  color: '#000', duration: 0.3})
+            gsap.to('.btn', {borderRadius: '20', color: '#fff', duration: 0.3})
+            gsap.to('.right-item svg, .right-item p', {color: '#000', fill: '#3c4048', duration: 0.3})
+            gsap.to('.ndw', {background: '#f0f1f3', duration: 0.3})
+         }
+      }
+
+      window.addEventListener('scroll', handleScroll)
+
+      return () => {
+      window.removeEventListener('scroll', handleScroll)
+      }
+   }, [])
 
    return (
       <div className='header-sub-react'>
          {enableNotificationDropdown && <div className="pc-bg-out" onClick={() => setEnableNotificationDropdown(false)}></div>}
          {enableOptionsDropdown && <div className="pc-bg-out" onClick={() => setEnableOptionsDropdown(false)}></div>}
          
-         <header className="content-wrapper">
+         <header className="header-2 content-wrapper">
             <div className="wrapper-rl max-w-1000"> 
                <div className="left">
                   <Link to="/">
