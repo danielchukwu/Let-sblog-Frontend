@@ -26,11 +26,11 @@ const HeaderMain = ({owner, showRight=true, setOwner}) => {
             gsap.to('.right-username', {duration: 0.25, color: "#fff"})
             gsap.to('.logo-text h1', {fontSize: '2.2rem', duration: 0.25, color: "#fff"})
             gsap.to('.btn', {borderRadius: 0, color: '#fff', duration: 0.3})
-            gsap.to('.right-item svg, .right-item p', {color: '#fff', fill: '#f0f1f3', duration: 0.3})
+            gsap.to('.right-item svg, .right-item p', {color: '#fff', fill: '#fff', duration: 0.3})
             gsap.to('.ndw', {background: '#00ABB3', duration: 0.3})
          }
          else if (window.pageYOffset < 19){
-            gsap.to('.header', {background: '#f0f1f3', duration: 0.3, opacity: 1, border: 'none'})
+            gsap.to('.header', {background: '#f0f1f3', duration: 0.3, opacity: 1})
             gsap.to('.wrapper', {padding: '50px 0', duration: 0.3, ease: 'power1.out'})
             gsap.to('.right-username', {duration: 0.25, color: "#000"})
             gsap.to('.logo-text h1', {fontSize: '3rem',  color: '#000', duration: 0.3})
