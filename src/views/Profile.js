@@ -15,6 +15,8 @@ import { EditProfilePopup } from '../components/EditProfilePopup';
 import CropperPopup from '../components/CropperPopup';
 import { useCloudinary } from '../hooks/useCloudinary';
 import displayPopup from '../utils/displayPopup';
+import { ExternalLink } from 'react-external-link';
+
 
 const Profile = () => {
    const {id} = useParams();
@@ -264,7 +266,7 @@ const Profile = () => {
                            <ul>
                               {/* Website */}
                               {user && user.website &&
-                              <Link to={user.website}>
+                              <ExternalLink href={user.website} target="_blank">
                                  <li className="info-item  t-pad-15">
                                     <div className="svg-s">
                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -274,10 +276,10 @@ const Profile = () => {
                                     </div>
                                     <span className="l-pad-10 b-mar-3">Website</span>
                                  </li>
-                              </Link>}
+                              </ExternalLink>}
                               {/* Facebook */}
                               {user && user.facebook &&
-                              <Link to={user.facebook}>
+                              <ExternalLink href={user.facebook} target="_blank">
                                  <li className="info-item t-pad-15">
                                     <div className="svg-s">
                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -287,10 +289,10 @@ const Profile = () => {
                                     </div>
                                     <span className="l-pad-10 b-mar-3">Facebook</span>
                                  </li>
-                              </Link>}
+                              </ExternalLink>}
                               {/* Twitter */}
                               {user && user.twitter &&
-                              <Link to={user.twitter}>
+                              <ExternalLink href={user.twitter} target="_blank">
                                  <li className="info-item  t-pad-15">
                                     <div className="svg-s">
                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -300,10 +302,10 @@ const Profile = () => {
                                     </div>
                                     <span className="l-pad-10 b-mar-3">Twitter</span>
                                  </li>
-                              </Link>}
+                              </ExternalLink>}
                               {/* Instagram */}
                               {user && user.instagram &&
-                              <Link to={user.instagram}>
+                              <ExternalLink href={user.instagram} target="_blank">
                                  <li className="info-item  t-pad-15">
                                     <div className="svg-s">
                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
@@ -313,9 +315,9 @@ const Profile = () => {
                                     </div>
                                     <span className="l-pad-10 b-mar-3">Instagram</span>
                                  </li>
-                              </Link>}
+                              </ExternalLink>}
                               {user && user.linkedin &&
-                              <Link to={user.linkedin}>
+                              <ExternalLink href={user.linkedin} target="_blank">
                                  <li className="info-item  t-pad-15">
                                     <div className="svg-s">
                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
@@ -325,9 +327,9 @@ const Profile = () => {
                                     </div>
                                     <span className="l-pad-10 b-mar-3">linkedin</span>
                                  </li>
-                              </Link>}
+                              </ExternalLink>}
                               {user && user.youtube &&
-                              <Link to={user.youtube}>
+                              <ExternalLink href={user.youtube} target="_blank">
                                  <li className="info-item  t-pad-15">
                                     <div className="svg-s">
                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
@@ -337,7 +339,7 @@ const Profile = () => {
                                     </div>
                                     <span className="l-pad-10 b-mar-3">youtube</span>
                                  </li>
-                              </Link>}
+                              </ExternalLink>}
                            </ul>
                         </div>
                      </div>
