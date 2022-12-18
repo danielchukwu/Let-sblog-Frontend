@@ -102,24 +102,31 @@ const Blogs = () => {
       // Like Or Dislike
       if (is_like){       // LIKE
          // If like is for a blog
-         updateLikeStateBlog('liked', 'likes', 'disliked', 'dislikes')
-         sendLikeRequest('likes')
-         
-         // axios.get(`${process.env.REACT_APP_HOST_API}/blogs/${id}/likes`, config)
-         // .then((data) => {
-         //    console.log(data)
+         updateLikeStateBlog('liked', 'likes', 'disliked', 'dislikes');
+         sendLikeRequest('likes');
          // })
       } else {            // DISLIKE
          // If dislike is for a blog
-         updateLikeStateBlog('disliked', 'dislikes', 'liked', 'likes')
-         sendLikeRequest('dislikes')
-         
-         // axios.get(`${process.env.REACT_APP_HOST_API}/blogs/${id}/dislikes`, config)
-         // .then((data) => {
-            //    console.log(data)
-            // })
+         updateLikeStateBlog('disliked', 'dislikes', 'liked', 'likes');
+         sendLikeRequest('dislikes');
       }
+   }
 
+
+   // Textarea Auto Resize
+   const autoResize = (textarea) => {
+
+      console.log(textarea);
+      console.log(textarea.style);
+
+      textarea.style.cssText = `height: ${textarea.scrollHeight}px; overflow-y: hidden;`
+      
+      textarea.addEventListener("input", function() {
+         console.log('just changed!')
+         this.style.height = 'auto';
+         this.style.height = `${this.scrollHeight}px`;
+         window.scrollTo = window.scrollY + 500
+      })
    }
 
    
@@ -225,12 +232,19 @@ const Blogs = () => {
                                     {owner && owner.avatar  && <img src={`${cloudinary_image_url}/${owner.avatar}`} alt="" />}
                                  </div>
                               </div>
-                              <div class="rc t-pad-5 traditional-input-2">
-                                 <input type="text" name="comment" value={content} id="comment" onChange={(e) => setContent(e.target.value)} onFocus={() => setShowCommentBtn(true)}/>
+                              <div class="cb-content rc t-pad-5 traditional-input-2">
+                                 <textarea name="content" className="" id="textarea" value={content} onChange={(e) => {setContent(e.target.value); autoResize(e.target)}} onFocus={() => setShowCommentBtn(true)}></textarea>
+                                 {/* <input type="text" name="comment" value={content} id="comment" onChange={(e) => setContent(e.target.value)} onFocus={() => setShowCommentBtn(true)}/> */}
                                  { showCommentBtn && 
                                  <div class="sc-container">
                                     <div class="sc-buttons">
-                                       <span class="btn-round-off" onClick={() => setShowCommentBtn(false)}>Cancel</span>
+                                       <span class="btn-round-off" onClick={() => {
+                                          setShowCommentBtn(false);
+                                          const textarea = document.getElementById('textarea');
+                                          if (textarea.innerHTML.length === 0){
+                                             textarea.style.cssText = ''
+                                          }
+                                       }}>Cancel</span>
                                        <span class="btn-round l-mar-10" onClick={(e) => HandleSubmit(e, blog.id)}>Comment</span>
                                     </div>
                                  </div>}
@@ -243,7 +257,7 @@ const Blogs = () => {
                            <ClipLoader color={"var(--theme-green)"} size={20} cssOverride={spinnerStyle}/>
                         </div>}
 
-                        <CommentList comments={comments} />
+                        <CommentList comments={comments} autoResize={autoResize} />
                         
                      </div>
                   </div>
