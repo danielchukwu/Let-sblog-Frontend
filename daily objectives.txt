@@ -10,11 +10,14 @@ Fix social networks open actual route in some other tab ✅
 Fix header dropdown menu ✅
 Implement time ago function for backend (optional) 
 Change EditProfile Header to HeaderSub ✅
-forgot password feature
-make comment textfield expandable
-Fix notification open up group
-Add cropper to blog upload
+make comment textfield expandable ✅
+Fix notification open up group ✅
+Add cropper to blog upload ✅
+Change Cover add ui and implement it
+Add when dp is hovered on image popup shows change
 
+send mail on registration
+forgot password feature
 
 
 Thursday 17th November
