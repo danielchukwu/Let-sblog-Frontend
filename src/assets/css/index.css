@@ -1147,7 +1147,7 @@ form p a:hover {
   border-radius: 3px;
   border-bottom: 3px solid var(--theme-green);
   outline: none;
-  font-size: 15px;
+  font-size: 16px;
   resize: none;
   overflow-y: hidden;
 }
@@ -1155,6 +1155,17 @@ form p a:hover {
 .cb-content textarea:focus {
   background-color: var(--theme-white);
 }
+
+.rc textarea {
+  width: 100%;
+  min-height: initial;
+  height: 43px;
+}
+
+.rc input {
+  width: 100%;
+}
+
 
 .white-space{white-space: pre-wrap;}
 
@@ -1279,7 +1290,7 @@ form p a:hover {
   align-items: center;
 }
 
-.f-box, .edit-box, .crop-box {
+.f-box, .edit-box, .crop-box, .crop-box-cover {
   background-color: #fff;
   position: absolute;
   top: 0;
@@ -1589,9 +1600,6 @@ form p a:hover {
   box-sizing: border-box;
 }
 
-.rc input {
-  width: 100%;
-}
 
 /* SPINNER */
 .spinner-container {
@@ -1661,7 +1669,7 @@ form p a:hover {
 /* Cropper Image Styles */
 
 
-.cp-container {
+.cp-container, .cp-container-cover {
   position: relative;
   min-height: 300px;
   width: 100%;
@@ -1669,10 +1677,19 @@ form p a:hover {
   background: #000;
 }
 
+.cp-container-cover {
+  min-height: 500px;
+}
+
 .crop-box {
   position: fixed;
   width: 700px;
   height: 475px;
+}
+.crop-box-cover {
+  position: fixed;
+  width: 1040px;
+  height: 680px;
 }
 
 .cp-wrapper {
