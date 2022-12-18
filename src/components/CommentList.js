@@ -188,7 +188,7 @@ const CommentList = (props) => {
                   </div>
                </Link>
                <div className="cb-2 t-pad-5">
-                  <p className="cb-content fs-16">{comment.content}</p>
+                  <p className="cb-content white-space fs-16">{comment.content}</p>
                </div>
                <div className="cb-3 t-pad-5">
                   <span className="ud pointer r-pad-20" onClick={() => {
@@ -214,10 +214,11 @@ const CommentList = (props) => {
                </div>
                {/* Reply Comment */}
                { replyCommentIds.has(comment.id) &&
-               <div class="rc t-pad-5 traditional-input-2">
+               <div class="cb-content rc t-pad-5 traditional-input-2">
                   
-                  <input type="text" name="comment" id={`input-${comment.id}`} autoFocus />
-                  {/* TODO: complete */}
+                  <textarea name="content" id={`input-${comment.id}`} onChange={(e) => {props.autoResize(e.target)}} autoFocus></textarea>
+                  {/* <input type="text" name="comment" id={`input-${comment.id}`} autoFocus /> */}
+
                   
                   <div class="sc-container">
                      <div class="sc-buttons">
