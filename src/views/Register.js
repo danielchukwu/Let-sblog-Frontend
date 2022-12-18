@@ -79,7 +79,7 @@ const Register = () => {
          {/* POP UP */}
          <div class="pop-up-container"></div>
 
-         <main className="vh-90 t-pad-vh-10">
+         <main className="vh-90 t-pad-30">
       
             <div className="rl-wrapper">
                <div className="rl-container max-w-1000">
