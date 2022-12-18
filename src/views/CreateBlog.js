@@ -1,4 +1,4 @@
-import { useLayoutEffect, useEffect, useState } from 'react'
+import { useLayoutEffect, useEffect, useState, useRef } from 'react'
 import gsap from 'gsap';
 import useFetch from '../hooks/useFetch';
 import { useCloudinary } from '../hooks/useCloudinary';
@@ -10,6 +10,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { HeaderSub } from '../components/HeaderSub';
 import { ClipLoader } from 'react-spinners';
 import { useConstants } from '../hooks/useConstants'
+import CropperPopup from '../components/CropperPopup';
 
 
 export const CreateBlog = () => {
@@ -25,15 +26,23 @@ export const CreateBlog = () => {
    // Inputs
    const [title, setTitle] = useState();
    const [category, setCategory] = useState();
-   const [img, setImg] = useState();
+   const [cover, setCover] = useState();
    const [content, setContent] = useState('');
+   
+   
+   // Cropper Related States
+   const [newCover, setNewCover] = useState();
+   const [selectedCover, setSelectedCover] = useState();
+   const inputImageRef = useRef();
+   const [croppedImage, setCroppedImage] = useState();
+   const [isCropperBtnLoading, setIsCropperBtnLoading] = useState(false);
 
    // Add data of blog to be updated
    useEffect(() => {
       if (blog){
          setTitle(blog.title)
          setCategory(blog.category)
-         setImg(blog.img)
+         setCover(blog.img)
          setContent(blog.content)
       }
    }, [blog])
@@ -57,10 +66,10 @@ export const CreateBlog = () => {
       let originalImage = null;
       if (blog) {originalImage = blog.img}
       
-      let imageId = await useCloudinary(originalImage !== img ? img : null);
+      let imageId = await useCloudinary(originalImage !== cover ? cover : null);
       console.log(`imageId: ${imageId}`);
       console.log(`originalImage: ${originalImage}`);
-      console.log(`img: ${img}`);
+      console.log(`img: ${cover}`);
       // const imageId = true;
       
       // Check content
@@ -96,6 +105,9 @@ export const CreateBlog = () => {
             setTimeout(() => {
                navigate(`/blogs/${data.id}`)
             }, 2000)
+         }).catch(e => {
+            console.log(e.message);
+            setIsLoading(false);
          })
          setIsLoading(false);
       } 
@@ -160,27 +172,60 @@ export const CreateBlog = () => {
    }, [content])
 
 
-   // Preview Image
-   useEffect(() => {
-      // UPLOAD IMAGE: Preview
-      const imageInput = document.querySelector('input[type="file"]');
-      var uploaded_image = '';
+   // // Preview Image
+   // useEffect(() => {
+   //    // UPLOAD IMAGE: Preview
+   //    const imageInput = document.querySelector('input[type="file"]');
+   //    var uploaded_image = '';
       
-      imageInput.addEventListener("change", function() {
-         const reader = new FileReader();
-         reader.addEventListener('load', () => {
-            uploaded_image = reader.result;
-            document.querySelector('.display-image img').src = uploaded_image;
-         })
-         reader.readAsDataURL(this.files[0]);
+   //    imageInput.addEventListener("change", function() {
+   //       const reader = new FileReader();
+   //       reader.addEventListener('load', () => {
+   //          uploaded_image = reader.result;
+   //          document.querySelector('.display-image img').src = uploaded_image;
+   //       })
+   //       reader.readAsDataURL(this.files[0]);
+   //    })
+   // })
+
+
+   // Then avatar state to croppedImage file
+   // For the faithful time of submission
+   useEffect(() => {
+      if (croppedImage) {
+         const croppedImageFile = new File([croppedImage], 'croppedImage');
+         setIsCropperBtnLoading(false);
+         setCover(croppedImage);
+         setNewCoverToImageReaderFormat({0: croppedImage}, true);
+      }
+   }, [croppedImage])
+
+
+
+   // Handle Image Upload to Cropper Component
+   // To crop image before upload
+   function setNewCoverToImageReaderFormat (data, updateAvatar) {
+      const reader = new FileReader();
+      const result = reader.addEventListener('load', () => {
+         // To be sent to CropperPopup.js component for cropping
+         setSelectedCover(reader.result);
+         // To be shown in edit-profile avatar spot after being cropped
+         if (updateAvatar === true) {
+            setNewCover(reader.result);
+         }
       })
-   })
+      reader.readAsDataURL(data[0]);
+      return result;
+   }
 
 
    return (
       <div className='create-blog'>
 
          <HeaderSub owner={owner ? owner : null} />
+
+         {selectedCover && <CropperPopup yourImg={selectedCover} setImage={setSelectedCover} setCroppedImage={setCroppedImage} isLoading={isCropperBtnLoading} setIsLoading={setIsCropperBtnLoading} cropType={"cover"}/>}
+
 
          {/* POP UP */}
          <div className="pop-up-container"></div>
@@ -206,11 +251,15 @@ export const CreateBlog = () => {
                         </div>
 
                         <div className="t-pad-50">
-                           {blog && <input type="file" onChange={(e) => setImg(e.target.files[0])}/>}
-                           { !blog && <input type="file" onChange={(e) => setImg(e.target.files[0])} required/>}
+                           {/* {blog && <input type="file" onChange={(e) => setImg(e.target.files[0])}/>}
+                           { !blog && <input type="file" onChange={(e) => setImg(e.target.files[0])} required/>} */}
+                           {blog && <input ref={inputImageRef} type='file' onChange={(e) => setNewCoverToImageReaderFormat(e.target.files)} />}
+                           {!blog && <input ref={inputImageRef} type='file' onChange={(e) => setNewCoverToImageReaderFormat(e.target.files)} required />}
                         </div>
                         <div className="cb-thumbnail display-image t-mar-50">
-                           <img src={img ? `${cloudinary_image_url}/${img}` : ''} alt=''/>
+                           {/* <img src={img ? `${cloudinary_image_url}/${img}` : ''} alt=''/> */}
+                           {!newCover && <img src={cover ? `${cloudinary_image_url}/${cover}` : ''} alt='user' onClick={() => inputImageRef.current.click()} />}
+                           {newCover && <img src={newCover} alt='user' onClick={() => inputImageRef.current.click()} />}
                         </div>
 
                         {/* CONTENT */}
