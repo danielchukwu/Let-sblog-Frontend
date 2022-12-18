@@ -6,7 +6,7 @@ import { ClipLoader } from "react-spinners";
 import { useConstants } from "../hooks/useConstants";
 import getCroppedImg from "../utils/cropImage";
 
-const CropperPopup = ({ yourImg, setImage, setCroppedImage, isLoading, setIsLoading }) => {
+const CropperPopup = ({ yourImg, setImage, setCroppedImage, isLoading, setIsLoading, cropType='profile-picture' }) => {
    const [crop, setCrop] = useState({ x: 0, y: 0 });
    const [zoom, setZoom] = useState(1);
    const [croppedAreaPixels, setCroppedAreaPixels] = useState();
@@ -39,7 +39,7 @@ const CropperPopup = ({ yourImg, setImage, setCroppedImage, isLoading, setIsLoad
             <div className="pc-bg z-index-1" onClick={() => setImage(null)}></div>
 
             {/* Crop Image Pop up */}
-            <div className="crop-box">
+            <div className={cropType === "profile-picture" ? "crop-box" : "crop-box-cover"}>
                {/* <div className="f-title">
                   <h3></h3>
                </div> */}
@@ -51,12 +51,14 @@ const CropperPopup = ({ yourImg, setImage, setCroppedImage, isLoading, setIsLoad
                      </svg>
                   </span>
                </div>
-               <div className="cp-container">
+               {/* <div className="cp-container"> */}
+               <div className={cropType === "profile-picture" ? "cp-container" : "cp-container-cover"}>
                      <Cropper
                         image={yourImg}
                         crop={crop}
                         zoom={zoom}
-                        aspect={1 / 1}
+                        aspect={cropType === "profile-picture" ? 1/1 : 2/1.2}
+                        cropShape={cropType === "profile-picture" ? "round" : "rect"}
                         onCropChange={setCrop}
                         onCropComplete={onCropComplete}
                      />
