@@ -10,11 +10,11 @@ export const BlogListMB = ({blogs, setShowCenterPopUp, deleteBlogIdRef}) => {
          blogs.map( blog => {
             return (
             <div className="blog-card-mb" key={blog.id}>
-               <div className="blog-img">
-                  <Link to={`/blogs/${blog.id}`}>
-                  <img src={`${cloudinary_image_url}/${blog.img}`} alt="blogs" />
-                  </Link>
-               </div>
+               <Link to={`/blogs/${blog.id}`}>
+                  <div className="blog-img">
+                     <img src={`${cloudinary_image_url}/${blog.img}`} alt="blogs" />
+                  </div>
+               </Link>
                <div className="blog-text">
                   {/* <!-- Update and Delete Container --> */}
                   <div className="cud">
