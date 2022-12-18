@@ -23,7 +23,7 @@ export const UserOptionsDropdown = ({ owner, handleLogout, setEnableOptionsDropd
                </div>
             </Link>
             <hr />
-            <Link to={`/users/${owner.id}`} onClick={() => setEnableOptionsDropdown(false)}><p>Profile</p></Link>
+            <Link to={`/edit-profile`} onClick={() => setEnableOptionsDropdown(false)}><p>Edit Profile</p></Link>
             <Link to={"/create-blog"}><p>Create Blog</p></Link>
             <Link to={"/manage-blogs"}><p>Manage Blogs</p></Link>
             <hr />
