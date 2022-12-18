@@ -108,13 +108,14 @@ const EditProfile = () => {
    }
 
 
-   // Then sending it to the database 
+   // Then avatar state to croppedImage file
+   // For the faithful time of submission
    useEffect(() => {
       if (croppedImage) {
          const croppedImageFile = new File([croppedImage], 'croppedImage');
          setIsCropperBtnLoading(false);
          setAvatar(croppedImage);
-         setNewAvatarToImageReaderFormat({0: croppedImage});
+         setNewAvatarToImageReaderFormat({0: croppedImage}, true);
       }
    }, [croppedImage])
 
@@ -159,9 +160,9 @@ const EditProfile = () => {
                            
                            <div className="ep-img-container t-pad-15">
                               {owner && 
-                              <div className="round-img-200 display-image">
-                                    {!newAvatar && <img src={`${cloudinary_image_url}/${owner.avatar}`} alt='user' />}
-                                    {newAvatar && <img src={newAvatar} alt='user' />}
+                              <div className="round-img-200 display-image" >
+                                    {!newAvatar && <img src={`${cloudinary_image_url}/${owner.avatar}`} alt='user' onClick={() => inputImageRef.current.click()} />}
+                                    {newAvatar && <img src={newAvatar} alt='user' onClick={() => inputImageRef.current.click()} />}
                               </div>}
                            </div>
          
