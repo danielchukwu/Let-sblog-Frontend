@@ -14,7 +14,7 @@ export const NotificationList = ({notifications}) => {
       switch (notification[0].type) {
          case ('follow'):
             return (
-               <div className='ns-item' onClick={() => {setGroupList(notification); setEnableNotificationDropdown(false)}} key={notification[0].id}>
+               <div className='ns-item' key={notification[0].id}>
                   <div className='ns-img'>
                      <div className={"round-img-35"}>
                         {!notification[0].avatar && <p className="img-text">{notification[0].username[0].toUpperCase()}</p>}
@@ -22,7 +22,7 @@ export const NotificationList = ({notifications}) => {
                      </div>
                   </div>
                   <div className="flex-sb">
-                     <div className='ns-text'>
+                     <div className='ns-text' onClick={() => {setGroupList(notification)}}>
                         <p>
                         <Link  to={`/users/${notification[0].junior_id}`}><b className='bold'>{notification[0].username}</b></Link>
                         {notification.length > 2 && 
@@ -50,7 +50,7 @@ export const NotificationList = ({notifications}) => {
             
          case ('liked_blog'):
             return (
-               <div className='ns-item' onClick={() => {setGroupList(notification); setEnableNotificationDropdown(false)}} key={notification[0].id}>
+               <div className='ns-item' key={notification[0].id}>
                   <div className='ns-img'>
                      <div className={"round-img-35"}>
                         {!notification[0].avatar && <p className="img-text">{notification[0].username[0].toUpperCase()}</p>}
@@ -58,7 +58,7 @@ export const NotificationList = ({notifications}) => {
                      </div>
                   </div>
                   <div className="flex-sb">
-                     <div className='ns-text'>
+                     <div className='ns-text' onClick={() => {setGroupList(notification)}}>
                            <p>
                            <Link  to={`/users/${notification[0].junior_id}`}><b className='bold'>{notification[0].username}</b></Link>
                            {notification.length > 2 && 
@@ -88,7 +88,7 @@ export const NotificationList = ({notifications}) => {
             
          case ('liked_comment'):
             return (
-               <div className='ns-item' onClick={() => {setGroupList(notification); setEnableNotificationDropdown(false)}} key={notification[0].id}>
+               <div className='ns-item' key={notification[0].id}>
                   <div className='ns-img'>
                      <div className={"round-img-35"}>
                         {!notification[0].avatar && <p className="img-text">{notification[0].username[0].toUpperCase()}</p>}
@@ -96,7 +96,7 @@ export const NotificationList = ({notifications}) => {
                      </div>
                   </div>
                   <div className="flex-sb">
-                     <div className='ns-text'>
+                     <div className='ns-text' onClick={() => {setGroupList(notification)}}>
                         <p><Link  to={`/users/${notification[0].junior_id}`}><b className='bold'>{notification[0].username}</b></Link>
                         {notification.length > 2 && 
                         <> 
@@ -119,7 +119,7 @@ export const NotificationList = ({notifications}) => {
             
          case ('commented_blog'):
             return (
-               <div className='ns-item' onClick={() => {setGroupList(notification); setEnableNotificationDropdown(false)}} key={notification[0].id}>
+               <div className='ns-item' key={notification[0].id}>
                   <div className='ns-img'>
                      <div className={"round-img-35"}>
                         {!notification[0].avatar && <p className="img-text">{notification[0].username[0].toUpperCase()}</p>}
@@ -127,7 +127,7 @@ export const NotificationList = ({notifications}) => {
                      </div>
                   </div>
                   <div className="flex-sb">
-                     <div className='ns-text'>
+                     <div className='ns-text' onClick={() => {setGroupList(notification)}}>
                            <p><Link  to={`/users/${notification[0].junior_id}`}><b className='bold'>{notification[0].username}</b></Link>
                            {notification.length > 2 && 
                            <> 
@@ -156,7 +156,7 @@ export const NotificationList = ({notifications}) => {
             
          case ('commented_comment'):
             return (
-               <div className='ns-item' onClick={() => {setGroupList(notification); setEnableNotificationDropdown(false)}} key={notification[0].id}>
+               <div className='ns-item' key={notification[0].id}>
                   <div className='ns-img'>
                      <div className={"round-img-35"}>
                         {!notification[0].avatar && <p className="img-text">{notification[0].username[0].toUpperCase()}</p>}
@@ -164,7 +164,7 @@ export const NotificationList = ({notifications}) => {
                      </div>
                   </div>
                   <div className="flex-sb">
-                     <div className='ns-text'>
+                     <div className='ns-text' onClick={() => {setGroupList(notification)}}>
                            <p><Link  to={`/users/${notification[0].junior_id}`}><b className='bold'>{notification[0].username}</b></Link>
                            {notification.length > 2 && 
                            <> 
