@@ -30,6 +30,10 @@ const Login = () => {
          // if (res){navigate('/')} else {displayPopup();}
          if (res){navigate('/')} else {displayPopup("Invalid Username and Password!");}
       })
+      .catch(err => {
+         setIsLoading(false);
+         displayPopup("Network Error!");
+      })
    }
 
 
