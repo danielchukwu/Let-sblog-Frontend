@@ -52,6 +52,8 @@ const Register = () => {
          })
          .catch(err => {
             console.log(err.message)
+            setIsLoading(false);
+            displayPopup("Network Error!");
          })
       // usePost(body, '/register')
    }
