@@ -10,7 +10,7 @@ import { useConstants } from '../hooks/useConstants'
 
 const Home = () => {
   const {data: owner, setData: setOwner} = useFetch('/users/me');
-  const {data: blogs} = useFetch('');
+  const {data: blogs} = useFetch();
   const navigate = useNavigate();
   const {spinnerStyle} = useConstants();
   
