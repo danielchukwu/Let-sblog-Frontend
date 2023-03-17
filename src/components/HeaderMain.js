@@ -1,8 +1,8 @@
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom';
 import { gsap } from "gsap";
 import { createContext, useEffect, useState } from 'react';
-import down from '../assets/images/icons/down.svg'
-import removeCookie from '../utils/removeCookie'
+import down from '../assets/images/icons/down.svg';
+import removeCookie from '../utils/removeCookie';
 import { useUrl } from '../hooks/useUrl';
 import { UserOptionsDropdown } from './UserOptionsDropdown';
 import { NotificatiosDropdown } from './NotificatiosDropdown';
@@ -82,7 +82,7 @@ const HeaderMain = ({owner, showRight=true, setOwner}) => {
                   <Link to="/sign-up"><span className="btn l-mar-10">Sign Up</span></Link>
                </div>}
 
-               { owner && 
+               { owner !== null && 
                <div className="right">
                   {/* Home */}
                   <Link to={'/'} style={{height: "100%"}}>
