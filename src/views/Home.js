@@ -16,17 +16,19 @@ const Home = () => {
   
   return (
     <div>
+      {/* Header */}
       {getCookie('usrin') && <HeaderMain owner={owner ? owner : owner} showRight={owner ? true : false } setOwner={setOwner} />}
       {!getCookie('usrin') && <HeaderMain owner={null}/>}
 
+      {/* Loader */}
       {!blogs && 
       <div className='spinner-container t-pad-30'>
         <ClipLoader color={"var(--theme-green)"} size={30} cssOverride={spinnerStyle}/>
       </div>}
       
-      
-      <main className="t-pad-220">
-        <div className="content-wrapper max-w-1000">
+      {/* Blogs */}
+      <main className="home-body">
+        <div className="content-wrapper">
           <div className="grid-wrapper">
 
             {blogs && <BlogList blogs={blogs} />}
