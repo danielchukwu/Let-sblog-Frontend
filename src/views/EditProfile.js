@@ -9,6 +9,7 @@ import { useUrl } from '../hooks/useUrl';
 import displayPopup from '../utils/displayPopup';
 import { ClipLoader } from 'react-spinners';
 import CropperPopup from '../components/CropperPopup';
+import HeaderMain from '../components/HeaderMain';
 // import ReactCrop from 'react-image-crop';
 // import 'react-image-crop/dist/ReactCrop.css'
 
@@ -140,7 +141,9 @@ const EditProfile = () => {
    return (
       <div className='edit-profile-react'>
 
-         <HeaderSub owner={owner} setOwner={setOwner} />
+         {/* <HeaderSub owner={owner} setOwner={setOwner} /> */}
+         <HeaderMain owner={owner ? owner : null} showRight={owner ? true : false} setOwner={setOwner}/>
+
 
          {selectedAvatar && <CropperPopup yourImg={selectedAvatar} setImage={setSelectedAvatar} setCroppedImage={setCroppedImage} isLoading={isCropperBtnLoading} setIsLoading={setIsCropperBtnLoading} />}
 
