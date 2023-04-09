@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useUrl } from '../hooks/useUrl';
 import getCookie from '../utils/getCookie';
-import { CommentContext } from '../views/Blogs';
+import { CommentContext } from '../pages/Blogs/BlogsPage';
 
 const CommentList = (props) => {
    const {cloudinary_image_url, host_url} = useUrl();

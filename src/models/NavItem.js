@@ -4,7 +4,7 @@ class NavItem {
   constructor(name, iconSrc, route) {
     this.iconSrc = iconSrc;
     this.name    = name;
-    this.route   = this.route;
+    this.route   = route;
   }
 }
 

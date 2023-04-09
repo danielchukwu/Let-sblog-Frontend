@@ -1,14 +1,25 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import NavItems from "../models/NavItem";
 import DisplaySvg from "./images/DisplaySvg";
 
 const FooterMain = () => {
-  const navigate = useNavigate();
+  let navigate = useNavigate();
 
-  const handleClick = (route, index) => {
-    // Update to new selected navbar
-    NavItems.setSelectedIndex(index);
-    navigate(route);
+  function handleClick (route, index) {
+    if (route){
+      // Update to new selected navbar
+      NavItems.setSelectedIndex(index);
+      // Regex to confirm whether the route requires an Id 
+      // Matches: /users/, /users/projects/
+      // Mismatch: /users, /users/projects
+      const regex = /^\/?[a-z\/]+\//i;
+
+      // if route requires an id, pass an id, provide one
+      if (regex.test(route)){
+        return navigate(route + '13');
+      }
+      return navigate(route);
+    }
   }
 
   return (
