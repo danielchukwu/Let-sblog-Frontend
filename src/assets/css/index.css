@@ -583,9 +583,9 @@ main {
   fill: rgba(0, 0, 0, .7);
 }
 
-.navbar-svg_selected svg {
+.navbar-svg-selected svg {
   height: 20px;
-  fill: rgba(0, 0, 0, .9);
+  fill: var(--theme-green);
 }
 
 .footer-wrapper {
@@ -1177,6 +1177,8 @@ form p a:hover {
   border-radius: 10px;
   box-shadow: var(--card-shadow);
 }
+
+
 
 .noti-card {
   min-width: 380px;
@@ -2150,6 +2152,9 @@ form p a:hover {
     width: 30px;
   }
 
+  .up-card a {
+    display: block;
+  }
 }
 
 /* Large Screens, Desktops */

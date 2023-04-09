@@ -1,0 +1,10 @@
+APRIL
+- Fix page padding ✅
+- Attach page links to navbar
+- Fix blog texts, they don't look responsive
+
+
+
+Later
+- Fix GSAP header animation
+- Change all px to rem
