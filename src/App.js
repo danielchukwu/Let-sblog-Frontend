@@ -1,13 +1,13 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Blogs from './views/Blogs';
-import { CreateBlog } from './views/CreateBlog';
-import EditProfile from './views/EditProfile';
-import Home from './views/Home';
-import Login from './views/Login';
-import { ManageBlogs } from './views/ManageBlogs';
-import Profile from './views/Profile';
-import Register from './views/Register';
-import Spinner from './views/Spinner';
+import BlogsPage from './pages/Blogs/BlogsPage';
+import { CreateBlogPage } from './pages/CreateBlog/CreateBlogPage';
+import EditProfilePage from './pages/EditProfile/EditProfilePage';
+import HomePage from './pages/Home/HomePage';
+import LoginPage from './pages/Login/LoginPage';
+import { ManageBlogsPage } from './pages/ManageBlogs/ManageBlogsPage';
+import ProfilePage from './pages/Profile/ProfilePage';
+import Register from './pages/Register/RegisterPage';
+import Spinner from './pages/Spinner';
 
 
 function App() {
@@ -15,16 +15,16 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='/login' element={<Login />} />
+          <Route path='/' element={<HomePage />} />
+          <Route path='/login' element={<LoginPage />} />
           <Route path='/sign-up' element={<Register />} />
-          <Route path='/edit-profile' element={<EditProfile />} />
+          <Route path='/edit-profile' element={<EditProfilePage />} />
           <Route path='/spinner' element={<Spinner />} />
-          <Route path='/manage-blogs' element={<ManageBlogs />} />
-          <Route path='/create-blog' element={<CreateBlog />} />
-          <Route path='/edit-blog/:id' element={<CreateBlog />} />
-          <Route path='/blogs/:id' element={<Blogs />} />
-          <Route path='/users/:id' element={<Profile />} />
+          <Route path='/manage-blogs' element={<ManageBlogsPage />} />
+          <Route path='/create-blog' element={<CreateBlogPage />} />
+          <Route path='/edit-blog/:id' element={<CreateBlogPage />} />
+          <Route path='/blogs/:id' element={<BlogsPage />} />
+          <Route path='/users/:id' element={<ProfilePage />} />
         </Routes>
       </BrowserRouter>
     </div>
