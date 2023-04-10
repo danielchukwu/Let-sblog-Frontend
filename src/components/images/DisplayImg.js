@@ -8,8 +8,8 @@ const DisplayImg = ({
 }) => {
   const {cloudinary_image_url} = useUrl();
   return (
-    <div className={selector}>
-      {img && <img src={`${cloudinary_image_url}/${img}`} alt={alt} />}
+    <div className={selector + " fit"}>
+      {img && <img className="fit" src={`${cloudinary_image_url}/${img}`} alt={alt} />}
       {!img && name.length > 0 && (
         <p>{name[0].toUpperCase()}</p>
       )}

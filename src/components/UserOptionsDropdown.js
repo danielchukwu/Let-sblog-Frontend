@@ -1,9 +1,7 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import { useUrl } from '../hooks/useUrl'
+import { Link } from 'react-router-dom';
+import DisplayImg from './images/DisplayImg';
 
 export const UserOptionsDropdown = ({ owner, handleLogout, setEnableOptionsDropdown }) => {
-   const {cloudinary_image_url} = useUrl();
    return (
       <div className="pc-wrapper-2">
          
@@ -12,8 +10,7 @@ export const UserOptionsDropdown = ({ owner, handleLogout, setEnableOptionsDropd
             <Link to={`/users/${owner.id}`} onClick={() => setEnableOptionsDropdown(false)}>
                <div className='up-profile'>
                   <div className="round-img-50 r-mar-10">
-                     {!owner.avatar && <h3 className="img-text">{owner.name[0].toUpperCase()}</h3>}
-                     { owner.avatar && <img src={`${cloudinary_image_url}/${owner.avatar}`} alt=''/>}
+                     <DisplayImg selector="img-text" img={owner.avatar} name={owner.name} alt="profile image"/>
                   </div>
                   <div className='up-profile-name'>
                      <h3>{owner ? owner.name : ''}</h3>
@@ -30,7 +27,6 @@ export const UserOptionsDropdown = ({ owner, handleLogout, setEnableOptionsDropd
             <p className='pointer' onClick={handleLogout}>Logout</p>
             
          </div>
-
       </div>
    )
 }
