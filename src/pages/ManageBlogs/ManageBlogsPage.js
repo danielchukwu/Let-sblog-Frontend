@@ -1,12 +1,12 @@
 import axios from 'axios';
 import { useEffect, useRef, useState } from 'react'
 import { ClipLoader } from 'react-spinners';
-import { BlogListMB } from '../../components/BlogListMB';
+import { BlogListMB } from '../../components/Blogs/BlogListMB';
 import FooterMain from '../../components/FooterMain';
 import { HeaderSub } from '../../components/HeaderSub'
 import { useConstants } from '../../hooks/useConstants';
 import useFetch from '../../hooks/useFetch'
-import { displayPopupCenter } from '../../utils/displayPopupCenter';
+// import { displayPopupCenter } from '../../utils/displayPopupCenter';
 import getCookie from '../../utils/getCookie';
 
 

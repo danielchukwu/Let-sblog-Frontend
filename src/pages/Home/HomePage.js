@@ -1,6 +1,6 @@
 import HeaderMain from '../../components/HeaderMain'
 import FooterMain from '../../components/FooterMain'
-import BlogList from '../../components/BlogList'
+import BlogList from '../../components/Blogs/BlogList'
 import useFetch from '../../hooks/useFetch'
 import { useNavigate } from 'react-router-dom'
 import getCookie from '../../utils/getCookie'

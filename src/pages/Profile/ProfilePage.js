@@ -1,6 +1,6 @@
 import { useLayoutEffect, useEffect, useState, useRef } from 'react'
 import { Link, useParams } from 'react-router-dom';
-import BlogCard from '../../components/BlogList';
+import BlogCard from '../../components/Blogs/BlogList';
 import FooterMain from '../../components/FooterMain';
 import HeaderMain from '../../components/HeaderMain';
 import useFetch from '../../hooks/useFetch';
