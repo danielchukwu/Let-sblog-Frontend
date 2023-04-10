@@ -19,7 +19,7 @@ const BlogContent = ({owner}) => {
 
         {/* blog image cover */}
         <DisplayImg
-          selector="main-img-section blog-img-big"
+          selector="blog-img-big"
           img={blog.img}
           alt="blog image"
         />
