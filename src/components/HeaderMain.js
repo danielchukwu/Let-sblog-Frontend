@@ -9,6 +9,7 @@ import { NotificatiosDropdown as NotificationsDropdown } from './NotificatiosDro
 import DisplaySvg from './images/DisplaySvg';
 import { homeIcon, notificationIcon, downArrowIcon } from '../Constraints';
 import DisplayImg from './images/DisplayImg';
+import { TextH1 } from './Text/Texts';
 
 export const HeaderContext = createContext(); 
 
@@ -24,24 +25,24 @@ const HeaderMain = ({owner, showRight=true, setOwner}) => {
    useEffect(() => {
       const handleScroll = e => {
          if (window.screen.width > 769) {
-            if (window.pageYOffset >= 20){
-               gsap.to('.header', {background: '#00ABB3',duration: 0.3, opacity: 1, ease: 'power1.out'})
-               gsap.to('.wrapper', {padding: '10px 0', duration: 0.3})
-               gsap.to('.right-username', {duration: 0.25, color: "#fff"})
-               gsap.to('.logo-text h1', {fontSize: '2.2rem', duration: 0.25, color: "#fff"})
-               gsap.to('.btn', {borderRadius: 0, color: '#fff', duration: 0.3})
-               gsap.to('.right-item svg, .right-item p', {color: '#fff', fill: '#fff', duration: 0.3})
-               gsap.to('.ndw', {background: '#00ABB3', duration: 0.3})
-            }
-            else if (window.pageYOffset < 19){
-               gsap.to('.header', {background: '#f0f1f3', duration: 0.3, opacity: 1})
-               gsap.to('.wrapper', {padding: '50px 0', duration: 0.3, ease: 'power1.out'})
-               gsap.to('.right-username', {duration: 0.25, color: "#000"})
-               gsap.to('.logo-text h1', {fontSize: '3rem',  color: '#000', duration: 0.3})
-               gsap.to('.btn', {borderRadius: '20', color: '#fff', duration: 0.3})
-               gsap.to('.right-item svg, .right-item p', {color: '#000', fill: '#3c4048', duration: 0.3})
-               gsap.to('.ndw', {background: '#f0f1f3', duration: 0.3})
-            }
+            // if (window.pageYOffset >= 20){
+            //    gsap.to('.header', {background: '#00ABB3',duration: 0.3, opacity: 1, ease: 'power1.out'})
+            //    gsap.to('.wrapper', {padding: '10px 0', duration: 0.3})
+            //    gsap.to('.right-username', {duration: 0.25, color: "#fff"})
+            //    gsap.to('.logo-text h1', {fontSize: '2.2rem', duration: 0.25, color: "#fff"})
+            //    gsap.to('.btn', {borderRadius: 0, color: '#fff', duration: 0.3})
+            //    gsap.to('.right-item svg, .right-item p', {color: '#fff', fill: '#fff', duration: 0.3})
+            //    gsap.to('.ndw', {background: '#00ABB3', duration: 0.3})
+            // }
+            // else if (window.pageYOffset < 19){
+            //    gsap.to('.header', {background: '#f0f1f3', duration: 0.3, opacity: 1})
+            //    gsap.to('.wrapper', {padding: '50px 0', duration: 0.3, ease: 'power1.out'})
+            //    gsap.to('.right-username', {duration: 0.25, color: "#000"})
+            //    gsap.to('.logo-text h1', {fontSize: '3rem',  color: '#000', duration: 0.3})
+            //    gsap.to('.btn', {borderRadius: '20', color: '#fff', duration: 0.3})
+            //    gsap.to('.right-item svg, .right-item p', {color: '#000', fill: '#3c4048', duration: 0.3})
+            //    gsap.to('.ndw', {background: '#f0f1f3', duration: 0.3})
+            // }
             
          }
       }
@@ -77,15 +78,13 @@ const HeaderMain = ({owner, showRight=true, setOwner}) => {
             <div className="wrapper">
                <div className="left">
                   <Link to="/">
-                     <div className="logo-text">
-                        <h1 title="Home">Let's Bl😉g.</h1>
-                     </div>
+                     <TextH1 selector="logo-text" text={"Let's Bl😉g."}/>
                   </Link>
                </div>
                {! owner && showRight &&
-               <div className="right">
-                  <Link to="/login"><span className="btn">Login</span></Link>
-                  <Link to="/sign-up"><span className="btn l-mar-10">Sign Up</span></Link>
+               <div className="right sc-buttons">
+                  <Link to="/login"><button className="btn">Login</button></Link>
+                  <Link to="/sign-up"><button className="btn l-mar-10">Sign Up</button></Link>
                </div>}
 
                { owner !== null && 
@@ -101,12 +100,12 @@ const HeaderMain = ({owner, showRight=true, setOwner}) => {
                   </Link>
                   {/* Notification */}
                   <div className='right-item l-mar-40' onClick={() => {setEnableNotificationDropdown( !enableNotificationDropdown ); setEnableOptionsDropdown(false);}}>
-                     <div className='rn-svg-center pos-rel t-pad-3'>
+                     <div className='rn-svg-center pos-rel'>
                         {owner.notifications_count > 0 && 
                         <div className='ndw'>
                            <div className='noti-dot'></div>
                         </div>}
-                        <DisplaySvg svg={notificationIcon} />
+                        <DisplaySvg svg={notificationIcon} selector={'rn-svg-center noti-svg'}/>
                      </div>
                      <div className='right-item-bottom'>
                         <p className='fs-14'>Notifications</p>
@@ -122,16 +121,13 @@ const HeaderMain = ({owner, showRight=true, setOwner}) => {
                   {/* User Option */}
                   <div className='right-item l-mar-40' onClick={() => {setEnableOptionsDropdown(!enableOptionsDropdown); setEnableNotificationDropdown(false);}}>
                      <div className='rn-svg-center'>
-                        <div className="round-img-35">
-                           {/* {!owner.avatar && <h3 className="img-text">{owner.name[0].toUpperCase()}</h3>}
-                           { owner.avatar && <img src={`${cloudinary_image_url}/${owner.avatar}`} alt=''/>} */}
-                           <DisplayImg selector="img-text" img={owner.avatar} name={owner.name} alt="profile image"/>
-
+                        <div className="round-img-27">
+                           <DisplayImg selector="fit img-text-s" img={owner.avatar} name={owner.name} alt="profile image"/>
                         </div>
                      </div>
                      <div className='right-item-bottom'>
                         <p className='fs-14'>Me</p>
-                        <DisplaySvg svg={downArrowIcon} />
+                        <DisplaySvg svg={downArrowIcon} selector={"drp-svg"}/>
                      </div>
                   </div>
 
