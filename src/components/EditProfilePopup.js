@@ -4,6 +4,7 @@ import { useConstants } from '../hooks/useConstants';
 import { useUrl } from '../hooks/useUrl';
 import getCookie from '../utils/getCookie';
 import displayPopup from '../utils/displayPopup';
+import { SquareButton } from './Buttons';
 
 
 // This popup only updates users
@@ -14,7 +15,6 @@ import displayPopup from '../utils/displayPopup';
 export const EditProfilePopup = ({ setShowEditPopup, owner, setOwner }) => {
    const {host_url} = useUrl();
    const [isLoading, setIsLoading] = useState();
-   const {spinnerStyle} = useConstants();
 
    // Form state
    const [occupation, setOccupation] = useState();
@@ -186,17 +186,12 @@ export const EditProfilePopup = ({ setShowEditPopup, owner, setOwner }) => {
                         })
                         }
                         </div>
-
-
                      </div>
                      
                      
-                     <div className="flex-right">
-                        {!isLoading && <button className="btn-square t-mar-10" onClick={(e) => {setIsLoading(true); HandleSubmit(e)}}>Save</button>}
-                        {isLoading && 
-                        <button className="btn-square-loading t-mar-10" disabled>
-                              <ClipLoader color={"var(--theme-white)"} size={13} cssOverride={spinnerStyle}/>
-                        </button>}
+                     <div className="edit-profile-btn-wrapper">
+                        {!isLoading && <SquareButton onClick={(e) => {setIsLoading(true); HandleSubmit(e)}} content='Save'/>}
+                        {isLoading && <SquareButton isLoading={true} />}
                      </div>
                   </div>
                </div>

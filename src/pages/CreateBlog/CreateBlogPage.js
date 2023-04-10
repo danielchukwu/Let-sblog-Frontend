@@ -13,6 +13,7 @@ import { useConstants } from '../../hooks/useConstants'
 import CropperPopup from '../../components/CropperPopup';
 
 
+
 export const CreateBlogPage = () => {
    const {id} = useParams();
    const {data: owner} = useFetch(`/users/me`);
@@ -170,24 +171,6 @@ export const CreateBlogPage = () => {
          window.scrollTo = window.scrollY + 500
       })
    }, [content])
-
-
-   // // Preview Image
-   // useEffect(() => {
-   //    // UPLOAD IMAGE: Preview
-   //    const imageInput = document.querySelector('input[type="file"]');
-   //    var uploaded_image = '';
-      
-   //    imageInput.addEventListener("change", function() {
-   //       const reader = new FileReader();
-   //       reader.addEventListener('load', () => {
-   //          uploaded_image = reader.result;
-   //          document.querySelector('.display-image img').src = uploaded_image;
-   //       })
-   //       reader.readAsDataURL(this.files[0]);
-   //    })
-   // })
-
 
    // Then avatar state to croppedImage file
    // For the faithful time of submission

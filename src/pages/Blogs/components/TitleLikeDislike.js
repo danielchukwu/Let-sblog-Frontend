@@ -8,8 +8,10 @@ import getCookie from '../../../utils/getCookie';
 import DisplaySvg from '../../../components/images/DisplaySvg';
 import { thumbsDown, thumbsUp } from '../../../Constraints';
 import { BlogContext } from '../../../context/BlogContext';
+import { TextEm, TextH1 } from "../../../components/Text/Texts";
+import DisplayImg from "../../../components/images/DisplayImg";
 
-const LikeAndDislike = () => {
+const TitleLikeDislike = () => {
   const {id, blog, setBlog} = useContext(BlogContext);
   const { cloudinary_image_url, host_url } = useUrl();
 
@@ -73,24 +75,18 @@ const LikeAndDislike = () => {
 
   return (
     <div className="top-section">
-      <div className="title-container">
-        <h1>{blog.title}</h1>
-      </div>
+      <TextH1 selector="title-container" text={blog.title}/>
 
       <div className="blog-owner t-pad-50">
         <Link to={`/users/${blog.user_id}`}>
-          <em className="btn-edit-profile r-mar-10">
-            created by {blog.username}
-          </em>
+          <TextEm selector="btn-edit-profile" text={"created by " + blog.username}/>
         </Link>
-        <div className={"round-img-25"}>
-          {!blog.avatar && (
-            <p className="img-t-14">{blog.username[0].toUpperCase()}</p>
-          )}
-          {blog.avatar && (
-            <img src={`${cloudinary_image_url}/${blog.avatar}`} alt="" />
-          )}
-        </div>
+        <DisplayImg
+            selector="round-img-25 img-text"
+            img={blog ? blog.avatar : null}
+            name={blog ? blog.name : ""}
+            alt="profile image"
+          />
       </div>
       <div className="cb-3 t-pad-5">
         <span
@@ -112,4 +108,4 @@ const LikeAndDislike = () => {
   );
 };
 
-export default LikeAndDislike;
+export default TitleLikeDislike;

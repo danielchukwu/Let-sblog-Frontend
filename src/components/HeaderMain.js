@@ -5,9 +5,10 @@ import down from '../assets/images/icons/down.svg';
 import removeCookie from '../utils/removeCookie';
 import { useUrl } from '../hooks/useUrl';
 import { UserOptionsDropdown } from './UserOptionsDropdown';
-import { NotificatiosDropdown } from './NotificatiosDropdown';
+import { NotificatiosDropdown as NotificationsDropdown } from './NotificatiosDropdown';
 import DisplaySvg from './images/DisplaySvg';
 import { homeIcon, notificationIcon, downArrowIcon } from '../Constraints';
+import DisplayImg from './images/DisplayImg';
 
 export const HeaderContext = createContext(); 
 
@@ -114,7 +115,7 @@ const HeaderMain = ({owner, showRight=true, setOwner}) => {
 
                   {/* Notification Dropdown */}
                   {enableNotificationDropdown && 
-                     <NotificatiosDropdown owner={owner} setOwner={setOwner} setEnableNotificationDropdown={setEnableNotificationDropdown} />
+                     <NotificationsDropdown owner={owner} setOwner={setOwner} setEnableNotificationDropdown={setEnableNotificationDropdown} />
                   }
 
                   
@@ -122,8 +123,10 @@ const HeaderMain = ({owner, showRight=true, setOwner}) => {
                   <div className='right-item l-mar-40' onClick={() => {setEnableOptionsDropdown(!enableOptionsDropdown); setEnableNotificationDropdown(false);}}>
                      <div className='rn-svg-center'>
                         <div className="round-img-35">
-                           {!owner.avatar && <h3 className="img-text">{owner.name[0].toUpperCase()}</h3>}
-                           { owner.avatar && <img src={`${cloudinary_image_url}/${owner.avatar}`} alt=''/>}
+                           {/* {!owner.avatar && <h3 className="img-text">{owner.name[0].toUpperCase()}</h3>}
+                           { owner.avatar && <img src={`${cloudinary_image_url}/${owner.avatar}`} alt=''/>} */}
+                           <DisplayImg selector="img-text" img={owner.avatar} name={owner.name} alt="profile image"/>
+
                         </div>
                      </div>
                      <div className='right-item-bottom'>

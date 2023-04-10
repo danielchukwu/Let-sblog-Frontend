@@ -18,3 +18,8 @@ export const TextH3 = ({selector="main-text", text}) => (
     <h3>{text}</h3>
   </div>
 );
+export const TextEm = ({selector="main-text", text}) => (
+  <div className={selector}>
+    <em>{text}</em>
+  </div>
+);

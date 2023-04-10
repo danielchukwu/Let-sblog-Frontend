@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useUrl } from '../../hooks/useUrl';
 import getCookie from '../../utils/getCookie';
-import { CommentContext } from '../../pages/Blogs/BlogsPage';
+import { CommentContext } from '../../context/BlogContext';
 
 const CommentList = (props) => {
    const {cloudinary_image_url, host_url} = useUrl();
@@ -56,14 +56,11 @@ const CommentList = (props) => {
          return res.json();
       })
       .then(data => {
-         console.log("Response");
-         console.log(data);
          updateRepliesCount();
          const newData = subComments;
          if (newData[comment_id]){
             newData[comment_id].unshift(data);
          }
-         console.log(newData[comment_id]);
          setSubComments({...newData});
       })
    }
@@ -79,8 +76,6 @@ const CommentList = (props) => {
       function updateLikeStateComments (liked, likes, disliked, dislikes) {
          const newDataList = comments;
          console.log("NewDataList: ");
-         console.log(newDataList);
-         console.log(subComments);
 
          newDataList.map(comment => {
             if (comment.id === id){
@@ -99,9 +94,7 @@ const CommentList = (props) => {
 
       // POST like request
       function sendLikeRequest(like_type) {  // like_type (likes or dislikes)
-         console.log("Sending Like:...")
          const body = {'user_id': user_id}
-         console.log(body)
          
          fetch(`${host_url}/comments/${id}/${like_type}`, {
             method: 'POST',
@@ -113,7 +106,7 @@ const CommentList = (props) => {
          })
          .then(res => res.json())
          .then(data => {
-            console.log(data)
+            // console.log(data)
          })
       }
 
@@ -121,18 +114,9 @@ const CommentList = (props) => {
       if (is_like){                     // If like. like comment
          updateLikeStateComments('liked', 'likes', 'disliked', 'dislikes');
          sendLikeRequest('likes');
-         // axios.get(`${process.env.REACT_APP_HOST_API}/comments/${id}/likes`, config)
-         // .then((data) => {
-            //    console.log(data)
-            // })
          } else {                        // If dislike. dislike comment
             updateLikeStateComments('disliked', 'dislikes', 'liked', 'likes');
             sendLikeRequest('dislikes');
-
-         // axios.get(`${process.env.REACT_APP_HOST_API}/comments/${id}/dislikes`, config)
-         // .then((data) => {
-         //    console.log(data)
-         // })
       }
 
    }
@@ -140,9 +124,7 @@ const CommentList = (props) => {
 
    // Fetch sub comments
    const HandleFetch = (id, element) => {
-      // console.log(element.parentElement.parentElement.parentElement.querySelector('.cb-5'));
       const subCommentsContainer = element.parentElement.parentElement.parentElement.querySelector('.cb-5');
-      console.log(subCommentsContainer)
       
       let config = {params : {'x-access-token': getCookie('usrin')}};
       axios.get(`${process.env.REACT_APP_HOST_API}/comments/${id}/comments`, config)
@@ -150,7 +132,6 @@ const CommentList = (props) => {
          if (data.data.message){
             throw Error('missing token');
          }
-         console.log(data.data);
          let newData = null;
          if (subComments[id]){
             newData = subComments;
@@ -159,7 +140,6 @@ const CommentList = (props) => {
          } else {
             newData = subComments;
             newData[id] = data.data;
-            console.log(newData);
             setSubComments({...newData});         
          }
          })

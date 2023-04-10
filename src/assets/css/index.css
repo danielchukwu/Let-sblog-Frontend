@@ -614,6 +614,7 @@ main {
 .blog-owner {
   display: flex;
   align-items: center;
+  gap: .6rem;
 }
 
 .top-section {
@@ -745,10 +746,11 @@ main {
   cursor: pointer;
 }
 
-.body-section {
+.blog-body-grid {
   display: grid;
   grid-template-columns: 3fr 1.5fr;
-  column-gap: 50px;
+  column-gap: 3.125rem;
+  padding: 2rem 3.125rem 0 2rem;
 }
 
 .user-card,
@@ -874,6 +876,10 @@ em {
   grid-template-rows: 70px;
 }
 
+.cb-img-container {
+  padding-top: .4rem;
+}
+
 .btn {
   background-color: var(--theme-green);
   color: var(--theme-white);
@@ -882,27 +888,32 @@ em {
   cursor: pointer;
 }
 
+.btn-round,
+.btn-round-loading,
+.btn-round-off,
 .btn-square,
 .btn-square-loading {
   background-color: var(--theme-green);
   color: var(--theme-white);
-  /* padding: 10px 20px; */
   height: 40px;
   width: 120px;
   border: none;
   border-radius: 3px;
   cursor: pointer;
+  font-size: .85rem;
+  font-weight: 500;
+}
+
+.sc-buttons {
+  display: flex;
+  gap: 1rem;
 }
 
 .btn-round,
+.btn-round-loading,
 .btn-round-off {
-  background-color: var(--theme-green);
-  color: var(--theme-white);
-  padding: 7px 12px;
+  /* height: 2.5rem; */
   border-radius: 20px;
-  cursor: pointer;
-  font-size: 15px;
-  font-weight: 600;
 }
 
 .btn-round-off {
@@ -1029,14 +1040,14 @@ em {
 
 
 
-.img-text,
+.img-text p,
 .img-t-14 {
   color: #fff;
   font-weight: 600;
   font-size: 25px;
 }
 
-.img-text {
+.img-text p {
   font-size: 20px;
 }
 
@@ -1224,9 +1235,15 @@ form p a:hover {
   font-size: 20px;
 }
 
-.flex-right {
+/* .flex-right {
   display: flex;
   justify-content: flex-end;
+} */
+
+.edit-profile-btn-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
 }
 
 /* .follow-container {
@@ -1433,9 +1450,8 @@ form p a:hover {
 /* MANAGE BLOGS */
 .cud,
 .ct-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  /* display: flex;img-text */
+  padding-bottom: 1.25rem;
 }
 
 .ud {

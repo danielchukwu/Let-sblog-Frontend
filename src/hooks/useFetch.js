@@ -3,11 +3,11 @@ import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import getCookie from '../utils/getCookie'
 
-export default function useFetch(url='/') {
-   const [data, setData] = useState(null)
-   const [tokenIsValid, setTokenIsValid] = useState(true)
-   const navigate = useNavigate() 
-   const location = useLocation()
+export default function useFetch(url='/', noRedirect=true) {
+   const [data, setData] = useState(null);
+   const [tokenIsValid, setTokenIsValid] = useState(true);
+   const navigate = useNavigate();
+   const location = useLocation();
 
    useEffect(() => {
       let config = {
@@ -46,5 +46,3 @@ export default function useFetch(url='/') {
 
    return {data, setData, tokenIsValid}
 }
-
-// export default useFetch;

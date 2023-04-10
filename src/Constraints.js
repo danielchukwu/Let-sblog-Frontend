@@ -1,3 +1,6 @@
+import Cookie from 'js-cookie';
+
+
 // Svg Icons
 export const homeIcon = (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
@@ -72,7 +75,38 @@ export const thumbsDown = (blog) => (
   </svg>
 );
 
-// export default {
-//   // Icons
-//   homeIcon, notificationIcon, downArrowIcon, searchIcon, createIcon, userIcon,
-// };
+
+
+// Util Functions
+
+// This function gets the pluralized word of some text or just 
+// returns the singular based on some count
+export function getPluralOrSingular(count, word) {
+  if (count == 0 || count > 1){
+    return word + "s";
+  }
+  return word;
+}
+
+
+// Textarea Auto Resizer - helps resize text field as the lines increase
+export const autoResize = (textarea) => {
+  console.log(textarea);
+  console.log(textarea.style);
+
+  textarea.style.cssText = `height: ${textarea.scrollHeight}px; overflow-y: hidden;`;
+
+  textarea.addEventListener("input", function () {
+    console.log("just changed!");
+    this.style.height = "auto";
+    this.style.height = `${this.scrollHeight}px`;
+    window.scrollTo = window.scrollY + 500;
+  });
+};
+
+// Get and Set Cookies
+export const getCookie = (cookiename) => Cookie.get(cookiename);
+
+export const setCookie = (cookiename, usrin) => {  
+  Cookie.set(cookiename, usrin, {expires: 1, secure: true, sameSite: 'strict', path: '/'});
+}
