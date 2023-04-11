@@ -965,6 +965,10 @@ em {
 }
 
 /* REGISTRATION & LOGIN */
+.ep-container {
+  padding-top: 8rem;
+}
+
 .rl-wrapper {
   height: 100%;
   display: flex;
@@ -973,7 +977,7 @@ em {
 
 .rl-container {
   width: 100%;
-  height: 600px;
+  /* height: 600px; */
   margin: 0 auto;
   border-radius: 20px;
   border: var(--theme-border);
