@@ -4,11 +4,11 @@ import HeaderLogin from '../../components/HeaderLogin'
 import developer from '../../assets/images/defaults/developer.png';
 import { useState } from 'react'
 import useLogin from '../../hooks/useLogin'
-import gsap from 'gsap'
 import displayPopup from '../../utils/displayPopup'
 import removeCookie from '../../utils/removeCookie'
 import { ClipLoader } from 'react-spinners';
 import { useConstants } from '../../hooks/useConstants'
+import HeaderMain from '../../components/HeaderMain';
 
 
 const LoginPage = () => {
@@ -39,7 +39,7 @@ const LoginPage = () => {
 
    return (
       <div className='login'>
-         <HeaderLogin />
+         <HeaderMain owner={null} showRight={false}/>
 
          {/* POP UP */}
          <div class="pop-up-container"></div>

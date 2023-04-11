@@ -6,6 +6,7 @@ import useLogin from '../../hooks/useLogin'
 import displayPopup from '../../utils/displayPopup'
 import { useConstants } from '../../hooks/useConstants'
 import { ClipLoader } from 'react-spinners';
+import HeaderMain from '../../components/HeaderMain'
 // import usePost from '../hooks/usePost'
 
 const Register = () => {
@@ -76,7 +77,7 @@ const Register = () => {
 
    return (
       <div className='register'>
-         <HeaderLogin />
+         <HeaderMain owner={null} showRight={false}/>
          
          {/* POP UP */}
          <div class="pop-up-container"></div>
