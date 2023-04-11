@@ -1,6 +1,6 @@
 import { useLayoutEffect, useEffect, useState, useRef } from "react";
 import useFetch from "../../hooks/useFetch";
-import { useCloudinary } from "../../hooks/useCloudinary";
+import { cloudinaryService } from "../../hooks/cloudinary";
 import { useUrl } from "../../hooks/useUrl";
 import getCookie from "../../utils/getCookie";
 import displayPopup from "../../utils/displayPopup";

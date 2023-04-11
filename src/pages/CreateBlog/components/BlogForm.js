@@ -2,7 +2,7 @@ import { useContext, useRef } from "react";
 import { CreateBlogContext } from "../../../context/CreateBlogContext";
 import { SquareButton } from "../../../components/Buttons";
 import displayPopup from "../../../utils/displayPopup";
-import { useCloudinary } from "../../../hooks/useCloudinary";
+import { cloudinaryService } from "../../../hooks/cloudinary";
 import { autoResize, getCookie } from "../../../Constraints";
 import { useNavigate } from "react-router-dom";
 
@@ -22,7 +22,7 @@ const BlogForm = () => {
       originalImage = blog.img;
     }
 
-    let imageId = await useCloudinary(originalImage !== cover ? cover : null);
+    let imageId = await cloudinaryService(originalImage !== cover ? cover : null);
     console.log(`imageId: ${imageId}`);
     console.log(`originalImage: ${originalImage}`);
     console.log(`img: ${cover}`);

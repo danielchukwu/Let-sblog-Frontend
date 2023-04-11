@@ -13,7 +13,7 @@ import getCookie from '../../utils/getCookie';
 import { FollowPopup } from '../../components/FollowPopup';
 import { EditProfilePopup } from '../../components/EditProfilePopup';
 import CropperPopup from '../../components/CropperPopup';
-import { useCloudinary } from '../../hooks/useCloudinary';
+import { cloudinaryService } from '../../hooks/cloudinary';
 import displayPopup from '../../utils/displayPopup';
 import { ExternalLink } from 'react-external-link';
 
@@ -49,7 +49,7 @@ const ProfilePage = () => {
       // console.log("Image Successfully Cropped!");
       // console.log(croppedImage);
       const croppedImageFile = new File([croppedImage], 'croppedImage')
-      let imageUrl = await useCloudinary(croppedImageFile);
+      let imageUrl = await cloudinaryService(croppedImageFile);
 
       console.log('image');
       console.log(imageUrl);
