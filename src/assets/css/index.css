@@ -553,7 +553,8 @@ main {
   line-height: 1.2;
 }
 
-.blog-cat {
+/* .blog-cat, */
+.blog-cat p {
   color: var(--theme-green);
   padding: 20px 0 5px;
   font-size: 16px;
@@ -871,14 +872,12 @@ em {
 .summary {
   color: var(--theme-grey);
   margin: 20px 0 10px;
-  /* line-height: 1.5; */
 }
 
 .tc-grid {
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 60px;
-  max-width: 310px;
   overflow: hidden;
 }
 

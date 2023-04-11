@@ -1,22 +1,19 @@
 import { Link } from "react-router-dom";
-import { useUrl } from "../../hooks/useUrl";
+import DisplayImg from "../images/DisplayImg";
+import { TextH3, TextP } from "../Text/Texts";
 
 const BlogCard = ({blogs}) => {
-   const {cloudinary_image_url} = useUrl();
-
    return (
       blogs.map(blog => {
          return (
          <Link to={`/blogs/${blog.id}`} key={blog.id}>
             <div className="blog-card">
-               <div className="blog-img">
-                  <img src={`${cloudinary_image_url}/${blog.img}`} alt="blogs" />
-               </div>
+               <DisplayImg selector="blog-img" img={blog.img} alt="blogs" />
                <div className="blog-text">
-                  <p className="blog-cat line-clamp-1">{blog.category}</p>
+                  <TextP selector="blog-cat line-clamp-1" text={blog.category}/>
                   <div className="tc-grid">
-                     <h3 className="blog-title line-clamp-2" title={blog.title}>{blog.title}</h3>
-                     <p className="summary line-clamp-2">{blog.content.slice(0,60)} ...</p>
+                     <TextH3 selector="blog-title line-clamp-2" text={blog.title} showTitle={true} />
+                     <TextP selector="summary line-clamp-2" text={`${blog.content.slice(0,60)} ...`} />
                   </div>
                </div>
             </div>
