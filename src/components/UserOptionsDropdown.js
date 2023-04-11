@@ -10,7 +10,7 @@ export const UserOptionsDropdown = ({ owner, handleLogout, setEnableOptionsDropd
             <Link to={`/users/${owner.id}`} onClick={() => setEnableOptionsDropdown(false)}>
                <div className='up-profile'>
                   <div className="round-img-50 r-mar-10">
-                     <DisplayImg selector="img-text" img={owner.avatar} name={owner.name} alt="profile image"/>
+                     <DisplayImg selector="fit img-text" img={owner.avatar} name={owner.name} alt="profile image"/>
                   </div>
                   <div className='up-profile-name'>
                      <h3>{owner ? owner.name : ''}</h3>
