@@ -8,7 +8,7 @@ import { useContext, useState } from "react";
 import DisplayImg from "../../../components/images/DisplayImg";
 import { RoundButton } from "../../../components/Buttons";
 import { BlogContext } from "../../../context/BlogContext";
-import { TextParagraph } from "../../../components/Text/Texts";
+import { TextP } from "../../../components/Text/Texts";
 import { autoResize, getPluralOrSingular } from "../../../Constraints";
 import Spinner from "../../Spinner";
 import CommentButtons from "./CommentButtons";
@@ -57,7 +57,7 @@ const CommentSection = () => {
       <div className="comment-wrapper lr-pad-20 tb-pad-20">
         <div className="comment-form b-pad-10">
           {/* Comment header - contains comment count also */}
-          <TextParagraph
+          <TextP
             selector="ct-container"
             text={getPluralOrSingular(
               comments && comments.length,

@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import DisplayImg from "../../../components/images/DisplayImg";
 import TitleLikeDislike from "../components/TitleLikeDislike";
-import { TextParagraph } from "../../../components/Text/Texts";
+import { TextP } from "../../../components/Text/Texts";
 import AboutCard from "../components/AboutCard";
 import { BlogContext } from "../../../context/BlogContext";
 import CommentSection from "./CommentSection";
@@ -26,7 +26,7 @@ const BlogContent = ({owner}) => {
 
         {/* grid - blog content and user card */}
         <div className="blog-body-grid">
-          <TextParagraph selector="main-text" text={blog.content} />
+          <TextP selector="main-text" text={blog.content} />
           <AboutCard />
         </div>
 
